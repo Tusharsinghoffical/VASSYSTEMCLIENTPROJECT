@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: venus-attendance
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn userproject.wsgi:application
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: userproject.settings
+      - key: SECRET_KEY
+        value: django-insecure-o26v6f4uzrha6km1sy=+tevuf_sdz6hryvx-@+)454!3x*h34#
+      - key: DEBUG
+        value: False
