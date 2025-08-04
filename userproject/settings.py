@@ -22,7 +22,8 @@ SECRET_KEY = "django-insecure-o26v6f4uzrha6km1sy=+tevuf_sdz6hryvx-@+)454!3x*h34#
 # SECRET_KEY = os.environ.get("django-insecure-o26v6f4uzrha6km1sy=+tevuf_sdz6hryvx-@+)454!3x*h34#", "unsafe-dev-secret-key")
 # DEBUG = True
 DEBUG = False
-ALLOWED_HOSTS = ["vassystem.onrender.com", "localhost", "127.0.0.1"]    
+ALLOWED_HOSTS = ["vassystemclientproject.onrender.com", "localhost", "127.0.0.1"]
+
 
 
 # -------------------------------------------------
