@@ -84,8 +84,8 @@ python-decouple==3.8
 python-slugify==8.0.4
 python3-openid==3.2.0
 pytz==2025.2
-pywin32==311
-pywin32-ctypes==0.2.3
+# pywin32==311
+# pywin32-ctypes==0.2.3
 pyzbar==0.1.9
 pyzmq==27.0.0
 qrcode==8.2
