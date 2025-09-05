@@ -110,6 +110,24 @@
         color: #084298;
         text-decoration: underline;
       }
+      .user-type-info {
+        background: rgba(13, 110, 253, 0.1);
+        border-radius: 10px;
+        padding: 15px;
+        margin: 20px 0;
+        border-left: 4px solid #0d6efd;
+      }
+      .user-type-info h5 {
+        margin-top: 0;
+        color: #0d6efd;
+      }
+      .user-type-info ul {
+        padding-left: 20px;
+        margin-bottom: 0;
+      }
+      .user-type-info li {
+        margin-bottom: 5px;
+      }
       @media (max-width: 768px) {
         .login-container {
           flex-direction: column;
@@ -132,25 +150,46 @@
         <img src="{% static 'logo2.jpg' %}" alt="Logo" />
         <h1>Venus Jewel</h1>
         <p class="mt-3">Smart Attendance & Secure Login</p>
+        
+        <!-- User Type Information -->
+        <div class="user-type-info mt-4">
+          <h5><i class="fas fa-info-circle me-2"></i>User Types</h5>
+          <ul class="text-start">
+            <li><strong>Regular Users</strong>: Employees who mark attendance</li>
+            <li><strong>Admin Users</strong>: Managers who oversee the system</li>
+          </ul>
+        </div>
       </div>
+      
       <!-- Right Login Form -->
       <div class="login-right">
         <form class="form-signin" method="post" action="{% url 'login' %}">
           {% csrf_token %}
           <h2 class="h4 mb-4 text-dark fw-bold">Please Sign In</h2>
+          
           {% if form.errors %}
           <div class="alert alert-danger py-2">
             Invalid credentials. Please try again.
           </div>
           {% endif %}
+          
           <input type="text" name="username" class="form-control mb-3" placeholder="Username" required autofocus />
           <input type="password" name="password" class="form-control mb-3" placeholder="Password" required />
+          
           <button class="btn btn-primary w-100 mb-3" type="submit">Sign in</button>
-          {% comment %} <div class="form-links">
+          
+          <div class="form-links">
             <a href="{% url 'register' %}">Create Account</a>
             <a href="#">Forgot password?</a>
-          </div> {% endcomment %}
+          </div>
         </form>
+        
+        <!-- Additional Information -->
+        <div class="mt-4 text-center">
+          <small class="text-muted">
+            <i class="fas fa-shield-alt me-1"></i> Secure authentication system
+          </small>
+        </div>
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

@@ -109,7 +109,7 @@
 </style>
 <div class="register-wrapper">
   <div class="register-box">
-    <h2>📝 Register to Venus Jewel</h2>
+    <h2>🔐 Register Admin User</h2>
     <form method="POST" novalidate>
       {% csrf_token %}
       {% for field in form %}
@@ -130,11 +130,10 @@
           {% endif %}
         </div>
       {% endfor %}
-      <button type="submit" class="btn btn-submit">Create Account</button>
+      <button type="submit" class="btn btn-submit">Create Admin Account</button>
     </form>
     <div class="text-link">
-      Already have an account?
-      <a href="{% url 'login' %}">Login here</a>
+      <a href="{% url 'manage_users' %}">← Back to User Management</a>
     </div>
   </div>
 </div>

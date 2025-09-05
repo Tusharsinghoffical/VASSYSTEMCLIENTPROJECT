@@ -5,7 +5,7 @@ from home import views
 from .views import (
     add_user_view, attendance_report_view, download_users_csv_view,
     manage_users_view, user_detail_view, download_user_csv,
-    edit_user_view, delete_user_view, user_list_view
+    edit_user_view, delete_user_view, user_list_view, register_admin
 )
 
 urlpatterns = [
@@ -24,6 +24,7 @@ urlpatterns = [
     path('login/', views.loginUser, name='login'),
     path('logout/', views.logoutUser, name='logout'),
     path('register/', views.register, name='register'),
+    path('register/admin/', register_admin, name='register_admin'),
 
     # ✅ Profile
     path('profile/', views.profile_view, name='profile'),

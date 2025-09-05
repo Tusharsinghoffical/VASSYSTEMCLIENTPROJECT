@@ -25,7 +25,16 @@
                 <label for="{{ field.id_for_label }}" class="form-label fw-semibold">
                   {{ field.label }}
                 </label>
-                {{ field }}
+                {% if field.field.widget.input_type == 'checkbox' %}
+                  <div class="form-check">
+                    {{ field }}
+                    <label class="form-check-label" for="{{ field.id_for_label }}">
+                      {{ field.label }}
+                    </label>
+                  </div>
+                {% else %}
+                  {{ field }}
+                {% endif %}
                 {% if field.errors %}
                   <div class="text-danger small mt-1">
                     {{ field.errors|striptags }}
@@ -40,6 +49,12 @@
           </form>
 
         </div>
+      </div>
+
+      <div class="text-center mt-3">
+        <a href="{% url 'manage_users' %}" class="btn btn-outline-secondary">
+          ← Back to User Management
+        </a>
       </div>
 
     </div>

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .forms import CustomUserForm
+from .forms import CustomUserCreationForm, AdminUserCreationForm
 from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
@@ -19,11 +19,10 @@ from .forms import ProfileForm
 from django.contrib.auth.models import User
 from django.utils.timezone import now
 from django.contrib.sessions.models import Session
-from django.contrib.auth.forms import UserCreationForm
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django import forms
-from .forms import UserForm, ProfileForm
+from .forms import UserForm, ProfileForm, CustomUserCreationForm, AdminUserCreationForm
 from django.conf import settings
 
 
@@ -74,13 +73,32 @@ def redirect_after_login(request):
 # Create account
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Account created for {username}!')
             return redirect('login')
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     return render(request, 'register.html', {'form': form})
+
+
+def register_admin(request):
+    if not request.user.is_authenticated or not request.user.is_superuser:
+        messages.error(request, 'You do not have permission to access this page.')
+        return redirect('login')
+        
+    if request.method == 'POST':
+        form = AdminUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Admin account created for {username}!')
+            return redirect('manage_users')
+    else:
+        form = AdminUserCreationForm()
+    return render(request, 'register_admin.html', {'form': form})
 
 
 class RegisterForm(forms.ModelForm):
@@ -326,15 +344,13 @@ def profile_view(request):
 @login_required
 def add_user_view(request):
     if request.method == 'POST':
-        form = CustomUserForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.set_password(form.cleaned_data['password'])
-            user.save()
+            user = form.save()
             messages.success(request, "✅ New user added successfully!")
             return redirect('manage_users')
     else:
-        form = CustomUserForm()
+        form = CustomUserCreationForm()
 
     return render(request, 'add_user.html', {'form': form})
 
