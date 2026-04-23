@@ -42,7 +42,7 @@ imbalanced-learn==0.13.0
 ipykernel==6.30.0
 ipython==9.4.0
 ipython_pygments_lexers==1.1.1
-jazzmin==3.0.1
+jazzmin==3.0.4
 jedi==0.19.2
 Jinja2==3.1.6
 joblib==1.5.1
