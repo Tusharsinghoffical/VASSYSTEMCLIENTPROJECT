@@ -1,92 +1,89 @@
-{% extends "index.html" %}
+{% extends base_template %}
 {% load static %}
 {% block title %} Attendance | Venus System {% endblock title %}
-{% block body %}
+{% block content %}
 <style>
-  body[data-theme="light"] .theme-card {
-    background-color: #ffffff !important;
-    color: #212529 !important;
-  }
-  body[data-theme="dark"] .theme-card {
-    background-color: #1f1f1f !important;
-    color: #f8f9fa !important;
-  }
-  body[data-theme="navy"] .theme-card {
-    background-color: #001f3f !important;
-    color: #f1f1f1 !important;
-  }
-  .theme-card .list-group-item,
-  .theme-card h4,
-  .theme-card strong,
-  .theme-card span {
-    color: inherit;
-  }
   .custom-info-list .list-group-item {
     border: none;
     padding: 0.75rem 1rem;
     transition: background 0.3s;
   }
+
   .custom-info-list .list-group-item:hover {
-    background-color: rgba(0, 123, 255, 0.05);
+    background-color: rgba(99, 102, 241, 0.05);
     border-radius: 0.25rem;
   }
 </style>
 <div class="container-fluid py-5" style="min-height: 90vh">
-  <h2 class="text-center mb-5">📸 QR Code Attendance Scanner</h2>
+  <h2 class="text-center mb-5 fw-bold"><i class="fas fa-camera-retro me-2 text-primary"></i> Attendance Scanner</h2>
+
   <div class="text-center mb-4">
-    <button class="btn btn-success me-3" onclick="startScanner('check_in')">✅ Check-In</button>
-    <button class="btn btn-danger" onclick="startScanner('check_out')">❌ Check-Out</button>
-  </div>
-  <div class="row justify-content-center align-items-start gap-4">
-    <div class="col-lg-5 col-md-10 theme-card card p-4 shadow-sm border-0" id="qrCard">
-      <div class="text-center mb-4">
-        <i class="fas fa-qrcode fa-2x text-primary mb-2"></i>
-        <h4 class="fw-bold">Scan your QR Code</h4>
-        <p class="text-muted small mb-2">Hold your QR in front of the camera</p>
-      </div>
-      <div id="reader" class="border rounded p-2" style="min-height: 280px; background-color: rgba(255, 255, 255, 0.05)"></div>
-      <p class="text-success text-center mt-3 fw-semibold" id="qrResult" style="min-height: 24px"></p>
+    <div class="btn-group shadow-sm rounded-pill overflow-hidden">
+      <button class="btn btn-primary px-4 py-2" onclick="startScanner('check_in')"><i
+          class="fas fa-sign-in-alt me-2"></i> Check-In</button>
+      <button class="btn btn-outline-danger px-4 py-2" onclick="startScanner('check_out')"><i
+          class="fas fa-sign-out-alt me-2"></i> Check-Out</button>
     </div>
-    <div class="col-lg-5 col-md-10 theme-card card p-4 shadow-sm border-0" id="userCard">
+  </div>
+
+  <div class="row justify-content-center align-items-stretch gap-4">
+    <div class="col-lg-5 col-md-10 card p-4 shadow-sm border-0" id="qrCard">
       <div class="text-center mb-4">
-        <h4 class="fw-bold mb-1">👤 Your Details</h4>
-        <hr class="w-25 mx-auto" />
+        <div
+          class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+          style="width: 60px; height: 60px;">
+          <i class="fas fa-qrcode fa-2x text-primary"></i>
+        </div>
+        <h4 class="fw-bold">Scan QR Code</h4>
+        <p class="text-muted small mb-0">Position your QR code within the frame</p>
+      </div>
+      <div id="reader" class="border-0 rounded-4 p-2 bg-light" style="min-height: 280px;"></div>
+      <p class="text-success text-center mt-3 fw-bold" id="qrResult" style="min-height: 24px"></p>
+    </div>
+
+    <div class="col-lg-5 col-md-10 card p-4 shadow-sm border-0" id="userCard">
+      <div class="text-center mb-4">
+        <h4 class="fw-bold mb-1">Employee Details</h4>
+        <div class="bg-primary mx-auto rounded-pill" style="height: 4px; width: 40px;"></div>
       </div>
       <ul class="list-group list-group-flush custom-info-list">
         <li class="list-group-item bg-transparent d-flex align-items-center">
-          <i class="fas fa-user text-primary me-2"></i>
-          <strong class="me-1">Full Name:</strong>
-          <span>{{ request.user.get_full_name }}</span>
+          <i class="fas fa-user-circle text-primary me-3 fs-5"></i>
+          <div>
+            <div class="small text-muted">Full Name</div>
+            <div class="fw-bold">{{ request.user.get_full_name|default:request.user.username }}</div>
+          </div>
         </li>
         <li class="list-group-item bg-transparent d-flex align-items-center">
-          <i class="fas fa-envelope text-primary me-2"></i>
-          <strong class="me-1">Email Id:</strong>
-          <span>{{ request.user.email }}</span>
+          <i class="fas fa-envelope-open text-primary me-3 fs-5"></i>
+          <div>
+            <div class="small text-muted">Email Address</div>
+            <div class="fw-bold">{{ request.user.email }}</div>
+          </div>
         </li>
         <li class="list-group-item bg-transparent d-flex align-items-center">
-          <i class="fas fa-user text-primary me-2"></i>
-          <strong class="me-1">Username:</strong>
-          <span>{{ request.user.username }}</span>
+          <i class="fas fa-phone-alt text-success me-3 fs-5"></i>
+          <div>
+            <div class="small text-muted">Contact Number</div>
+            <div class="fw-bold">{{ request.user.profile.phone|default:"Not Provided" }}</div>
+          </div>
         </li>
         <li class="list-group-item bg-transparent d-flex align-items-center">
-          <i class="fas fa-id-badge text-success me-2"></i>
-          <strong class="me-1">Phone Number :</strong>
-          <span>{{ request.user.profile.phone }}</span>
-        </li>
-        <li class="list-group-item bg-transparent d-flex align-items-center">
-          <i class="fas fa-map-marker-alt text-danger me-2"></i>
-          <strong class="me-1">Location:</strong>
-          <input type="hidden" name="latitude" id="latitude" />
-          <input type="hidden" name="longitude" id="longitude" />
-          <input type="hidden" name="location_name" id="location_name_input" />
-          <span id="location_name">Detecting...</span>
+          <i class="fas fa-location-arrow text-danger me-3 fs-5"></i>
+          <div>
+            <div class="small text-muted">Detected Location</div>
+            <input type="hidden" name="latitude" id="latitude" />
+            <input type="hidden" name="longitude" id="longitude" />
+            <input type="hidden" name="location_name" id="location_name_input" />
+            <span class="fw-bold text-primary" id="location_name"><i class="fas fa-spinner fa-spin"></i>
+              Locating...</span>
+          </div>
         </li>
       </ul>
     </div>
   </div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-<script>AOS.init();</script>
+
 <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 <script>
   let scannerInstance = null;
@@ -105,13 +102,18 @@
           alert("❌ Failed to stop scanner.");
         });
       },
-      (errorMessage) => {}
+      (errorMessage) => { }
     ).catch(err => {
       alert("❌ Unable to start scanner: " + err);
     });
   }
   function handleScan(qrData, mode) {
+    const resultElement = document.getElementById("qrResult");
     const location = document.getElementById("location_name").innerText;
+
+    resultElement.innerHTML = '<div class="spinner-border spinner-border-sm text-primary me-2"></div> Processing...';
+    resultElement.className = "text-primary text-center mt-3 fw-bold";
+
     fetch("/mark_attendance/", {
       method: "POST",
       headers: {
@@ -124,22 +126,26 @@
         mode: mode,
       }),
     })
-    .then(res => res.json())
-    .then(data => {
-      if (data.message) {
-        alert("✅ " + data.message);
-      } else if (data.error) {
-        alert("❌ " + data.error);
-      } else {
-        alert("❌ Unknown response.");
-      }
-    })
-    .catch(err => {
-      alert("❌ Network error: " + err.message);
-    });
+      .then(res => res.json())
+      .then(data => {
+        if (data.message) {
+          resultElement.innerHTML = `<div class="alert alert-success border-0 shadow-sm rounded-4 animate__animated animate__pulse"><i class="fas fa-check-circle me-2"></i> ${data.message}</div>`;
+          resultElement.className = "mt-3";
+        } else if (data.error) {
+          resultElement.innerHTML = `<div class="alert alert-danger border-0 shadow-sm rounded-4 animate__animated animate__shakeX"><i class="fas fa-exclamation-circle me-2"></i> ${data.error}</div>`;
+          resultElement.className = "mt-3";
+        } else {
+          resultElement.innerHTML = "❌ Unknown response.";
+          resultElement.className = "text-danger text-center mt-3 fw-bold";
+        }
+      })
+      .catch(err => {
+        resultElement.innerHTML = "❌ Network error: " + err.message;
+        resultElement.className = "text-danger text-center mt-3 fw-bold";
+      });
   }
-</script>
-<script>
+
+  // Geolocation
   navigator.geolocation.getCurrentPosition(function (position) {
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
@@ -148,42 +154,21 @@
     fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`)
       .then((response) => response.json())
       .then((data) => {
-        const locationName = data.address.suburb || data.address.city || data.display_name;
+        const addr = data.address || {};
+        const locationName = addr.suburb || addr.city || addr.town || addr.village || data.display_name || "Detected Location";
         document.getElementById("location_name").innerText = locationName;
         document.getElementById("location_name_input").value = locationName;
+      })
+      .catch(err => {
+        document.getElementById("location_name").innerText = "Location active";
+        document.getElementById("location_name_input").value = "Unknown Location";
       });
   }, function (error) {
-    console.error("Location error:", error);
+    document.getElementById("location_name").innerText = "Location Permission Denied";
   }, {
     enableHighAccuracy: true,
     timeout: 10000,
     maximumAge: 0,
   });
 </script>
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const savedTheme = localStorage.getItem("theme") || "light";
-    applyTheme(savedTheme);
-  });
-  function setTheme(theme) {
-    document.body.setAttribute("data-theme", theme);
-    localStorage.setItem("theme", theme);
-  }
-  function applyTheme(theme) {
-    document.body.className = "";
-    if (theme === "dark") {
-      document.body.classList.add("bg-dark", "text-light");
-    } else if (theme === "navy") {
-      document.body.style.backgroundColor = "#001f3f";
-      document.body.style.color = "white";
-    } else {
-      document.body.classList.add("bg-light", "text-dark");
-    }
-    const cards = document.querySelectorAll(".theme-card");
-    cards.forEach((card) => {
-      card.classList.remove("theme-light", "theme-dark", "theme-navy");
-      card.classList.add("theme-" + theme);
-    });
-  }
-</script>
-{% endblock body %}
+{% endblock content %}
