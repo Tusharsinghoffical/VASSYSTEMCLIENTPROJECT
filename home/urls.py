@@ -1,16 +1,14 @@
 from django.contrib import admin
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from home import views
+from . import views
 from .views import (
     add_user_view, attendance_report_view, download_users_csv_view,
     manage_users_view, user_detail_view, download_user_csv,
-    edit_user_view, delete_user_view, user_list_view, register_admin
+    edit_user_view, delete_user_view, register_admin
 )
 
 urlpatterns = [
-    # ✅ Admin Site
-    path('admin/', admin.site.urls),
 
     # ✅ Landing → Redirects after login
     path('', views.redirect_after_login, name='home'),
@@ -19,6 +17,7 @@ urlpatterns = [
     # ✅ Dashboards
     path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('user-dashboard/', views.user_dashboard, name='user_dashboard'),
+    path('api/live-present-count/', views.live_present_count_api, name='live_present_count_api'),
 
     # ✅ Authentication
     path('login/', views.loginUser, name='login'),
@@ -38,7 +37,7 @@ urlpatterns = [
     path('attendance/user/<int:user_id>/', views.user_attendance_detail, name='user_attendance_detail'),
 
     # ✅ User's own attendance
-    path('user-attendance/', views.user_attendance, name='user_attendance'),
+    path('user-attendance/', views.attendance_history, name='user_attendance'),
 
     # ✅ Reports
     path('reports/', views.reports_view, name='reports'),
@@ -48,7 +47,7 @@ urlpatterns = [
     path('manage-users/', manage_users_view, name='manage_users'),
     path('edit-user/<int:user_id>/', edit_user_view, name='edit_user'),
     path('delete-user/<int:user_id>/', delete_user_view, name='delete_user'),
-    path('users/', user_list_view, name='user_list'),
+    path('users/', manage_users_view, name='user_list'),
     path('user/<int:user_id>/', user_detail_view, name='user_details'),
 
     # ✅ CSV Downloads

@@ -1,67 +1,122 @@
-{% extends "index.html" %}
-{% block title %} Admin Reports{% endblock %}
+{% extends "admin_base.html" %}
+{% load static %}
+{% block title %}System Health Reports | Venus System{% endblock %}
+
 {% block content %}
-<div class="container my-5">
-  <h1 class="text-center mb-5">📈 Admin Reports Dashboard</h1>
-  <!-- Summary Cards -->
-  <div class="row g-4 text-white">
-    <div class="col-md-4">
-      <div class="card bg-gradient-primary shadow rounded-4">
-        <div class="card-body text-center">
-          <h6 class="text-uppercase fw-bold">Total Users</h6>
-          <h2 class="display-5">{{ total_users }}</h2>
-        </div>
-      </div>
+<div class="container py-4">
+  <!-- Header -->
+  <div class="row mb-5 align-items-center">
+    <div class="col-md-7 text-center text-md-start mb-3 mb-md-0">
+      <h2 class="fw-bold text-dark mb-1"><i class="fas fa-shield-alt text-primary me-2"></i> System Activity Reports</h2>
+      <p class="text-muted small mb-0">Overview of system engagement, user session status, and security logs.</p>
     </div>
-    <div class="col-md-4">
-      <div class="card bg-gradient-success shadow rounded-4">
-        <div class="card-body text-center">
-          <h6 class="text-uppercase fw-bold">Active Users</h6>
-          <h2 class="display-5">{{ active_users }}</h2>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card bg-gradient-warning shadow rounded-4">
-        <div class="card-body text-center">
-          <h6 class="text-uppercase fw-bold">Staff Users</h6>
-          <h2 class="display-5">{{ staff_users }}</h2>
-        </div>
-      </div>
+    <div class="col-md-5 text-center text-md-end">
+        {% if user.is_staff or user.is_superuser %}
+        <a href="{% url 'download_users_csv_view' %}" class="btn btn-outline-dark rounded-pill px-4 fw-bold small shadow-sm bg-white">
+            <i class="fas fa-file-download me-1"></i> Full System Export (CSV)
+        </a>
+        {% endif %}
     </div>
   </div>
-  <!-- Recent Logins -->
-  <div class="d-flex justify-content-between align-items-center mt-5">
-    <h4 class="mb-0">🕒 Recent Logins</h4>
-    <a href="{% url 'download_users_csv_view' %}" class="btn btn-outline-dark bg-light btn-sm rounded-pill">⬇️ Download All Users (CSV)</a>
+
+  <!-- Big Stat Cards -->
+  <div class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm rounded-4 p-4 position-relative overflow-hidden">
+            <div class="position-absolute top-0 end-0 p-3 opacity-10">
+                <i class="fas fa-users fa-4x"></i>
+            </div>
+            <div class="text-muted small fw-bold text-uppercase opacity-75 mb-1">Total Registered</div>
+            <div class="h2 fw-bold mb-0 text-primary">{{ total_users }}</div>
+            <div class="small text-success mt-2"><i class="fas fa-caret-up me-1"></i> Growing Base</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm rounded-4 p-4 position-relative overflow-hidden">
+            <div class="position-absolute top-0 end-0 p-3 opacity-10">
+                <i class="fas fa-user-check fa-4x"></i>
+            </div>
+            <div class="text-muted small fw-bold text-uppercase opacity-75 mb-1">Active Accounts</div>
+            <div class="h2 fw-bold mb-0 text-success">{{ active_users }}</div>
+            <div class="small text-muted mt-2">Verified users pool</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm rounded-4 p-4 position-relative overflow-hidden">
+            <div class="position-absolute top-0 end-0 p-3 opacity-10">
+                <i class="fas fa-user-tie fa-4x"></i>
+            </div>
+            <div class="text-muted small fw-bold text-uppercase opacity-75 mb-1">Privileged Staff</div>
+            <div class="h2 fw-bold mb-0 text-dark">{{ staff_users }}</div>
+            <div class="small text-muted mt-2">Administrative access</div>
+        </div>
+    </div>
   </div>
-  {% if recent_logins %}
-  <div class="table-responsive mt-3">
-    <table class="table table-bordered table-hover align-middle shadow-sm rounded-3 overflow-hidden">
-      <thead class="table-dark">
-        <tr>
-          <th>S no.</th>
-          <th>Username</th>
-          <th>Email</th>
-          <th>Last Login</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for user in recent_logins %}
-        <tr>
-          <td>{{ forloop.counter }}</td>
-          <td>{{ user.username }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.last_login|date:"D, M d, Y H:i" }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+
+  <!-- Recent Logins Table -->
+  <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+    <div class="card-header bg-white border-0 p-4 border-bottom d-flex justify-content-between align-items-center">
+        <h5 class="fw-bold mb-0"><i class="far fa-clock text-primary me-2"></i> Recent Security Logins</h5>
+        <span class="badge bg-light text-muted fw-bold px-3 py-2 rounded-pill border">Last 24 Hours</span>
+    </div>
+    <div class="card-body p-0">
+      {% if recent_logins %}
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th class="ps-4">S.No</th>
+              <th>Employee Identity</th>
+              <th>Primary Email</th>
+              <th class="pe-4 text-end">Last Login Timestamp</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in recent_logins %}
+            <tr>
+              <td class="ps-4 text-muted small">{{ forloop.counter }}</td>
+              <td>
+                <div class="d-flex align-items-center">
+                    <div class="avatar-xs bg-dark bg-opacity-10 text-dark rounded-circle me-3 d-flex align-items-center justify-content-center fw-bold x-small" style="width: 28px; height: 28px; font-size: 0.7rem;">
+                        {{ user.username|slice:":1"|upper }}
+                    </div>
+                    <span class="fw-bold text-dark">{{ user.username }}</span>
+                </div>
+              </td>
+              <td class="text-muted small">{{ user.email }}</td>
+              <td class="pe-4 text-end">
+                <span class="badge bg-light text-dark fw-bold rounded-pill px-3 py-2 border">
+                    <i class="far fa-calendar-alt opacity-50 me-1"></i> {{ user.last_login|date:"D, M d, Y" }} 
+                    <span class="opacity-50 mx-1">|</span>
+                    <i class="far fa-clock opacity-50 me-1"></i> {{ user.last_login|date:"H:i" }}
+                </span>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="py-5 text-center text-muted">
+        <i class="fas fa-history fa-3x opacity-25 mb-3"></i>
+        <h6>No recent access activity detected</h6>
+      </div>
+      {% endif %}
+    </div>
   </div>
-  {% else %}
-  <div class="alert alert-info mt-3">
-    <i class="bi bi-info-circle"></i> No recent login data available.
-  </div>
-  {% endif %}
 </div>
+
+<style>
+  table thead th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    color: #64748b;
+    padding: 1.25rem 0.75rem !important;
+  }
+  .table tbody tr:hover {
+    background-color: rgba(99, 102, 241, 0.02);
+  }
+</style>
 {% endblock %}

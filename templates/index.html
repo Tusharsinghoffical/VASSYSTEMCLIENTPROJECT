@@ -3,197 +3,235 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>{% block title %}Venus Attendance System{% endblock %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Pulse Attendance System{% endblock %}</title>
+    <script>
+      // Auto-fix for Localhost HTTPS errors
+      if (window.location.protocol === 'https:' && (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost')) {
+          window.location.protocol = 'http:';
+      }
+    </script>
+    
     <link rel="icon" href="{% static 'logo2.jpg' %}" type="image/x-icon" />
-
-    <!-- Bootstrap 5 CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-      rel="stylesheet"
-    />
-
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    
     <style>
+      :root {
+        --primary-color: #6366f1;
+        --secondary-color: #a855f7;
+        --bg-color: #f8fafc;
+        --nav-height: 70px;
+        --glass-bg: rgba(255, 255, 255, 0.9);
+      }
+
       body {
-        transition: background-color 0.5s, color 0.5s;
+        font-family: 'Outfit', sans-serif;
+        background-color: var(--bg-color);
+        color: #1e293b;
+        min-height: 100vh;
+      }
+
+      /* ✅ Modern Static Navbar */
+      .navbar {
+        height: var(--nav-height);
+        background: var(--glass-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        padding: 0;
+        position: sticky;
+        top: 0;
+        z-index: 1020;
       }
 
       .navbar-brand {
-        font-weight: bold;
-        font-size: 1.5rem;
+        font-weight: 700;
+        font-size: 1.4rem;
+        color: #1e293b !important;
+        letter-spacing: -0.5px;
       }
 
-      .navbar-nav .nav-link {
+      .navbar-brand img {
+        border-radius: 8px;
+        transition: transform 0.3s ease;
+      }
+
+      .navbar-brand:hover img {
+        transform: rotate(-10deg) scale(1.1);
+      }
+
+      .nav-link {
+        color: #475569 !important;
         font-weight: 500;
+        padding: 0.5rem 1.1rem !important;
+        border-radius: 10px;
+        margin: 0 4px;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
       }
 
-      .dropdown-menu a {
+      .nav-link i {
+        margin-right: 8px;
+        font-size: 1.1rem;
+        opacity: 0.7;
+      }
+
+      .nav-link.active, .nav-link:hover {
+        color: var(--primary-color) !important;
+        background: rgba(99, 102, 241, 0.08);
+      }
+      .nav-link.active {
+        font-weight: 600;
+        box-shadow: inset 0 -2px 0 var(--primary-color);
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      /* ✅ User Profile Dropdown */
+      .user-dropdown-toggle {
+        background: white;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        padding: 6px 16px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
         cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .user-dropdown-toggle:hover {
+        background: #f1f5f9;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+
+      .user-avatar {
+        width: 32px;
+        height: 32px;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+
+      .badge-admin {
+        background: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+        font-size: 0.7rem;
+        padding: 2px 8px;
+        border-radius: 6px;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+
+      .card {
+        border-radius: 20px;
+        border: none;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        background: white;
+      }
+
+      @media (max-width: 991px) {
+        .navbar { height: auto; padding: 10px 0; }
+        .navbar-collapse {
+          background: white;
+          margin-top: 15px;
+          border-radius: 15px;
+          padding: 15px;
+          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
       }
     </style>
 
     {% block head %}{% endblock %}
   </head>
 
-  <body class="bg-light text-dark">
+  <body>
     <!-- ✅ Navbar -->
-    <nav
-      class="navbar navbar-expand-lg navbar-light bg-light shadow-sm sticky-top"
-    >
+    <nav class="navbar navbar-expand-lg">
       <div class="container">
-        <a class="navbar-brand" href="{% url 'home' %}">
-          <img
-            src="{% static 'logo2.jpg' %}"
-            alt="Logo"
-            width="30"
-            height="30"
-            class="d-inline-block align-text-top me-2"
-          />
-          Venus System
+        <!-- Logo -->
+        <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+          <img src="{% static 'logo2.jpg' %}" alt="Logo" width="36" height="36" class="me-2 shadow-sm" />
+          <span>Pulse System</span>
         </a>
 
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarMain"
-        >
-          <span class="navbar-toggler-icon"></span>
+        <!-- Mobile Toggle -->
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+          <i class="fas fa-bars-staggered"></i>
         </button>
 
+        <!-- Navbar Content -->
         <div class="collapse navbar-collapse" id="navbarMain">
-          <!-- Left Links -->
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            {% if user.is_authenticated %} {% if user.is_staff %}
-            <!-- ✅ Admin Links -->
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'admin_dashboard' %}"
-                >Admin Dashboard</a
-              >
-            </li>
-            {% comment %}
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'manage_users' %}"
-                >Manage Users</a
-              >
-            </li>
-            {% endcomment %}
+          <ul class="navbar-nav me-auto ps-lg-4">
+            {% if user.is_authenticated %}
+              <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'user_dashboard' %}active{% endif %}" href="{% url 'user_dashboard' %}"><i class="fas fa-th-large"></i> Dashboard</a></li>
+              <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'attendance' %}active{% endif %}" href="{% url 'attendance' %}"><i class="fas fa-qrcode"></i> Scan Attendance</a></li>
+              <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'attendance_history' %}active{% endif %}" href="{% url 'attendance_history' %}"><i class="fas fa-clock-rotate-left"></i> History</a></li>
+            {% endif %}
+          </ul>
 
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'reports' %}">Reports</a>
-            </li>
+          <!-- Right Profile Section -->
+          <div class="d-flex align-items-center gap-2">
+            {% if user.is_authenticated %}
+              <div class="dropdown">
+                <div class="user-dropdown-toggle" data-bs-toggle="dropdown">
+                  <div class="user-avatar">{{ user.username|slice:":1"|upper }}</div>
+                  <div class="d-none d-md-block text-start">
+                    <div class="small fw-bold lh-1">{{ user.username }}</div>
+                  </div>
+                  <i class="fas fa-chevron-down small opacity-50 ms-1"></i>
+                </div>
+                <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-4 mt-3" style="min-width: 220px;">
+                  <li class="px-3 py-2 border-bottom">
+                    <div class="small text-muted">User Email</div>
+                    <div class="fw-bold">{{ user.email }}</div>
+                  </li>
+                  {% if user.is_staff %}
+                  <li><a class="dropdown-item py-2 mt-1 fw-bold text-primary" href="{% url 'admin_dashboard' %}"><i class="fas fa-user-shield me-2"></i> Admin Panel</a></li>
+                  {% endif %}
+                  <li><a class="dropdown-item py-2 {% if not user.is_staff %}mt-1{% endif %}" href="{% url 'profile' %}"><i class="fas fa-user-circle me-2 text-muted"></i> My Profile</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item py-2 text-danger" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt me-2"></i> Sign Out</a></li>
+                </ul>
+              </div>
             {% else %}
-            <!-- ✅ Normal User Links -->
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'user_dashboard' %}"
-                >User Dashboard</a
-              >
-            </li>
-
-            {% endif %} {% endif %}
-
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'profile' %}">Profile</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'attendance' %}">
-                <i class="fas fa-qrcode me-1"></i>Attendance
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'attendance_history' %}">
-                <i class="fas fa-calendar-alt me-1"></i>History
-              </a>
-            </li>
-
-            <!-- Theme Dropdown -->
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-              >
-                <i class="fas fa-palette me-1"></i> Theme
-              </a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a class="dropdown-item" onclick="setTheme('light')"
-                    >🌞 Light</a
-                  >
-                </li>
-                <li>
-                  <a class="dropdown-item" onclick="setTheme('dark')"
-                    >🌚 Dark</a
-                  >
-                </li>
-                <li>
-                  <a class="dropdown-item" onclick="setTheme('navy')"
-                    >🌌 Navy</a
-                  >
-                </li>
-              </ul>
-            </li>
-          </ul>
-
-          <!-- Right: Logout Button -->
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm"
-                ><i class="fas fa-sign-out-alt me-1"></i>Logout</a
-              >
-            </li>
-          </ul>
+              <a href="{% url 'login' %}" class="btn btn-primary px-4 rounded-pill fw-bold shadow-sm">Sign In</a>
+            {% endif %}
+          </div>
         </div>
       </div>
     </nav>
 
     <!-- ✅ Page Body -->
-    <div class="container py-4">
-      {% block body %}{% endblock %} {% block content %} {% endblock %}
-    </div>
+    <main class="container py-5">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show rounded-4 shadow-sm mb-4 border-0" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
 
-    <!-- JS Libraries -->
+      {% block body %}{% endblock %} 
+      {% block content %}{% endblock %}
+    </main>
+
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
-
-    <!-- ✅ Theme Script -->
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const savedTheme = localStorage.getItem("theme") || "light";
-        applyTheme(savedTheme);
-      });
-
-      function setTheme(theme) {
-        localStorage.setItem("theme", theme);
-        applyTheme(theme);
-      }
-
-      function applyTheme(theme) {
-        const body = document.body;
-        body.className = "";
-        body.style.backgroundColor = "";
-        body.style.color = "";
-
-        if (theme === "dark") {
-          body.classList.add("bg-dark", "text-light");
-        } else if (theme === "navy") {
-          body.style.backgroundColor = "#001f3f";
-          body.style.color = "#ffffff";
-        } else {
-          body.classList.add("bg-light", "text-dark");
-        }
-
-        // Update theme on all themed cards
-        document.querySelectorAll(".theme-card").forEach((card) => {
-          card.classList.remove("theme-light", "theme-dark", "theme-navy");
-          card.classList.add("theme-" + theme);
-        });
-      }
-    </script>
+    {% block script %}{% endblock %}
   </body>
 </html>

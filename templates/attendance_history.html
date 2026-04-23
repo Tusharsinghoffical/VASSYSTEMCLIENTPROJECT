@@ -1,70 +1,147 @@
 {% extends "index.html" %}
 {% load static %}
+{% block title %}Attendance History | Venus System{% endblock %}
 
-{% block title %}
-  Attendance History | Venus System
-{% endblock %}
-
-{% block body %}
-<div class="container-fluid py-5" style="min-height: 90vh">
-  <div class="row justify-content-center">
-    <div class="col-xl-10 col-lg-11 theme-card card p-4 shadow-sm border-0">
-
-      <h2 class="text-center mb-4">
-        <i class="fas fa-calendar-alt me-2 text-primary"></i>
-        Attendance History
+{% block content %}
+<div class="container py-4">
+  <!-- Page Header -->
+  <div class="row mb-4 align-items-center">
+    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+      <h2 class="fw-bold text-dark mb-1">
+        <i class="fas fa-calendar-check text-primary me-2"></i> Attendance History
       </h2>
+      <p class="text-muted mb-0">Review and export your personal attendance logs.</p>
+    </div>
+    <div class="col-md-6 text-center text-md-end">
+      {% if user.is_staff or user.is_superuser %}
+      <a href="{% url 'export_attendance_csv' %}" class="btn btn-primary px-4 py-2 rounded-pill shadow-sm fw-bold">
+        <i class="fas fa-file-csv me-2"></i> Download CSV Report
+      </a>
+      {% endif %}
+    </div>
+  </div>
 
-      <div class="table-responsive rounded">
-        <div class="text-end mb-3">
-          <a href="{% url 'export_attendance_csv' %}" class="btn btn-success btn-sm">
-            ⬇️ Download My Attendance CSV
-          </a>
+  <!-- Summary Stats -->
+  <div class="row g-4 mb-4">
+    <div class="col-6 col-md-3">
+        <div class="card border-0 shadow-sm rounded-4 text-center p-3">
+            <div class="small text-muted mb-1">Total Logs</div>
+            <div class="h4 fw-bold mb-0 text-primary">{{ records|length }}</div>
         </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card border-0 shadow-sm rounded-4 text-center p-3">
+            <div class="small text-muted mb-1">Status</div>
+            <div class="h4 fw-bold mb-0 text-success">Active</div>
+        </div>
+    </div>
+  </div>
 
-        <table class="table table-bordered table-hover text-center align-middle mb-0">
-          <thead class="table-primary text-dark">
+  <!-- Table Card -->
+  <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+    <!-- Inline Search -->
+    <div class="card-header bg-white border-0 p-4">
+        <div class="input-group bg-light rounded-pill px-3">
+            <span class="input-group-text bg-transparent border-0 text-muted"><i class="fas fa-search"></i></span>
+            <input type="text" id="historySearch" class="form-control bg-transparent border-0 shadow-none ps-0" placeholder="Search by date, status or location...">
+        </div>
+    </div>
+
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0" id="historyTable">
+          <thead class="table-light">
             <tr>
-              <th scope="col">Sno.</th>
-              <th scope="col">Date</th>
-              <th scope="col">Time</th>
-              <th scope="col">Status</th>
-              <th scope="col">Check-In</th>
-              <th scope="col">Check-Out</th>
-              <th scope="col">Location</th>
-              <th scope="col">QR Code</th>
+              <th class="ps-4">S.No</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Check-In</th>
+              <th>Check-Out</th>
+              <th>Location</th>
+              <th class="pe-4">Verification</th>
             </tr>
           </thead>
           <tbody>
             {% for record in records %}
-              <tr>
-                <td>{{ forloop.counter }}</td>
-                <td>{{ record.date|date:"F j, Y" }}</td>
-                <td>{{ record.time|time:"g:i A" }}</td>
-                <td>
-                  {% if record.status == "Present" %}
-                    <span class="badge bg-success">{{ record.status }}</span>
-                  {% else %}
-                    <span class="badge bg-secondary">{{ record.status }}</span>
-                  {% endif %}
-                </td>
-                <td>{{ record.check_in|time:"g:i A" }}</td>
-                <td>{{ record.check_out|time:"g:i A" }}</td>
-                <td>{{ record.location_name|default:"N/A" }}</td>
-                <td class="text-break">{{ record.qr_code }}</td>
-              </tr>
+            <tr>
+              <td class="ps-4 text-muted small">{{ forloop.counter }}</td>
+              <td class="fw-medium text-dark">{{ record.date|date:"F d, Y" }}</td>
+              <td>
+                {% if record.status == 'Present' %}
+                  <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-2">
+                    <i class="fas fa-check-circle me-1"></i> {{ record.status }}
+                  </span>
+                {% else %}
+                  <span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-3 py-2">
+                    {{ record.status }}
+                  </span>
+                {% endif %}
+              </td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <div class="bg-success bg-opacity-10 text-success rounded-circle me-2 d-flex align-items-center justify-content-center" style="width: 28px; height: 28px;">
+                    <i class="fas fa-arrow-right small"></i>
+                  </div>
+                  <span class="small fw-semibold">{{ record.check_in|time:"g:i A"|default:"--" }}</span>
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <div class="bg-danger bg-opacity-10 text-danger rounded-circle me-2 d-flex align-items-center justify-content-center" style="width: 28px; height: 28px;">
+                    <i class="fas fa-arrow-left small"></i>
+                  </div>
+                  <span class="small fw-semibold">{{ record.check_out|time:"g:i A"|default:"--" }}</span>
+                </div>
+              </td>
+              <td class="text-muted small">
+                <i class="fas fa-map-marker-alt text-danger opacity-50 me-1"></i> {{ record.location_name|default:"N/A" }}
+              </td>
+              <td class="pe-4">
+                <span class="text-truncate d-inline-block small text-muted" style="max-width: 120px;" title="{{ record.qr_code }}">
+                  <i class="fas fa-key me-1"></i> {{ record.qr_code|truncatechars:15 }}
+                </span>
+              </td>
+            </tr>
             {% empty %}
-              <tr>
-                <td colspan="8" class="text-center text-muted">
-                  No attendance records found.
-                </td>
-              </tr>
+            <tr>
+              <td colspan="7" class="py-5 text-center">
+                <div class="mb-3"><i class="fas fa-calendar-times fa-4x text-light"></i></div>
+                <h5 class="text-muted">No attendance records found</h5>
+                <p class="text-muted small">Start scanning your QR code to see your history here.</p>
+                <a href="{% url 'attendance' %}" class="btn btn-outline-primary btn-sm rounded-pill mt-2">Go to Scanner</a>
+              </td>
+            </tr>
             {% endfor %}
           </tbody>
         </table>
       </div>
-
     </div>
   </div>
 </div>
+
+<script>
+  // Simple Table Search
+  document.getElementById('historySearch')?.addEventListener('keyup', function() {
+    const term = this.value.toLowerCase();
+    const rows = document.querySelectorAll('#historyTable tbody tr');
+    
+    rows.forEach(row => {
+      const text = row.textContent.toLowerCase();
+      row.style.display = text.includes(term) ? '' : 'none';
+    });
+  });
+</script>
+
+<style>
+  table thead th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    color: #64748b;
+    padding: 1.25rem 0.75rem !important;
+  }
+  .card { transition: all 0.3s ease; }
+  .table tbody tr:hover { background-color: rgba(99, 102, 241, 0.02); }
+</style>
 {% endblock %}

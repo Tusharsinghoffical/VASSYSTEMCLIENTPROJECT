@@ -1,107 +1,258 @@
-{% extends "index.html" %}
+{% extends "admin_base.html" %}
 {% load static %}
-{% block title %}Admin Dashboard{% endblock %}
+{% block title %}Admin Dashboard | Venus System{% endblock %}
+
 {% block content %}
-<div class="container py-5">
-  <!-- Header -->
-  <div class="text-center mb-5">
-    <h1 class="display-5 fw-bold text-gradient">🛠️ Admin Dashboard</h1>
-    <p class="lead text-muted">Quick access to key administrative tasks and tools</p>
+<div class="container py-4">
+  <!-- Basic Admin Welcome -->
+  <div class="row mb-5">
+    <div class="col-12">
+      <div class="card border-0 rounded-5 shadow-sm overflow-hidden" style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%);">
+        <div class="card-body p-4 p-md-5 text-white">
+          <div class="row align-items-center">
+            <div class="col-lg-8">
+              <span class="badge bg-primary rounded-pill px-3 mb-3 text-uppercase fw-bold">Admin Portal</span>
+              <h1 class="display-5 fw-bold mb-2">Welcome, Admin!</h1>
+              <p class="lead opacity-75 mb-4">There are <strong id="live_present_count_text">{{ live_present_count }}</strong> employees in the office right now. You can manage users and check records here.</p>
+              <div class="d-flex flex-wrap gap-2">
+                <a href="{% url 'manage_users' %}" class="btn btn-primary px-4 py-2 rounded-pill fw-bold shadow-sm">
+                   <i class="fas fa-users me-2"></i>Manage Users
+                </a>
+                <a href="{% url 'reports' %}" class="btn btn-outline-light px-4 py-2 rounded-pill fw-bold">
+                   <i class="fas fa-history me-2"></i>Check Logs
+                </a>
+              </div>
+            </div>
+            <div class="col-lg-4 d-none d-lg-block text-end opacity-25">
+                <i class="fas fa-user-shield fa-10x"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <!-- Grid -->
-  <div class="row g-4">
-    <!-- Add User -->
-    <div class="col-sm-6 col-lg-4">
-      <div class="card card-glow border-0 h-100">
-        <div class="card-body text-center">
-          <div class="icon-circle bg-primary mb-3">👤</div>
-          <h5 class="card-title fw-semibold">Add New User</h5>
-          <p class="text-muted small">Create a user account with system access.</p>
-          <a href="/admin/auth/user/add/" target="_blank" class="btn btn-primary w-100">➕ Add User</a>
-        </div>
-      </div>
-    </div>
-    <!-- Admin Panel -->
-    <div class="col-sm-6 col-lg-4">
-      <div class="card card-glow border-0 h-100">
-        <div class="card-body text-center">
-          <div class="icon-circle bg-dark mb-3">⚙️</div>
-          <h5 class="card-title fw-semibold">Django Admin Panel</h5>
-          <p class="text-muted small">Access Django models, permissions, and users.</p>
-          <a href="/admin/" target="_blank" class="btn btn-light w-100">Open Admin</a>
-        </div>
-      </div>
-    </div>
-    <!-- Attendance Report -->
-    <div class="col-sm-6 col-lg-4">
-      <div class="card card-glow border-0 h-100">
-        <div class="card-body text-center">
-          <div class="icon-circle bg-success mb-3">📋</div>
-          <h5 class="card-title fw-semibold">Attendance Report</h5>
-          <p class="text-muted small">Monitor and analyze attendance records.</p>
-          <a href="{% url 'attendance_report' %}" class="btn btn-success w-100">View Report</a>
-        </div>
-      </div>
-    </div>
-    <!-- Export CSV -->
-    <div class="col-sm-6 col-lg-4">
-      <div class="card card-glow border-0 h-100">
-        <div class="card-body text-center">
-          <div class="icon-circle bg-warning mb-3">⬇️</div>
-          <h5 class="card-title fw-semibold">Export CSV</h5>
-          <p class="text-muted small">Download user data in CSV format.</p>
-          <a href="{% url 'download_csv' %}" class="btn btn-warning w-100">Download CSV</a>
-        </div>
-      </div>
-    </div>
+
+  <!-- Easy Action Tiles -->
+  <div class="row g-4 mb-5">
     <!-- Manage Users -->
-    <div class="col-sm-6 col-lg-4">
-      <div class="card card-glow border-0 h-100">
-        <div class="card-body text-center">
-          <div class="icon-circle bg-info mb-3">🔧</div>
-          <h5 class="card-title fw-semibold">Manage Users</h5>
-          <p class="text-muted small">View, edit, or deactivate user accounts.</p>
-          <a href="{% url 'manage_users' %}" class="btn btn-info w-100">👥 Manage Users</a>
+    <div class="col-md-4">
+      <a href="{% url 'manage_users' %}" class="text-decoration-none h-100">
+        <div class="card border-0 shadow-sm rounded-4 h-100 transition-up">
+          <div class="card-body p-4 text-center">
+            <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 70px; height: 70px;">
+              <i class="fas fa-users fa-2x"></i>
+            </div>
+            <h5 class="fw-bold text-dark mb-2">Manage Users</h5>
+            <p class="text-muted small">See all users, edit their info, or delete their accounts.</p>
+            <div class="text-primary fw-bold small">Open List <i class="fas fa-arrow-right ms-1"></i></div>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Scan Mode -->
+    <div class="col-md-4">
+      <a href="{% url 'attendance' %}" class="text-decoration-none h-100">
+        <div class="card border-0 shadow-sm rounded-4 h-100 transition-up">
+          <div class="card-body p-4 text-center">
+            <div class="bg-danger bg-opacity-10 text-danger rounded-circle d-inline-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 70px; height: 70px;">
+              <i class="fas fa-qrcode fa-2x"></i>
+            </div>
+            <h5 class="fw-bold text-dark mb-2">Scan Mode</h5>
+            <p class="text-muted small">Access the camera scanner to track employee attendance.</p>
+            <div class="text-danger fw-bold small">Open Scanner <i class="fas fa-camera ms-1"></i></div>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Add New User -->
+    <div class="col-md-4">
+      <a href="{% url 'add_user' %}" class="text-decoration-none h-100">
+        <div class="card border-0 shadow-sm rounded-4 h-100 transition-up">
+          <div class="card-body p-4 text-center">
+            <div class="bg-success bg-opacity-10 text-success rounded-circle d-inline-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 70px; height: 70px;">
+              <i class="fas fa-user-plus fa-2x"></i>
+            </div>
+            <h5 class="fw-bold text-dark mb-2">Add New User</h5>
+            <p class="text-muted small">Create a new account for a new employee easily.</p>
+            <div class="text-success fw-bold small">Fill Form <i class="fas fa-plus ms-1"></i></div>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Login Records -->
+    <div class="col-md-4">
+      <a href="{% url 'reports' %}" class="text-decoration-none h-100">
+        <div class="card border-0 shadow-sm rounded-4 h-100 transition-up">
+          <div class="card-body p-4 text-center">
+            <div class="bg-dark bg-opacity-10 text-dark rounded-circle d-inline-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 70px; height: 70px;">
+              <i class="fas fa-history fa-2x"></i>
+            </div>
+            <h5 class="fw-bold text-dark mb-2">Login Records</h5>
+            <p class="text-muted small">Check the history of who logged in to the system recently.</p>
+            <div class="text-dark fw-bold small">Check History <i class="fas fa-clock ms-1"></i></div>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Download Data -->
+    <div class="col-md-4">
+      <a href="{% url 'download_csv' %}" class="text-decoration-none h-100">
+        <div class="card border-0 shadow-sm rounded-4 h-100 transition-up">
+          <div class="card-body p-4 text-center">
+            <div class="bg-warning bg-opacity-10 text-warning-emphasis rounded-circle d-inline-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 70px; height: 70px;">
+              <i class="fas fa-download fa-2x"></i>
+            </div>
+            <h5 class="fw-bold text-dark mb-2">Download Data</h5>
+            <p class="text-muted small">Download all attendance and user records in a CSV file.</p>
+            <div class="text-warning-emphasis fw-bold small">Get CSV File <i class="fas fa-file-csv ms-1"></i></div>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Special Admin Panel -->
+    <div class="col-md-4">
+      <a href="/admin/" target="_blank" class="text-decoration-none h-100">
+        <div class="card border-0 shadow-sm rounded-4 h-100 transition-up">
+          <div class="card-body p-4 text-center">
+            <div class="bg-secondary bg-opacity-10 text-secondary rounded-circle d-inline-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 70px; height: 70px;">
+              <i class="fas fa-cog fa-2x"></i>
+            </div>
+            <h5 class="fw-bold text-dark mb-2">Settings Panel</h5>
+            <p class="text-muted small">Go to the internal Django admin page for deep settings.</p>
+            <div class="text-secondary fw-bold small">Open Settings <i class="fas fa-external-link-alt ms-1"></i></div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Recent Attendance History Section -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="card-header bg-white border-0 p-4">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="fw-bold mb-0"><i class="fas fa-calendar-check text-primary me-2"></i>Recent Attendance History</h5>
+            <div class="d-flex gap-2">
+              <a href="{% url 'attendance_report' %}" class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-bold">
+                <i class="fas fa-list me-1"></i> View Full History
+              </a>
+              <a href="{% url 'export_attendance_csv' %}" class="btn btn-sm btn-primary rounded-pill px-3 fw-bold">
+                <i class="fas fa-file-csv me-1"></i> Export CSV
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light py-3">
+                <tr>
+                  <th class="ps-4">Employee</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Check-In</th>
+                  <th>Check-Out</th>
+                  <th class="pe-4">Location</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for record in recent_attendance %}
+                <tr>
+                  <td class="ps-4">
+                    <div class="d-flex align-items-center">
+                      <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 35px; height: 35px;">
+                        <span class="fw-bold small">{{ record.user.username|slice:":1"|upper }}</span>
+                      </div>
+                      <div>
+                        <div class="fw-bold small mb-0">{{ record.user.get_full_name|default:record.user.username }}</div>
+                        <div class="text-muted small" style="font-size: 0.75rem;">{{ record.user.email|default:"No email" }}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="fw-medium small">{{ record.date|date:"M d, Y" }}</td>
+                  <td>
+                    {% if record.status == 'Present' %}
+                    <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 small">Present</span>
+                    {% else %}
+                    <span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-3 small">{{ record.status }}</span>
+                    {% endif %}
+                  </td>
+                  <td class="small">
+                    {% if record.check_in %}
+                    <i class="fas fa-sign-in-alt text-success me-1"></i>{{ record.check_in|time:"g:i A" }}
+                    {% else %}
+                    <span class="text-muted">--</span>
+                    {% endif %}
+                  </td>
+                  <td class="small">
+                    {% if record.check_out %}
+                    <i class="fas fa-sign-out-alt text-danger me-1"></i>{{ record.check_out|time:"g:i A" }}
+                    {% else %}
+                    <span class="badge bg-warning bg-opacity-10 text-warning rounded-pill px-2 small">Still In</span>
+                    {% endif %}
+                  </td>
+                  <td class="pe-4 text-muted small">{{ record.location_name|default:"N/A" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="6" class="py-5 text-center text-muted">
+                    <i class="fas fa-info-circle me-1"></i> No attendance records found.
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
 </div>
-<!-- Custom Styling -->
+
 <style>
-  .text-gradient {
-    background: linear-gradient(to right, #007bff, #6610f2);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .card-glow {
-    background-color: var(--bs-body-bg);
-    color: var(--bs-body-color);
+  .transition-up {
     transition: all 0.3s ease;
-    border-radius: 1rem;
   }
-  .card-glow:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 0 15px rgba(0, 123, 255, 0.15);
+  .transition-up:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 25px rgba(0,0,0,0.1) !important;
   }
-  .icon-circle {
-    width: 60px;
-    height: 60px;
-    font-size: 28px;
-    line-height: 60px;
-    border-radius: 50%;
-    color: #fff;
-    margin: 0 auto;
-    box-shadow: 0 0 10px rgba(0,0,0,0.10);
+  .pulse-icon {
+    animation: pulse 2s infinite;
   }
-  @media (prefers-color-scheme: dark) {
-    .card-glow {
-      background-color: #1e1e2f !important;
-      color: #f1f1f1;
-    }
-    .text-muted {
-      color: #aaa !important;
-    }
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
   }
 </style>
+
+<script>
+  function fetchLiveCount() {
+    fetch("{% url 'live_present_count_api' %}")
+      .then(response => response.json())
+      .then(data => {
+        if (data.live_present_count !== undefined) {
+          const count = data.live_present_count;
+          const textEl = document.getElementById("live_present_count_text");
+          
+          if (textEl) {
+             const oldText = textEl.innerText;
+             textEl.innerText = count;
+          }
+        }
+      })
+      .catch(err => console.error("Error fetching live count:", err));
+  }
+
+  // Refresh every 5 seconds
+  setInterval(fetchLiveCount, 5000);
+</script>
 {% endblock %}

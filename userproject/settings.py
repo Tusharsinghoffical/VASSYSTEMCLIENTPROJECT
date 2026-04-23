@@ -18,11 +18,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # -------------------------------------------------
 # ✅ Security Settings
 # -------------------------------------------------
-SECRET_KEY = "django-insecure-o26v6f4uzrha6km1sy=+tevuf_sdz6hryvx-@+)454!3x*h34#"
-# SECRET_KEY = os.environ.get("django-insecure-o26v6f4uzrha6km1sy=+tevuf_sdz6hryvx-@+)454!3x*h34#", "unsafe-dev-secret-key")
-# DEBUG = True
-DEBUG = False
-ALLOWED_HOSTS = ["vassystemclientproject.onrender.com", "localhost", "127.0.0.1"]
+import environ
+env = environ.Env(DEBUG=(bool, False))
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+SECRET_KEY = env('SECRET_KEY')
+DEBUG = env('DEBUG')
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=["localhost", "127.0.0.1"])
 
 
 
@@ -30,6 +32,7 @@ ALLOWED_HOSTS = ["vassystemclientproject.onrender.com", "localhost", "127.0.0.1"
 # ✅ Installed Applications
 # -------------------------------------------------
 INSTALLED_APPS = [
+    "jazzmin",  # 🚀 Modern Admin Panel UI
     "home.apps.HomeConfig",
 
     "django.contrib.admin",
@@ -99,17 +102,15 @@ WSGI_APPLICATION = "userproject.wsgi.application"
 # EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 
 
+ALLOWED_QR_CODE = "Tushar singh"
 
-ALLOWED_QR_CODE = "https://www.venusjewel.com/"
+import dj_database_url
 
 # -------------------------------------------------
 # ✅ Database
 # -------------------------------------------------
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    "default": env.db("DATABASE_URL", default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}")
 }
 
 # -------------------------------------------------
@@ -129,6 +130,11 @@ LANGUAGE_CODE = "en-us"
 TIME_ZONE = "Asia/Kolkata"
 USE_I18N = True
 USE_TZ = True
+
+# 12-hour time format settings
+TIME_FORMAT = 'h:i A'
+DATETIME_FORMAT = 'N j, Y, h:i A'
+USE_L10N = False # Force custom formats
 
 # -------------------------------------------------
 # ✅ Static Files
@@ -166,6 +172,54 @@ LOGOUT_REDIRECT_URL = "/login/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = False
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
+
+# -------------------------------------------------
+# ✅ Jazzmin Admin UI Settings
+# -------------------------------------------------
+JAZZMIN_SETTINGS = {
+    "site_title": "Pulse Admin",
+    "site_header": "Pulse Attendance",
+    "site_brand": "Pulse Core",
+    "welcome_sign": "Welcome to the Deep Pulse Core",
+    "copyright": "Pulse Attendance System",
+    "search_model": ["auth.User"],
+    "show_ui_builder": False,
+    "topmenu_links": [
+        {"name": "Return to Dashboard",  "url": "admin_dashboard", "permissions": ["auth.view_user"]},
+    ],
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_small_text": False,
+    "brand_colour": "navbar-dark",
+    "accent": "accent-primary",
+    "navbar": "navbar-dark",
+    "no_navbar_border": False,
+    "navbar_fixed": True,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": True,
+    "sidebar": "sidebar-dark-primary",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": False,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": True,
+    "theme": "lumen",
+    "dark_mode_theme": "darkly",
+    "button_classes": {
+        "primary": "btn-primary",
+        "secondary": "btn-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success"
+    }
+}

@@ -1,82 +1,194 @@
-{% extends "index.html" %}
-{% block title %}Attendance Report{% endblock %}
+{% extends "admin_base.html" %}
+{% load static %}
+{% block title %}Attendance Analytics | Venus System{% endblock %}
+
 {% block content %}
-<div class="container my-5">
-  <h1 class="text-center mb-4">📊 Employee Attendance Report</h1>
-  <!-- Summary Statistics -->
-  <div class="row mb-4 g-3 text-white">
-    <div class="col-md-4">
-      <div class="card bg-success shadow">
-        <div class="card-body text-center">
-          <h6 class="text-uppercase">Total Users</h6>
-          <h3>{{ users|length }}</h3>
+<div class="container py-4">
+    <!-- Page Header -->
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+            <h2 class="fw-bold text-dark mb-1"><i class="fas fa-chart-line text-primary me-2"></i> Attendance Analytics
+            </h2>
+            <p class="text-muted small mb-0">Global attendance tracking, check-ins, and performance statistics.</p>
         </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card bg-info shadow">
-        <div class="card-body text-center">
-          <h6 class="text-uppercase">Admins & Staff</h6>
-          <h3>{{ staff_users_count }}</h3>
+        <div class="col-md-6 text-center text-md-end">
+            <a href="{% url 'export_attendance_csv' %}" class="btn btn-outline-primary rounded-pill px-4 fw-bold small">
+                <i class="fas fa-file-export me-1"></i> Export Attendance CSV
+            </a>
         </div>
-      </div>
     </div>
-  </div>
-  <!-- Search Input -->
-  <div class="input-group mb-3">
-    <span class="input-group-text">🔍</span>
-    <input type="text" class="form-control" id="searchInput" placeholder="Search by username or email">
-  </div>
-  <!-- User Table -->
-  <div class="table-responsive">
-    <table class="table table-bordered table-hover align-middle text-center" id="userTable">
-      <thead class="table-dark">
-        <tr>
-          <th>#</th>
-          <th>👤 Username</th>
-          <th>📧 Email</th>
-          <th>📅 Date Joined</th>
-          <th>🔐 Role</th>
-          <th>📈 Attendance</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for user in users %}
-        <tr>
-          <td>{{ forloop.counter }}</td>
-          <td>{{ user.username }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.date_joined|date:"Y-m-d" }}</td>
-          <td>
-            {% if user.is_superuser %}
-              <span class="badge bg-danger">Admin</span>
-            {% elif user.is_staff %}
-              <span class="badge bg-warning text-dark">Staff</span>
-            {% else %}
-              <span class="badge bg-secondary">User</span>
-            {% endif %}
-          </td>
-          <td>
-            <a href="{% url 'user_attendance_detail' user.id %}" class="btn btn-sm btn-info">📄 View Attendance</a>
-          </td>
-        </tr>
-        {% empty %}
-        <tr>
-          <td colspan="6" class="text-muted">No users found.</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
+
+    <!-- Summary Stats -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 d-flex flex-row align-items-center">
+                <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-3 me-3">
+                    <i class="fas fa-users fa-2x"></i>
+                </div>
+                <div>
+                    <div class="text-muted small fw-bold text-uppercase opacity-75">Total Work Force</div>
+                    <div class="h3 fw-bold mb-0 text-dark">{{ total_users }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 d-flex flex-row align-items-center">
+                <div class="bg-success bg-opacity-10 text-success rounded-circle p-3 me-3">
+                    <i class="fas fa-calendar-check fa-2x"></i>
+                </div>
+                <div>
+                    <div class="text-muted small fw-bold text-uppercase opacity-75">Check-ins Today</div>
+                    <div class="h3 fw-bold mb-0 text-dark">{{ present_today }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 d-flex flex-row align-items-center">
+                <div class="bg-danger bg-opacity-10 text-danger rounded-circle p-3 me-3">
+                    <i class="fas fa-door-open fa-2x pulse-icon"></i>
+                </div>
+                <div>
+                    <div class="text-muted small fw-bold text-uppercase opacity-75">Active Right Now</div>
+                    <div class="h3 fw-bold mb-0 text-danger">{{ active_now }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Report Card -->
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="card-header bg-white border-0 p-4 border-bottom">
+            <div class="row g-3 align-items-center">
+                <div class="col-md-6">
+                    <h5 class="fw-bold mb-0">Global Activity Log (Latest Updates)</h5>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group bg-light rounded-pill px-3 py-1">
+                        <span class="input-group-text bg-transparent border-0 text-muted"><i
+                                class="fas fa-search"></i></span>
+                        <input type="text" id="searchInput"
+                            class="form-control bg-transparent border-0 shadow-none ps-0"
+                            placeholder="Search by name, email or date...">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                <table class="table table-hover align-middle mb-0" id="activityTable">
+                    <thead class="table-light sticky-top">
+                        <tr>
+                            <th class="ps-4">Employee</th>
+                            <th>Scan Date</th>
+                            <th>Check-in</th>
+                            <th>Check-out</th>
+                            <th>Scanned Location</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in records %}
+                        <tr>
+                            <td class="ps-4">
+                                <div class="d-flex align-items-center">
+                                    <div
+                                        class="avatar-sm bg-primary bg-opacity-10 text-primary rounded-pill me-3 d-flex align-items-center justify-content-center fw-bold small">
+                                        {{ record.user.username|slice:":1"|upper }}
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold text-dark">{{ record.name|default:record.user.username }}
+                                        </div>
+                                        <div class="text-muted small">{{ record.email|default:record.user.email }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="fw-bold text-dark text-nowrap">
+                                <i class="far fa-calendar-alt text-muted small me-1"></i> {{ record.date|date:"M d, Y" }}
+                            </td>
+                            <td>
+                                {% if record.check_in %}
+                                <span
+                                    class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 fw-bold border border-success border-opacity-25 pb-1">
+                                    <i class="fas fa-sign-in-alt me-1"></i> {{ record.check_in|time:"g:i A" }}
+                                </span>
+                                {% else %}
+                                <span class="text-muted small">--</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if record.check_out %}
+                                <span
+                                    class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-3 fw-bold border border-danger border-opacity-25 pb-1">
+                                    <i class="fas fa-sign-out-alt me-1"></i> {{ record.check_out|time:"g:i A" }}
+                                </span>
+                                {% else %}
+                                <span
+                                    class="badge bg-warning bg-opacity-10 text-warning-emphasis rounded-pill px-3 fw-bold pb-1 shadow-sm"><i
+                                        class="fas fa-running me-1"></i> Active</span>
+                                {% endif %}
+                            </td>
+                            <td class="pe-4 text-muted small">
+                                <i class="fas fa-map-marker-alt text-primary opacity-50 me-1"></i> {{ record.location_name|default:"Unknown Location" }}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="py-5 text-center text-muted italic">No attendance records found
+                                across the entire system.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
+
+<style>
+    table thead th {
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.05em;
+        color: #64748b;
+        padding: 1.25rem 0.75rem !important;
+    }
+
+    .avatar-sm {
+        width: 32px;
+        height: 32px;
+    }
+
+    .table tbody tr:hover {
+        background-color: rgba(99, 102, 241, 0.02);
+    }
+
+    .pulse-icon {
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.1);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+</style>
+
 <script>
-  document.getElementById("searchInput").addEventListener("keyup", function () {
-    const filter = this.value.toLowerCase();
-    const rows = document.querySelectorAll("#userTable tbody tr");
-    rows.forEach(row => {
-      const text = row.textContent.toLowerCase();
-      row.style.display = text.includes(filter) ? "" : "none";
+    document.getElementById("searchInput").addEventListener("keyup", function () {
+        const filter = this.value.toLowerCase();
+        const rows = document.querySelectorAll("#activityTable tbody tr");
+        rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(filter) ? "" : "none";
+        });
     });
-  });
 </script>
 {% endblock %}
