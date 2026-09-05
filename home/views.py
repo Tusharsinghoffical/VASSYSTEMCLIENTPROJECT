@@ -16,7 +16,7 @@ from django.core.paginator import Paginator
 from django.contrib.sessions.models import Session
 from django.db import transaction
 from .models import Attendance, Profile
-from .forms import UserForm, ProfileForm, AdminUserCreationForm, CustomUserCreationForm
+from .forms import UserForm, ProfileForm, AdminUserCreationForm, CustomUserCreationForm, UserRegisterForm
 
 
 def is_admin(user):
@@ -356,10 +356,13 @@ def edit_user_view(request, user_id):
             messages.error(request, f"⚠️ Email '{email}' is already registered to another account.")
             return render(request, 'edit_user.html', {'user': user, 'profile': profile})
 
+        is_admin_access = bool(request.POST.get('is_staff'))
         user.username = username
         user.email = email
         user.first_name = first_name
         user.last_name = last_name
+        user.is_staff = is_admin_access
+        user.is_superuser = is_admin_access
         profile.phone = phone
         profile.position = position
         profile.address = address
@@ -534,14 +537,14 @@ def register(request):
     if request.user.is_authenticated:
         return redirect('redirect_after_login')
     if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
+        form = UserRegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
             messages.success(request, "✅ Account created successfully!")
             return redirect('redirect_after_login')
     else:
-        form = CustomUserCreationForm()
+        form = UserRegisterForm()
     return render(request, 'register.html', {
         'form': form,
         'title': 'Employee Registration',

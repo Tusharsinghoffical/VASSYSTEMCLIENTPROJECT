@@ -108,6 +108,27 @@
               </div>
             </div>
 
+            <!-- Administrative Privileges Section -->
+            <div class="mb-4">
+              <div class="d-flex align-items-center mb-3">
+                <div class="rounded-circle p-2 me-3 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: #eff6ff; color: #0066ff;">
+                  <i class="fas fa-shield-halved small"></i>
+                </div>
+                <h6 class="fw-bold mb-0" style="color: #0f172a;">Administrative Privileges</h6>
+              </div>
+              <div class="rounded-3 p-3 d-flex align-items-center justify-content-between bg-light border">
+                <div>
+                  <label class="fw-bold text-dark mb-0 d-block" for="is_staff_check" style="cursor: pointer; font-size: 0.88rem;">
+                    <i class="fas fa-shield-halved text-primary me-1"></i> Executive Admin Privileges
+                  </label>
+                  <span class="text-muted" style="font-size: 0.74rem;">Grant staff and management portal access to this user</span>
+                </div>
+                <div class="form-check form-switch p-0 m-0">
+                  <input type="checkbox" name="is_staff" id="is_staff_check" class="form-check-input" style="width: 44px; height: 24px; cursor: pointer;" {% if user.is_staff or user.is_superuser %}checked{% endif %}>
+                </div>
+              </div>
+            </div>
+
             <div class="text-end pt-4" style="border-top: 1px solid #f1f5f9;">
               <button type="submit" class="btn rounded-pill px-5 py-2 fw-bold text-white shadow-sm" style="background: #0066ff; border: none;">
                 <i class="fas fa-save me-2"></i> Save Changes
