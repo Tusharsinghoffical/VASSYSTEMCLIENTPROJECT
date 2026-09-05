@@ -50,7 +50,7 @@ def logoutUser(request):
     return redirect('login')
 
 
-@login_required
+@staff_member_required
 def admin_dashboard(request):
     today = timezone.now().date()
     # Total users present today (Checked in but not checked out yet)
