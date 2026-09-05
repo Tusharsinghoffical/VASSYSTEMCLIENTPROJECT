@@ -1,63 +1,203 @@
 {% extends 'admin_base.html' %}
 {% load static %}
-{% block title %}Onboard Employee | Venus System{% endblock %}
+{% block title %}Onboard Employee | Pulse Admin{% endblock %}
 
 {% block content %}
-<div class="container py-4">
-  <!-- Page Header -->
-  <div class="row mb-4 align-items-center justify-content-center">
-    <div class="col-lg-7 text-center">
-      <h2 class="fw-bold text-dark mb-1"><i class="fas fa-user-plus text-primary me-2"></i> Onboard New Employee</h2>
-      <p class="text-muted small">Fill out the credentials below to create a new system account.</p>
+<div class="container-fluid px-3 px-md-4 py-4">
+  <!-- Top Navigation & Breadcrumb -->
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+    <div>
+      <div class="d-flex align-items-center gap-2 mb-1">
+        <span class="badge rounded-pill px-3 py-1" style="background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.3); color: #a5b4fc; font-size: 0.72rem; letter-spacing: 0.05em; font-weight: 700; text-transform: uppercase;">
+          <i class="fas fa-id-badge me-1"></i> Identity Provisioning
+        </span>
+        <span class="text-white-50 small">•</span>
+        <span class="text-white-50 small">New Account Provisioning</span>
+      </div>
+      <h2 class="h3 fw-bold text-white mb-0 d-flex align-items-center gap-2">
+        <span style="background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+          Onboard New Employee
+        </span>
+      </h2>
+      <p class="text-white-50 small mb-0 mt-1">Configure credentials, role credentials, and initialize dynamic QR identity pass.</p>
+    </div>
+
+    <div>
+      <a href="{% url 'manage_users' %}" class="btn btn-sm d-inline-flex align-items-center gap-2 px-3 py-2 rounded-3 text-white-50" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); transition: all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.color='#fff';" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='rgba(255,255,255,0.5)';">
+        <i class="fas fa-arrow-left"></i> Back to Personnel Directory
+      </a>
     </div>
   </div>
 
+  <!-- Form Container -->
   <div class="row justify-content-center">
-    <div class="col-lg-7">
-      <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+    <div class="col-xl-9 col-lg-10">
+      <div class="card border-0 rounded-4 overflow-hidden shadow-2xl position-relative" style="background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.09) !important;">
+        <!-- Glowing top border -->
+        <div style="height: 3px; background: linear-gradient(90deg, #6366f1, #06b6d4, #10b981);"></div>
+
         <div class="card-body p-4 p-md-5">
-          <form method="POST" novalidate>
+          <form method="POST" novalidate id="onboardForm">
             {% csrf_token %}
-            
-            <div class="row g-4">
-              {% for field in form %}
-                <div class="{% if field.field.widget.input_type == 'checkbox' %}col-12{% else %}col-md-6{% endif %}">
-                  {% if field.field.widget.input_type == 'checkbox' %}
-                    <div class="form-check form-switch p-3 bg-light rounded-4 d-flex align-items-center justify-content-between">
-                        <label class="form-check-label fw-bold text-dark mb-0 ms-0" for="{{ field.id_for_label }}">
-                           <i class="fas fa-user-shield text-primary me-2"></i> {{ field.label }}
-                        </label>
-                        {{ field }}
-                    </div>
-                  {% else %}
-                    <label for="{{ field.id_for_label }}" class="form-label fw-bold small text-muted ms-1">
-                      {{ field.label }}
-                    </label>
-                    <div class="input-group input-group-custom">
-                        {{ field }}
-                    </div>
-                  {% endif %}
-                  
-                  {% if field.errors %}
-                    <div class="text-danger small mt-1 ms-1">
-                      <i class="fas fa-exclamation-circle me-1"></i> {{ field.errors|striptags }}
-                    </div>
-                  {% endif %}
-                </div>
-              {% endfor %}
+
+            {% if form.non_field_errors %}
+              <div class="alert alert-danger rounded-3 d-flex align-items-center gap-2 mb-4" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #fca5a5;">
+                <i class="fas fa-triangle-exclamation"></i>
+                <div>{{ form.non_field_errors|striptags }}</div>
+              </div>
+            {% endif %}
+
+            <!-- Section 1: Basic Identity -->
+            <div class="d-flex align-items-center gap-2 mb-3 pb-2" style="border-bottom: 1px solid rgba(255,255,255,0.07);">
+              <span class="d-inline-flex align-items-center justify-content-center rounded-2" style="width: 28px; height: 28px; background: rgba(99,102,241,0.2); color: #818cf8; font-size: 0.85rem;">
+                <i class="fas fa-user"></i>
+              </span>
+              <span class="text-white fw-semibold small text-uppercase" style="letter-spacing: 0.06em;">Employee Credentials</span>
             </div>
 
-            <div class="mt-5">
-              <button type="submit" class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm">
-                <i class="fas fa-check-circle me-2"></i> Register Employee Account
+            <div class="row g-4 mb-4">
+              <!-- Username -->
+              <div class="col-md-6">
+                <label for="{{ form.username.id_for_label }}" class="form-label text-white-50 small fw-semibold d-flex align-items-center justify-content-between">
+                  <span>Username Handle <span class="text-danger">*</span></span>
+                  <span class="text-white-50" style="font-size: 0.7rem;">Alphanumeric handle</span>
+                </label>
+                <div class="input-group input-glass">
+                  <span class="input-group-text"><i class="fas fa-at text-white-50"></i></span>
+                  <input type="text" name="{{ form.username.name }}" id="{{ form.username.id_for_label }}" value="{{ form.username.value|default:'' }}" class="form-control form-control-glass {% if form.username.errors %}is-invalid{% endif %}" placeholder="e.g. jdoe_01" required autocomplete="username">
+                </div>
+                {% if form.username.errors %}
+                  <div class="text-danger small mt-1"><i class="fas fa-circle-exclamation me-1"></i>{{ form.username.errors|striptags }}</div>
+                {% endif %}
+              </div>
+
+              <!-- Official Email -->
+              <div class="col-md-6">
+                <label for="{{ form.email.id_for_label }}" class="form-label text-white-50 small fw-semibold d-flex align-items-center justify-content-between">
+                  <span>Corporate Email <span class="text-danger">*</span></span>
+                  <span class="text-white-50" style="font-size: 0.7rem;">For pass delivery</span>
+                </label>
+                <div class="input-group input-glass">
+                  <span class="input-group-text"><i class="fas fa-envelope text-white-50"></i></span>
+                  <input type="email" name="{{ form.email.name }}" id="{{ form.email.id_for_label }}" value="{{ form.email.value|default:'' }}" class="form-control form-control-glass {% if form.email.errors %}is-invalid{% endif %}" placeholder="employee@venusjewel.com" required autocomplete="email">
+                </div>
+                {% if form.email.errors %}
+                  <div class="text-danger small mt-1"><i class="fas fa-circle-exclamation me-1"></i>{{ form.email.errors|striptags }}</div>
+                {% endif %}
+              </div>
+
+              <!-- First Name -->
+              <div class="col-md-6">
+                <label for="{{ form.first_name.id_for_label }}" class="form-label text-white-50 small fw-semibold">
+                  First Name <span class="text-danger">*</span>
+                </label>
+                <div class="input-group input-glass">
+                  <span class="input-group-text"><i class="fas fa-id-card text-white-50"></i></span>
+                  <input type="text" name="{{ form.first_name.name }}" id="{{ form.first_name.id_for_label }}" value="{{ form.first_name.value|default:'' }}" class="form-control form-control-glass {% if form.first_name.errors %}is-invalid{% endif %}" placeholder="e.g. John" required>
+                </div>
+                {% if form.first_name.errors %}
+                  <div class="text-danger small mt-1"><i class="fas fa-circle-exclamation me-1"></i>{{ form.first_name.errors|striptags }}</div>
+                {% endif %}
+              </div>
+
+              <!-- Last Name -->
+              <div class="col-md-6">
+                <label for="{{ form.last_name.id_for_label }}" class="form-label text-white-50 small fw-semibold">
+                  Last Name <span class="text-danger">*</span>
+                </label>
+                <div class="input-group input-glass">
+                  <span class="input-group-text"><i class="fas fa-signature text-white-50"></i></span>
+                  <input type="text" name="{{ form.last_name.name }}" id="{{ form.last_name.id_for_label }}" value="{{ form.last_name.value|default:'' }}" class="form-control form-control-glass {% if form.last_name.errors %}is-invalid{% endif %}" placeholder="e.g. Doe" required>
+                </div>
+                {% if form.last_name.errors %}
+                  <div class="text-danger small mt-1"><i class="fas fa-circle-exclamation me-1"></i>{{ form.last_name.errors|striptags }}</div>
+                {% endif %}
+              </div>
+            </div>
+
+            <!-- Section 2: Security & Password -->
+            <div class="d-flex align-items-center gap-2 mb-3 pb-2" style="border-bottom: 1px solid rgba(255,255,255,0.07);">
+              <span class="d-inline-flex align-items-center justify-content-center rounded-2" style="width: 28px; height: 28px; background: rgba(6,182,212,0.2); color: #22d3ee; font-size: 0.85rem;">
+                <i class="fas fa-key"></i>
+              </span>
+              <span class="text-white fw-semibold small text-uppercase" style="letter-spacing: 0.06em;">Access Passwords</span>
+            </div>
+
+            <div class="row g-4 mb-4">
+              <!-- Password 1 -->
+              <div class="col-md-6">
+                <label for="{{ form.password1.id_for_label }}" class="form-label text-white-50 small fw-semibold">
+                  Temporary Password <span class="text-danger">*</span>
+                </label>
+                <div class="input-group input-glass">
+                  <span class="input-group-text"><i class="fas fa-lock text-white-50"></i></span>
+                  <input type="password" name="{{ form.password1.name }}" id="{{ form.password1.id_for_label }}" class="form-control form-control-glass {% if form.password1.errors %}is-invalid{% endif %}" placeholder="••••••••••••" required autocomplete="new-password">
+                  <button type="button" class="btn border-0 text-white-50 px-3" onclick="togglePassVisibility('{{ form.password1.id_for_label }}', this)" tabindex="-1" style="background: rgba(255,255,255,0.02);">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+                {% if form.password1.errors %}
+                  <div class="text-danger small mt-1"><i class="fas fa-circle-exclamation me-1"></i>{{ form.password1.errors|striptags }}</div>
+                {% else %}
+                  <div class="text-white-50 small mt-1" style="font-size: 0.72rem;">Min. 8 characters with alphanumeric balance.</div>
+                {% endif %}
+              </div>
+
+              <!-- Password 2 -->
+              <div class="col-md-6">
+                <label for="{{ form.password2.id_for_label }}" class="form-label text-white-50 small fw-semibold">
+                  Confirm Password <span class="text-danger">*</span>
+                </label>
+                <div class="input-group input-glass">
+                  <span class="input-group-text"><i class="fas fa-lock-open text-white-50"></i></span>
+                  <input type="password" name="{{ form.password2.name }}" id="{{ form.password2.id_for_label }}" class="form-control form-control-glass {% if form.password2.errors %}is-invalid{% endif %}" placeholder="••••••••••••" required autocomplete="new-password">
+                  <button type="button" class="btn border-0 text-white-50 px-3" onclick="togglePassVisibility('{{ form.password2.id_for_label }}', this)" tabindex="-1" style="background: rgba(255,255,255,0.02);">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+                {% if form.password2.errors %}
+                  <div class="text-danger small mt-1"><i class="fas fa-circle-exclamation me-1"></i>{{ form.password2.errors|striptags }}</div>
+                {% endif %}
+              </div>
+            </div>
+
+            <!-- Section 3: Permission Switch -->
+            <div class="rounded-4 p-3 mb-4" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);">
+              <div class="form-check form-switch d-flex align-items-center justify-content-between p-0 m-0">
+                <div class="pe-3">
+                  <label class="form-check-label fw-bold text-white d-block mb-1" for="{{ form.is_admin.id_for_label }}" style="cursor: pointer;">
+                    <i class="fas fa-shield-halved text-warning me-2"></i> Grant Executive Admin Access
+                  </label>
+                  <p class="text-white-50 small mb-0" style="font-size: 0.78rem;">
+                    If toggled on, this account gains staff privileges, personnel management rights, and access to all telemetry control centers.
+                  </p>
+                </div>
+                <div>
+                  <input type="checkbox" name="{{ form.is_admin.name }}" id="{{ form.is_admin.id_for_label }}" class="form-check-input switch-lux" {% if form.is_admin.value %}checked{% endif %}>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="d-flex flex-column flex-sm-row align-items-center gap-3 pt-2">
+              <button type="submit" class="btn btn-primary d-inline-flex align-items-center justify-content-center gap-2 px-4 py-3 rounded-3 fw-bold flex-grow-1 shadow-lg" style="background: linear-gradient(135deg, #6366f1, #4f46e5); border: none; font-size: 0.95rem; letter-spacing: 0.02em;">
+                <i class="fas fa-user-plus"></i> Complete Provisioning & Generate QR Pass
               </button>
+              <a href="{% url 'manage_users' %}" class="btn text-white-50 px-4 py-3 rounded-3 fw-semibold" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem;">
+                Cancel
+              </a>
             </div>
           </form>
         </div>
-        <div class="card-footer bg-light border-0 py-3 text-center">
-            <a href="{% url 'manage_users' %}" class="text-decoration-none small fw-bold text-muted transition-all">
-                <i class="fas fa-arrow-left me-1"></i> Back to User Management
-            </a>
+
+        <!-- Footer Notes -->
+        <div class="card-footer border-0 py-3 px-4 px-md-5 d-flex flex-wrap align-items-center justify-content-between gap-2" style="background: rgba(0,0,0,0.25); border-top: 1px solid rgba(255,255,255,0.05) !important;">
+          <span class="text-white-50 small d-flex align-items-center gap-2">
+            <i class="fas fa-qrcode text-info"></i> Instant QR badge creation active upon submission
+          </span>
+          <span class="text-white-50 small">
+            Secured with SHA-256 HMAC
+          </span>
         </div>
       </div>
     </div>
@@ -65,33 +205,67 @@
 </div>
 
 <style>
-  .form-control, .form-select {
-    display: block;
-    width: 100%;
-    padding: 0.75rem 1.25rem;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #1e293b;
-    background-color: #f8fafc;
-    border: 2px solid #e2e8f0;
-    border-radius: 14px;
-    transition: all 0.2s ease-in-out;
+  .input-glass {
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.25s ease;
   }
-  .form-control:focus {
-    background-color: #fff;
+  .input-glass:focus-within {
     border-color: #6366f1;
-    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-    outline: 0;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+    background: rgba(255, 255, 255, 0.07);
   }
-  .form-check-input {
-    width: 3em !important;
-    height: 1.5em !important;
+  .input-glass .input-group-text {
+    background: transparent;
+    border: none;
+    padding-left: 1rem;
+    padding-right: 0.75rem;
+  }
+  .form-control-glass {
+    background: transparent !important;
+    border: none !important;
+    color: #f8fafc !important;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+  }
+  .form-control-glass::placeholder {
+    color: rgba(255, 255, 255, 0.3) !important;
+  }
+  .form-control-glass:focus {
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
+  .switch-lux {
+    width: 3.2rem !important;
+    height: 1.7rem !important;
     cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(255,255,255,0.7)'/%3e%3c/svg%3e") !important;
+    transition: all 0.25s ease-in-out;
   }
-  .form-check-input:checked {
-    background-color: #6366f1;
-    border-color: #6366f1;
+  .switch-lux:checked {
+    background-color: #f59e0b !important;
+    border-color: #d97706 !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e") !important;
+    box-shadow: 0 0 12px rgba(245, 158, 11, 0.4) !important;
   }
 </style>
+
+<script>
+  function togglePassVisibility(inputId, btn) {
+    const field = document.getElementById(inputId);
+    const icon = btn.querySelector('i');
+    if (field.type === 'password') {
+      field.type = 'text';
+      icon.className = 'fas fa-eye-slash text-primary';
+    } else {
+      field.type = 'password';
+      icon.className = 'fas fa-eye text-white-50';
+    }
+  }
+</script>
 {% endblock %}
