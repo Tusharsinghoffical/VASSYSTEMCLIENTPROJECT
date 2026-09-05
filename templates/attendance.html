@@ -17,13 +17,16 @@
 <div class="container-fluid py-5" style="min-height: 90vh">
   <h2 class="text-center mb-5 fw-bold"><i class="fas fa-camera-retro me-2 text-primary"></i> Attendance Scanner</h2>
 
-  <div class="text-center mb-4">
+  <div class="text-center mb-4 d-flex justify-content-center flex-wrap gap-2">
     <div class="btn-group shadow-sm rounded-pill overflow-hidden">
       <button class="btn btn-primary px-4 py-2" onclick="startScanner('check_in')"><i
           class="fas fa-sign-in-alt me-2"></i> Check-In</button>
       <button class="btn btn-outline-danger px-4 py-2" onclick="startScanner('check_out')"><i
           class="fas fa-sign-out-alt me-2"></i> Check-Out</button>
     </div>
+    <button type="button" class="btn btn-outline-primary px-4 py-2 rounded-pill shadow-sm fw-bold" data-bs-toggle="modal" data-bs-target="#myQrBadgeModal">
+      <i class="fas fa-qrcode me-2"></i> Show My QR Badge
+    </button>
   </div>
 
   <div class="row justify-content-center align-items-stretch gap-4">
@@ -80,6 +83,42 @@
           </div>
         </li>
       </ul>
+    </div>
+  </div>
+
+  <!-- My QR Badge Modal -->
+  <div class="modal fade" id="myQrBadgeModal" tabindex="-1" aria-labelledby="myQrBadgeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 rounded-4 shadow overflow-hidden">
+        <div class="modal-header border-0 text-white p-4 text-center justify-content-center position-relative"
+          style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);">
+          <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+          <div>
+            <h5 class="modal-title fw-bold mb-1" id="myQrBadgeModalLabel"><i class="fas fa-qrcode me-2"></i>My Attendance QR Badge</h5>
+            <p class="small mb-0 opacity-90">Personal attendance code for {{ name }}</p>
+          </div>
+        </div>
+        <div class="modal-body p-4 text-center">
+          <div class="p-3 bg-light rounded-4 d-inline-block border mb-3 position-relative">
+            <img src="{{ qr_code_base64 }}" alt="Attendance QR Code" class="img-fluid rounded-3" style="width: 220px; height: 220px;">
+            <div class="mt-2">
+              <span class="badge bg-success rounded-pill px-3 py-1">
+                <i class="fas fa-check-circle me-1"></i> Profile Locked (VJAS-{{ user_id|stringformat:"04d" }})
+              </span>
+            </div>
+          </div>
+
+          <div class="alert alert-warning border-0 small text-start mb-3 p-3 rounded-3">
+            <i class="fas fa-exclamation-triangle me-1"></i> <strong>Note:</strong> Yeh QR code sirf aapki profile se attendance mark karega. Doosri profile par yeh work nahi karega.
+          </div>
+
+          <div class="d-grid gap-2">
+            <a href="{% url 'download_my_qr' %}" class="btn btn-primary rounded-pill fw-bold py-2 shadow-sm" download>
+              <i class="fas fa-download me-2"></i>Download QR Code (PNG)
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

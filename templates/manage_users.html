@@ -115,6 +115,9 @@
               <!-- Actions -->
               <td class="pe-4 text-end">
                 <div class="d-flex justify-content-end gap-2">
+                  <a href="{% url 'user_details' u.id %}" class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center shadow-sm" title="View Profile & QR Code" style="width: 34px; height: 34px;">
+                    <i class="fas fa-qrcode" style="color: #6366f1;"></i>
+                  </a>
                   <a href="{% url 'edit_user' u.id %}" class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center shadow-sm" title="Edit Profile" style="width: 34px; height: 34px;">
                     <i class="fas fa-edit text-primary"></i>
                   </a>

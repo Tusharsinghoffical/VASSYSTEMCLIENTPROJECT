@@ -6,11 +6,14 @@ from .models import Profile
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user=instance)
+        profile, _ = Profile.objects.get_or_create(user=instance)
+        profile.ensure_qr_token()
 
 @receiver(post_save, sender=User)
 def save_profile(sender, instance, **kwargs):
-    instance.profile.save()
+    if hasattr(instance, 'profile'):
+        instance.profile.ensure_qr_token()
+        instance.profile.save()
 
 
 @receiver(post_save, sender=User)

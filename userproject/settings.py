@@ -24,7 +24,20 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=["localhost", "127.0.0.1"])
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[
+    "localhost",
+    "127.0.0.1",
+    "vassystemclientproject.onrender.com",
+    ".onrender.com",
+    "*"
+])
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://vassystemclientproject.onrender.com",
+    "https://*.onrender.com",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+]
 
 
 
@@ -147,16 +160,15 @@ STATICFILES_DIRS = [
     # "/var/www/static/",  # Optional custom path
 ]
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-# STATIC_ROOT = BASE_DIR / "staticfiles"  # Uncomment during deployment
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
 # -------------------------------------------------
 # ✅ Media Files (Optional)
 # -------------------------------------------------
-# MEDIA_URL = "/media/"
-# MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 # -------------------------------------------------
 # ✅ Authentication & Redirects

@@ -25,8 +25,10 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('register/admin/', register_admin, name='register_admin'),
 
-    # ✅ Profile
+    # ✅ Profile & QR
     path('profile/', views.profile_view, name='profile'),
+    path('profile/qr-download/', views.download_qr_code_view, name='download_my_qr'),
+    path('profile/qr-download/<int:user_id>/', views.download_qr_code_view, name='download_user_qr'),
 
     # ✅ Attendance
     path('attendance/', views.attendance, name='attendance'),

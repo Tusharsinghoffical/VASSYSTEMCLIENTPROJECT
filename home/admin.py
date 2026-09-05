@@ -76,15 +76,18 @@ class CustomUserAdmin(ImportExportModelAdmin):
     search_fields = ['username', 'email']
 
 # ✅ Register Updated Admin
-admin.site.unregister(User)
-admin.site.unregister(Group)
+if admin.site.is_registered(User):
+    admin.site.unregister(User)
+if admin.site.is_registered(Group):
+    admin.site.unregister(Group)
 admin.site.register(User, CustomUserAdmin)
 
 # ✅ Profile Admin
 @admin.register(Profile)
 class ProfileAdmin(ImportExportModelAdmin):
     resource_class = ProfileResource
-    list_display = ('user', 'phone', 'position')
+    list_display = ('user', 'phone', 'position', 'qr_token')
+    readonly_fields = ('qr_token',)
 
 # ✅ Attendance Export
 

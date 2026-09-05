@@ -85,10 +85,13 @@ def user_dashboard(request):
     attendance_records = Attendance.objects.filter(
         user=request.user).order_by('-date', '-check_in')[:5]
     profile, created = Profile.objects.get_or_create(user=request.user)
+    profile.ensure_qr_token()
+    qr_code_base64 = profile.get_qr_code_base64()
     return render(request, 'user_dashboard.html', {
         'user': request.user,
         'profile': profile,
         'attendance_records': attendance_records,
+        'qr_code_base64': qr_code_base64,
     })
 
 
@@ -96,6 +99,9 @@ def user_dashboard(request):
 def attendance(request):
     user = request.user
     base_template = 'admin_base.html' if user.is_staff or user.is_superuser else 'index.html'
+    profile, created = Profile.objects.get_or_create(user=user)
+    profile.ensure_qr_token()
+    qr_code_base64 = profile.get_qr_code_base64()
     return render(request, 'attendance.html', {
         "user": user,
         "name": user.get_full_name() or user.username,
@@ -103,6 +109,8 @@ def attendance(request):
         "username": user.username,
         "user_id": user.id,
         "base_template": base_template,
+        "profile": profile,
+        "qr_code_base64": qr_code_base64,
     })
 
 
@@ -127,35 +135,100 @@ def mark_attendance(request):
             today = timezone.now().date()
             now_time = localtime().time()
 
-            if qr_data != settings.ALLOWED_QR_CODE:
-                return JsonResponse({"error": "❌ Invalid QR Code scanned."}, status=403)
+            if not qr_data:
+                return JsonResponse({"error": "❌ No QR Code data received."}, status=400)
+
+            parsed_qr = None
+            if isinstance(qr_data, dict):
+                parsed_qr = qr_data
+            elif isinstance(qr_data, str):
+                try:
+                    parsed_qr = json.loads(qr_data)
+                except Exception:
+                    pass
+
+            target_user = None
+            raw_qr_record = qr_data if isinstance(qr_data, str) else json.dumps(qr_data)
+
+            if parsed_qr and isinstance(parsed_qr, dict) and "user_id" in parsed_qr:
+                # Validate that the QR code is genuine and matches the profile
+                qr_user_id = parsed_qr.get("user_id")
+                qr_token = parsed_qr.get("qr_token")
+                target_user = User.objects.filter(id=qr_user_id).first()
+
+                if not target_user:
+                    return JsonResponse({"error": "❌ Invalid QR Code: Employee not found in system."}, status=404)
+
+                target_profile = getattr(target_user, 'profile', None)
+                if not target_profile or not target_profile.qr_token or target_profile.qr_token != qr_token:
+                    return JsonResponse({"error": "❌ Invalid or outdated QR Code. Please use your latest profile QR code."}, status=403)
+
+                # Profile isolation check:
+                # The QR code only works for that profile!
+                is_admin = request.user.is_staff or request.user.is_superuser
+                if request.user.id != target_user.id and not is_admin:
+                    target_name = target_user.get_full_name() or target_user.username
+                    return JsonResponse({
+                        "error": f"❌ Unauthorized QR Code: This QR code belongs to {target_name} (VJAS-{target_user.id:04d}). You can only mark attendance using your own profile QR code!"
+                    }, status=403)
+
+            elif qr_data == getattr(settings, 'ALLOWED_QR_CODE', None):
+                # Legacy fallback for backward compatibility
+                target_user = request.user
+            else:
+                return JsonResponse({
+                    "error": "❌ Unrecognized QR Code. Please scan a valid employee profile attendance QR code."
+                }, status=403)
+
+            user_display_name = target_user.get_full_name() or target_user.username
+            employee_code = f"VJAS-{target_user.id:04d}"
 
             record, created = Attendance.objects.get_or_create(
-                user=request.user,
+                user=target_user,
                 date=today,
                 defaults={
-                    "name": request.user.get_full_name() or request.user.username,
-                    "email": request.user.email,
-                    "qr_code": qr_data,
+                    "name": user_display_name,
+                    "email": target_user.email,
+                    "qr_code": raw_qr_record,
                     "location_name": location_name,
                 }
             )
 
+            # Update details if previously missing
+            if not record.name:
+                record.name = user_display_name
+            if not record.email:
+                record.email = target_user.email
+            if location_name and not record.location_name:
+                record.location_name = location_name
+
             if mode == "check_in":
                 if record.check_in:
-                    return JsonResponse({"message": "ℹ️ Already Checked In today."})
+                    formatted_time = record.check_in.strftime("%I:%M %p")
+                    return JsonResponse({
+                        "message": f"ℹ️ {user_display_name} ({employee_code}) is already Checked In today at {formatted_time}."
+                    })
                 record.check_in = now_time
                 record.save()
-                return JsonResponse({"message": "✅ Check-In marked successfully!"})
+                return JsonResponse({
+                    "message": f"✅ Check-In marked successfully for {user_display_name} ({employee_code})!"
+                })
 
             elif mode == "check_out":
                 if not record.check_in:
-                    return JsonResponse({"message": "⚠️ You need to Check-In first."})
+                    return JsonResponse({
+                        "message": f"⚠️ {user_display_name} ({employee_code}) needs to Check-In first before Checking Out."
+                    })
                 if record.check_out:
-                    return JsonResponse({"message": "ℹ️ Already Checked Out today."})
+                    formatted_time = record.check_out.strftime("%I:%M %p")
+                    return JsonResponse({
+                        "message": f"ℹ️ {user_display_name} ({employee_code}) is already Checked Out today at {formatted_time}."
+                    })
                 record.check_out = now_time
                 record.save()
-                return JsonResponse({"message": "✅ Check-Out marked successfully!"})
+                return JsonResponse({
+                    "message": f"✅ Check-Out marked successfully for {user_display_name} ({employee_code})!"
+                })
             return JsonResponse({"error": "❌ Invalid mode."}, status=400)
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)
@@ -320,6 +393,8 @@ def download_users_csv_view(request):
 def profile_view(request):
     user = request.user
     profile, created = Profile.objects.get_or_create(user=user)
+    profile.ensure_qr_token()
+
     if request.method == 'POST':
         user_form = UserForm(request.POST, instance=user)
         profile_form = ProfileForm(request.POST, instance=profile)
@@ -331,13 +406,51 @@ def profile_view(request):
     else:
         user_form = UserForm(instance=user)
         profile_form = ProfileForm(instance=profile)
-    return render(request, 'profile.html', {'user_form': user_form, 'profile_form': profile_form, 'profile': profile, 'user': user})
+
+    qr_code_base64 = profile.get_qr_code_base64()
+    qr_payload = profile.get_qr_payload()
+
+    return render(request, 'profile.html', {
+        'user_form': user_form,
+        'profile_form': profile_form,
+        'profile': profile,
+        'user': user,
+        'qr_code_base64': qr_code_base64,
+        'qr_payload': qr_payload,
+    })
 
 
 @staff_member_required
 def user_detail_view(request, user_id):
     user = get_object_or_404(User, id=user_id)
-    return render(request, 'user_detail.html', {'user': user})
+    profile, created = Profile.objects.get_or_create(user=user)
+    profile.ensure_qr_token()
+    qr_code_base64 = profile.get_qr_code_base64()
+    qr_payload = profile.get_qr_payload()
+    return render(request, 'user_detail.html', {
+        'user': user,
+        'profile': profile,
+        'qr_code_base64': qr_code_base64,
+        'qr_payload': qr_payload,
+    })
+
+
+@login_required
+def download_qr_code_view(request, user_id=None):
+    if user_id:
+        if not (request.user.is_staff or request.user.is_superuser or request.user.id == user_id):
+            return HttpResponse("Unauthorized access to employee QR code.", status=403)
+        target_user = get_object_or_404(User, id=user_id)
+    else:
+        target_user = request.user
+
+    profile, created = Profile.objects.get_or_create(user=target_user)
+    profile.ensure_qr_token()
+    img_bytes = profile.get_qr_image_bytes()
+
+    response = HttpResponse(img_bytes, content_type='image/png')
+    response['Content-Disposition'] = f'attachment; filename="attendance_qr_{target_user.username}.png"'
+    return response
 
 
 @staff_member_required

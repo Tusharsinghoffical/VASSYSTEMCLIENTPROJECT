@@ -20,6 +20,10 @@
                   style="border: none;">
                   <i class="fas fa-qrcode me-2"></i>Mark Attendance
                 </a>
+                <button type="button" class="btn btn-outline-white text-white border-white fw-bold px-4 py-2 rounded-pill"
+                  style="border-width: 2px;" data-bs-toggle="modal" data-bs-target="#qrModal">
+                  <i class="fas fa-id-badge me-2"></i>My Attendance QR
+                </button>
                 <a href="{% url 'attendance_history' %}"
                   class="btn btn-outline-white text-white border-white fw-bold px-4 py-2 rounded-pill"
                   style="border-width: 2px;">
@@ -149,6 +153,45 @@
                 {% endfor %}
               </tbody>
             </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-- Attendance QR Code Modal -->
+  <div class="modal fade" id="qrModal" tabindex="-1" aria-labelledby="qrModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 rounded-4 shadow overflow-hidden">
+        <div class="modal-header border-0 text-white p-4 text-center justify-content-center position-relative"
+          style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);">
+          <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+          <div>
+            <h5 class="modal-title fw-bold mb-1" id="qrModalLabel"><i class="fas fa-qrcode me-2"></i>My Attendance QR Badge</h5>
+            <p class="small mb-0 opacity-90">Personal attendance code for {{ user.get_full_name|default:user.username }}</p>
+          </div>
+        </div>
+        <div class="modal-body p-4 text-center">
+          <div class="p-3 bg-light rounded-4 d-inline-block border mb-3 position-relative">
+            <img src="{{ qr_code_base64 }}" alt="Attendance QR Code" class="img-fluid rounded-3" style="width: 220px; height: 220px;">
+            <div class="mt-2">
+              <span class="badge bg-success rounded-pill px-3 py-1">
+                <i class="fas fa-check-circle me-1"></i> Profile Locked (VJAS-{{ user.id|stringformat:"04d" }})
+              </span>
+            </div>
+          </div>
+
+          <div class="text-start bg-light p-3 rounded-3 small mb-3">
+            <div><strong>Name:</strong> {{ user.get_full_name|default:user.username }}</div>
+            <div><strong>Position:</strong> {{ profile.position|default:"Employee" }}</div>
+            <div><strong>Email:</strong> {{ user.email|default:"Not specified" }}</div>
+          </div>
+
+          <div class="d-grid gap-2">
+            <a href="{% url 'download_my_qr' %}" class="btn btn-primary rounded-pill fw-bold py-2 shadow-sm" download>
+              <i class="fas fa-download me-2"></i>Download QR Code (PNG)
+            </a>
+            <a href="{% url 'profile' %}" class="btn btn-outline-secondary rounded-pill fw-bold py-2 btn-sm">
+              <i class="fas fa-user-edit me-1"></i>Manage Full Profile
+            </a>
           </div>
         </div>
       </div>

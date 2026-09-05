@@ -33,8 +33,53 @@
   </div>
 
   <div class="row g-4">
-    <!-- Left: Profile Information Summary -->
+    <!-- Left: Profile Information Summary & Attendance QR -->
     <div class="col-lg-4">
+      <!-- Attendance QR Code Card -->
+      <div class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden" style="background: #ffffff; border: 1px solid #e2e8f0;">
+        <div class="card-header text-white p-3 text-center border-0" style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);">
+          <div class="d-flex align-items-center justify-content-center gap-2">
+            <i class="fas fa-qrcode"></i>
+            <span class="fw-bold small text-uppercase" style="letter-spacing: 1px;">Attendance QR Badge</span>
+          </div>
+        </div>
+        <div class="card-body p-4 text-center">
+          <div class="qr-wrapper p-3 bg-white d-inline-block rounded-4 shadow-sm border mb-3 position-relative" style="background: #f8fafc;">
+            <img src="{{ qr_code_base64 }}" alt="Attendance QR Code" class="img-fluid rounded-3" style="width: 200px; height: 200px; display: block;" id="profileQrImage">
+            <span class="badge bg-success position-absolute bottom-0 start-50 translate-middle-x mb-n2 rounded-pill px-3 shadow-sm border border-2 border-white">
+              <i class="fas fa-check-circle me-1"></i> Profile Locked
+            </span>
+          </div>
+          
+          <h6 class="fw-bold text-dark mb-1">{{ user.get_full_name|default:user.username }}</h6>
+          <div class="text-muted small mb-2"><i class="fas fa-id-badge me-1 text-primary"></i> VJAS-{{ user.id|stringformat:"04d" }}</div>
+          <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-1 small fw-semibold mb-3">
+            {{ profile.position|default:"Employee" }}
+          </span>
+
+          <div class="alert alert-light border text-start small mb-3 p-3 rounded-3" style="font-size: 0.78rem; background-color: #f8fafc;">
+            <div class="fw-bold text-dark mb-1"><i class="fas fa-info-circle text-primary me-1"></i> Embedded Details:</div>
+            <div class="text-muted"><strong class="text-dark">ID:</strong> VJAS-{{ user.id|stringformat:"04d" }}</div>
+            <div class="text-muted"><strong class="text-dark">Username:</strong> {{ user.username }}</div>
+            <div class="text-muted"><strong class="text-dark">Email:</strong> {{ user.email|default:"Not specified" }}</div>
+            <div class="text-muted"><strong class="text-dark">Phone:</strong> {{ profile.phone|default:"Not specified" }}</div>
+          </div>
+
+          <p class="text-muted small mb-3" style="font-size: 0.78rem; line-height: 1.4;">
+            <i class="fas fa-shield-alt text-success me-1"></i> Yeh QR code sirf aapki profile ke liye authorized hai. Kisi doosri profile par yeh attendance mark nahi karega.
+          </p>
+
+          <div class="d-grid gap-2">
+            <a href="{% url 'download_my_qr' %}" class="btn btn-primary rounded-pill fw-bold py-2 shadow-sm" download>
+              <i class="fas fa-download me-1"></i> Download QR Code (PNG)
+            </a>
+            <button type="button" onclick="printQrBadge()" class="btn btn-outline-secondary rounded-pill fw-bold py-2 btn-sm">
+              <i class="fas fa-print me-1"></i> Print QR ID Card
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div class="card border-0 shadow-sm rounded-4 mb-4">
         <div class="card-body p-4">
           <h5 class="fw-bold text-dark mb-4">Account Overview</h5>
@@ -61,7 +106,7 @@
                 </div>
                 <h6 class="fw-bold text-primary mb-0">Security Note</h6>
             </div>
-            <p class="small text-muted mb-0">Keep your personal details updated to ensure accurate attendance reporting and secure portal access.</p>
+            <p class="small text-muted mb-0">Your personal QR code is unique and tied to your account. Do not share your attendance QR code with other employees.</p>
         </div>
       </div>
     </div>
@@ -150,4 +195,42 @@
     box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
   }
 </style>
+<script>
+  function printQrBadge() {
+    const qrImgSrc = document.getElementById('profileQrImage').src;
+    const printWindow = window.open('', '_blank', 'width=450,height=600');
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Employee Attendance Badge - {{ user.get_full_name|default:user.username }}</title>
+        <style>
+          body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; text-align: center; padding: 20px; margin: 0; background: #fff; }
+          .badge-card { border: 2px solid #6366f1; border-radius: 16px; padding: 24px; max-width: 320px; margin: 0 auto; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+          .header { font-size: 14px; font-weight: bold; letter-spacing: 1px; color: #6366f1; text-transform: uppercase; margin-bottom: 12px; }
+          .name { font-size: 20px; font-weight: bold; color: #1e293b; margin: 8px 0 4px; }
+          .role { font-size: 13px; color: #64748b; margin-bottom: 12px; }
+          .qr-img { width: 220px; height: 220px; display: block; margin: 0 auto 12px; }
+          .emp-id { display: inline-block; background: #e0e7ff; color: #4338ca; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: bold; margin-bottom: 12px; }
+          .footer { font-size: 10px; color: #94a3b8; line-height: 1.4; border-top: 1px dashed #cbd5e1; padding-top: 10px; }
+        </style>
+      </head>
+      <body>
+        <div class="badge-card">
+          <div class="header">VENUS ATTENDANCE SYSTEM</div>
+          <div class="emp-id">VJAS-{{ user.id|stringformat:"04d" }}</div>
+          <img src="${qrImgSrc}" class="qr-img" />
+          <div class="name">{{ user.get_full_name|default:user.username }}</div>
+          <div class="role">{{ profile.position|default:"Employee" }}</div>
+          <div class="footer">Authorized Employee Attendance QR<br/>Strictly Linked to User Profile</div>
+        </div>
+        <script>
+          window.onload = function() { window.print(); window.close(); };
+        <\/script>
+      </body>
+      </html>
+    `);
+    printWindow.document.close();
+  }
+</script>
 {% endblock %}
