@@ -8,7 +8,7 @@
   <div class="row mb-4 align-items-center">
     <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
       <div class="d-flex align-items-center gap-2 mb-2 justify-content-center justify-content-md-start">
-        <img src="{% static 'logo.png' %}" onerror="this.src='{% static 'images/venus_logo.png' %}'" alt="Venus Logo" class="rounded-circle shadow-sm" style="width: 26px; height: 26px; border: 1px solid #e2e8f0;" />
+        <img src="{% static 'logo.png' %}" onerror="this.src='/static/images/venus_logo.png'" alt="Venus Logo" class="rounded-circle shadow-sm" style="width: 26px; height: 26px; border: 1px solid #e2e8f0;" />
         <span class="badge rounded-pill px-3 py-1 fw-bold small" style="background: #eff6ff; color: #0066ff; border: 1px solid #bfdbfe;">
           PERSONAL LOGS
         </span>
@@ -29,28 +29,44 @@
   </div>
 
   <!-- Summary Stats -->
-  <div class="row g-4 mb-4">
+  <div class="row g-3 mb-4">
     <div class="col-6 col-md-3">
-        <div class="card border rounded-4 text-center p-3 shadow-sm" style="background: #ffffff; border-color: #e2e8f0;">
+        <div class="card border rounded-4 text-center p-3 shadow-xs bg-white" style="border-color: #e2e8f0;">
             <div class="small fw-bold text-uppercase mb-1 text-muted" style="font-size: 0.72rem; letter-spacing: 0.6px;">Total Logs</div>
             <div class="h3 fw-bold mb-0" style="color: #0f172a;">{{ records|length }}</div>
         </div>
     </div>
     <div class="col-6 col-md-3">
-        <div class="card border rounded-4 text-center p-3 shadow-sm" style="background: #ffffff; border-color: #e2e8f0;">
+        <div class="card border rounded-4 text-center p-3 shadow-xs bg-white" style="border-color: #e2e8f0;">
             <div class="small fw-bold text-uppercase mb-1 text-muted" style="font-size: 0.72rem; letter-spacing: 0.6px;">Identity Status</div>
             <div class="h3 fw-bold mb-0" style="color: #10b981;">Active</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card border rounded-4 text-center p-3 shadow-xs bg-white" style="border-color: #e2e8f0;">
+            <div class="small fw-bold text-uppercase mb-1 text-muted" style="font-size: 0.72rem; letter-spacing: 0.6px;">System Mode</div>
+            <div class="h3 fw-bold mb-0" style="color: #0066ff;">Live Sync</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card border rounded-4 text-center p-3 shadow-xs bg-white" style="border-color: #e2e8f0;">
+            <div class="small fw-bold text-uppercase mb-1 text-muted" style="font-size: 0.72rem; letter-spacing: 0.6px;">Security Binding</div>
+            <div class="h3 fw-bold mb-0" style="color: #059669;">Zero-Trust</div>
         </div>
     </div>
   </div>
 
   <!-- Table Card -->
-  <div class="card border rounded-4 overflow-hidden shadow-sm" style="background: #ffffff; border-color: #e2e8f0;">
-    <!-- Inline Search -->
-    <div class="card-header p-4 bg-white" style="border-bottom: 1px solid #f1f5f9;">
-        <div class="input-group rounded-pill px-3 py-1" style="background: #f8fafc; border: 1px solid #cbd5e1;">
+  <div class="card border rounded-4 overflow-hidden shadow-sm bg-white" style="border-color: #e2e8f0;">
+    <!-- Inline Search Header -->
+    <div class="card-header p-4 bg-white d-flex flex-wrap align-items-center justify-content-between gap-3" style="border-bottom: 1px solid #f1f5f9;">
+        <div>
+          <h5 class="fw-bold mb-0" style="color: #0f172a;">Attendance Audit Records</h5>
+          <span class="small text-muted">Complete biometric attendance history and verification signatures</span>
+        </div>
+        <div class="input-group rounded-pill px-3 py-1" style="background: #f8fafc; border: 1px solid #cbd5e1; max-width: 320px;">
             <span class="input-group-text bg-transparent border-0 text-muted"><i class="fas fa-search"></i></span>
-            <input type="text" id="historySearch" class="form-control bg-transparent border-0 shadow-none ps-0" style="color: #0f172a;" placeholder="Search by date, status or location...">
+            <input type="text" id="historySearch" class="form-control bg-transparent border-0 shadow-none ps-0" style="color: #0f172a;" placeholder="Filter records...">
         </div>
     </div>
 
@@ -104,18 +120,22 @@
                 <i class="fas fa-location-dot me-1" style="color: #0066ff;"></i> {{ record.location_name|default:"Premises Verified" }}
               </td>
               <td class="pe-4 py-3">
-                <span class="text-truncate d-inline-block small rounded px-2 py-1" style="max-width: 130px; font-family: monospace; background: #eff6ff; color: #0066ff; border: 1px solid #bfdbfe;" title="{{ record.qr_code }}">
+                <span class="text-truncate d-inline-block small rounded px-2.5 py-1" style="max-width: 140px; font-family: monospace; background: #eff6ff; color: #0066ff; border: 1px solid #bfdbfe;" title="{{ record.qr_code }}">
                   <i class="fas fa-key me-1"></i> {{ record.qr_code|truncatechars:15 }}
                 </span>
               </td>
             </tr>
             {% empty %}
             <tr>
-              <td colspan="7" class="py-5 text-center text-muted">
-                <div class="mb-3"><i class="fas fa-calendar-times fa-3x" style="color: #cbd5e1;"></i></div>
-                <h5 style="color: #0f172a;">No attendance records found</h5>
-                <p class="small text-muted">Start scanning your QR pass to populate your official ledger here.</p>
-                <a href="{% url 'attendance' %}" class="btn rounded-pill px-4 py-2 fw-semibold text-white shadow-sm mt-2" style="background: #0066ff; border: none;">Go to Scanner</a>
+              <td colspan="7" class="py-5 text-center">
+                <div class="mb-3 d-inline-flex align-items-center justify-content-center rounded-circle" style="width: 60px; height: 60px; background: #eff6ff; color: #0066ff;">
+                  <i class="fas fa-calendar-times fa-2x"></i>
+                </div>
+                <h5 class="fw-bold mb-1" style="color: #0f172a;">No Attendance Records Found</h5>
+                <p class="small text-muted mb-3" style="max-width: 400px; margin: 0 auto;">You have not recorded any verified check-in sessions yet. Scan your QR pass at the attendance kiosk to build your ledger.</p>
+                <a href="{% url 'attendance' %}" class="btn rounded-pill px-4 py-2 fw-semibold text-white shadow-xs" style="background: #0066ff; border: none;">
+                  <i class="fas fa-qrcode me-1"></i> Open Scanner Kiosk
+                </a>
               </td>
             </tr>
             {% endfor %}
