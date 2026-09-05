@@ -11,12 +11,23 @@
         <div class="card-body p-4 p-md-5 text-white">
           <div class="row align-items-center">
             <div class="col-lg-8">
-              <span class="badge bg-primary rounded-pill px-3 mb-3 text-uppercase fw-bold">Admin Portal</span>
-              <h1 class="display-5 fw-bold mb-2">Welcome, Admin!</h1>
+              <div class="d-flex align-items-center gap-2 mb-3">
+                <span class="badge bg-primary rounded-pill px-3 text-uppercase fw-bold">Admin Portal</span>
+                <span class="badge bg-success bg-opacity-25 text-white border border-success rounded-pill px-3 d-flex align-items-center gap-1">
+                  <span class="spinner-grow spinner-grow-sm text-success" style="width: 7px; height: 7px;" role="status"></span> Live Sync
+                </span>
+              </div>
+              <h1 class="display-5 fw-bold mb-2">Welcome, {{ user.get_full_name|default:user.username }}!</h1>
               <p class="lead opacity-75 mb-4">There are <strong id="live_present_count_text">{{ live_present_count }}</strong> employees in the office right now. You can manage users and check records here.</p>
               <div class="d-flex flex-wrap gap-2">
                 <a href="{% url 'manage_users' %}" class="btn btn-primary px-4 py-2 rounded-pill fw-bold shadow-sm">
                    <i class="fas fa-users me-2"></i>Manage Users
+                </a>
+                <a href="{% url 'profile' %}" class="btn btn-outline-light px-4 py-2 rounded-pill fw-bold">
+                   <i class="fas fa-user-shield me-2"></i>Admin Profile
+                </a>
+                <a href="{% url 'attendance' %}" class="btn btn-light text-dark px-4 py-2 rounded-pill fw-bold">
+                   <i class="fas fa-qrcode me-2"></i>Scan Attendance
                 </a>
                 <a href="{% url 'reports' %}" class="btn btn-outline-light px-4 py-2 rounded-pill fw-bold">
                    <i class="fas fa-history me-2"></i>Check Logs
@@ -34,6 +45,21 @@
 
   <!-- Easy Action Tiles -->
   <div class="row g-4 mb-5">
+    <!-- Admin Profile -->
+    <div class="col-md-4">
+      <a href="{% url 'profile' %}" class="text-decoration-none h-100">
+        <div class="card border-0 shadow-sm rounded-4 h-100 transition-up">
+          <div class="card-body p-4 text-center">
+            <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 70px; height: 70px;">
+              <i class="fas fa-user-shield fa-2x"></i>
+            </div>
+            <h5 class="fw-bold text-dark mb-2">Admin Profile</h5>
+            <p class="text-muted small">Manage your administrator account, contact info & attendance QR badge.</p>
+            <div class="text-primary fw-bold small">My Profile <i class="fas fa-arrow-right ms-1"></i></div>
+          </div>
+        </div>
+      </a>
+    </div>
     <!-- Manage Users -->
     <div class="col-md-4">
       <a href="{% url 'manage_users' %}" class="text-decoration-none h-100">
@@ -161,7 +187,7 @@
                   <th class="pe-4">Location</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="recentAttendanceBody">
                 {% for record in recent_attendance %}
                 <tr>
                   <td class="ps-4">
@@ -240,19 +266,57 @@
       .then(response => response.json())
       .then(data => {
         if (data.live_present_count !== undefined) {
-          const count = data.live_present_count;
           const textEl = document.getElementById("live_present_count_text");
-          
           if (textEl) {
-             const oldText = textEl.innerText;
-             textEl.innerText = count;
+             textEl.innerText = data.live_present_count;
+          }
+        }
+        if (data.recent_attendance && Array.isArray(data.recent_attendance)) {
+          const tbody = document.getElementById("recentAttendanceBody");
+          if (tbody) {
+            if (data.recent_attendance.length === 0) {
+              tbody.innerHTML = `<tr><td colspan="6" class="py-5 text-center text-muted"><i class="fas fa-info-circle me-1"></i> No attendance records found.</td></tr>`;
+            } else {
+              tbody.innerHTML = data.recent_attendance.map(r => `
+                <tr>
+                  <td class="ps-4">
+                    <div class="d-flex align-items-center">
+                      <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 35px; height: 35px;">
+                        <span class="fw-bold small">${(r.username || '').charAt(0).toUpperCase()}</span>
+                      </div>
+                      <div>
+                        <div class="fw-bold small mb-0">${r.name}</div>
+                        <div class="text-muted small" style="font-size: 0.75rem;">${r.email}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="fw-medium small">${r.date}</td>
+                  <td>
+                    ${r.status === 'Present' 
+                      ? '<span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 small">Present</span>'
+                      : `<span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-3 small">${r.status}</span>`}
+                  </td>
+                  <td class="small">
+                    ${r.check_in 
+                      ? `<i class="fas fa-sign-in-alt text-success me-1"></i> ${r.check_in}`
+                      : '<span class="text-muted">--</span>'}
+                  </td>
+                  <td class="small">
+                    ${r.check_out 
+                      ? `<i class="fas fa-sign-out-alt text-danger me-1"></i> ${r.check_out}`
+                      : '<span class="badge bg-warning bg-opacity-10 text-warning rounded-pill px-2 small">Still In</span>'}
+                  </td>
+                  <td class="pe-4 text-muted small">${r.location_name}</td>
+                </tr>
+              `).join('');
+            }
           }
         }
       })
       .catch(err => console.error("Error fetching live count:", err));
   }
 
-  // Refresh every 5 seconds
-  setInterval(fetchLiveCount, 5000);
+  // Refresh every 4 seconds for real-time live sync
+  setInterval(fetchLiveCount, 4000);
 </script>
 {% endblock %}

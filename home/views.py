@@ -77,7 +77,32 @@ def live_present_count_api(request):
     today = timezone.now().date()
     count = Attendance.objects.filter(
         date=today, check_out__isnull=True).exclude(check_in__isnull=True).count()
-    return JsonResponse({'live_present_count': count})
+    active_sessions = Session.objects.filter(
+        expire_date__gte=timezone.now()).count()
+    total_users = User.objects.count()
+
+    recent_attendance = Attendance.objects.select_related(
+        'user').order_by('-date', '-check_in')[:10]
+    recent_list = []
+    for r in recent_attendance:
+        recent_list.append({
+            'username': r.user.username,
+            'name': r.user.get_full_name() or r.user.username,
+            'email': r.user.email or 'No email',
+            'date': r.date.strftime('%b %d, %Y'),
+            'status': r.status,
+            'check_in': r.check_in.strftime('%I:%M %p') if r.check_in else None,
+            'check_out': r.check_out.strftime('%I:%M %p') if r.check_out else None,
+            'location_name': r.location_name or 'N/A',
+        })
+
+    return JsonResponse({
+        'live_present_count': count,
+        'active_sessions': active_sessions,
+        'total_users': total_users,
+        'recent_attendance': recent_list,
+        'server_time': timezone.localtime().strftime('%I:%M:%S %p'),
+    })
 
 
 @login_required
@@ -409,6 +434,7 @@ def profile_view(request):
 
     qr_code_base64 = profile.get_qr_code_base64()
     qr_payload = profile.get_qr_payload()
+    base_template = 'admin_base.html' if user.is_staff or user.is_superuser else 'index.html'
 
     return render(request, 'profile.html', {
         'user_form': user_form,
@@ -417,6 +443,7 @@ def profile_view(request):
         'user': user,
         'qr_code_base64': qr_code_base64,
         'qr_payload': qr_payload,
+        'base_template': base_template,
     })
 
 
