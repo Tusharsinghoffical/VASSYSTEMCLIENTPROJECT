@@ -6,7 +6,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{{ title|default:"Create Account" }} | Pulse Admin</title>
+  <title>{{ title|default:"Create Account" }} | Venus Pulse</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="{% static 'images/venus_logo.png' %}">
+  <link rel="shortcut icon" href="{% static 'images/venus_logo.png' %}">
 
   <!-- Google Fonts: Inter & Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,11 +23,11 @@
 
   <style>
     :root {
-      --primary-accent: #6366f1;
-      --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-      --bg-dark-base: #090d16;
-      --card-bg-dark: rgba(15, 23, 42, 0.85);
-      --border-subtle: rgba(255, 255, 255, 0.08);
+      --primary-accent: #00f2fe;
+      --primary-gradient: linear-gradient(135deg, #00f2fe 0%, #0066ff 100%);
+      --bg-dark-base: #01081b;
+      --card-bg-dark: rgba(2, 16, 48, 0.85);
+      --border-subtle: rgba(0, 240, 255, 0.15);
       --font-display: 'Outfit', sans-serif;
       --font-body: 'Inter', sans-serif;
     }
@@ -37,8 +41,10 @@
     body {
       font-family: var(--font-body);
       background-color: var(--bg-dark-base);
+      background-image: radial-gradient(circle at 50% 0%, #082154 0%, #01081b 80%);
+      background-attachment: fixed;
       min-height: 100vh;
-      color: #f8fafc;
+      color: #ffffff;
       overflow-x: hidden;
       display: flex;
       align-items: center;
@@ -58,14 +64,14 @@
     .orb-1 {
       width: 500px;
       height: 500px;
-      background: radial-gradient(circle, rgba(99, 102, 241, 0.22) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(0, 242, 254, 0.22) 0%, transparent 70%);
       top: -120px;
       left: -100px;
     }
     .orb-2 {
       width: 450px;
       height: 450px;
-      background: radial-gradient(circle, rgba(236, 72, 153, 0.16) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(0, 102, 255, 0.22) 0%, transparent 70%);
       bottom: -100px;
       right: -80px;
     }
@@ -85,14 +91,14 @@
       border: 1px solid var(--border-subtle);
       border-radius: 28px;
       overflow: hidden;
-      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6), 0 0 50px rgba(99, 102, 241, 0.12);
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 50px rgba(0, 242, 254, 0.15);
     }
 
     /* Left Hero Panel */
     .brand-hero-panel {
       flex: 1;
       padding: 48px 44px;
-      background: linear-gradient(150deg, rgba(30, 27, 75, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%);
+      background: linear-gradient(150deg, rgba(2, 17, 54, 0.9) 0%, rgba(1, 8, 27, 0.95) 100%);
       border-right: 1px solid var(--border-subtle);
       display: flex;
       flex-direction: column;
@@ -106,7 +112,7 @@
       width: 280px;
       height: 280px;
       border-radius: 50%;
-      background: rgba(99, 102, 241, 0.2);
+      background: rgba(0, 242, 254, 0.18);
       filter: blur(60px);
       top: -60px;
       right: -60px;
@@ -119,27 +125,29 @@
       gap: 12px;
       text-decoration: none;
     }
-    .brand-icon-box {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      background: var(--primary-gradient);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.25rem;
-      color: white;
-      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+    .brand-logo-img {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      object-fit: cover;
+      box-shadow: 0 4px 18px rgba(0, 242, 254, 0.45);
+      border: 2px solid rgba(0, 240, 255, 0.4);
+      flex-shrink: 0;
+      transition: transform 0.25s ease;
     }
+    .brand-logo-chip:hover .brand-logo-img {
+      transform: scale(1.05);
+    }
+
     .brand-name {
-      font-size: 1.25rem;
+      font-size: 1.3rem;
       font-weight: 800;
       color: #ffffff;
       line-height: 1.1;
       margin: 0;
     }
     .brand-name span {
-      background: linear-gradient(135deg, #818cf8, #c084fc);
+      background: linear-gradient(135deg, #00f2fe, #38bdf8);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -155,14 +163,14 @@
       color: #ffffff;
     }
     .brand-headline span {
-      background: linear-gradient(135deg, #a5b4fc, #f472b6);
+      background: linear-gradient(135deg, #00f2fe, #38bdf8);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
     }
     .brand-description {
       font-size: 0.95rem;
-      color: #94a3b8;
+      color: #93c5fd;
       line-height: 1.55;
       font-weight: 400;
       margin-bottom: 2rem;
@@ -180,7 +188,7 @@
       gap: 12px;
       padding: 10px 14px;
       background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(0, 240, 255, 0.12);
       border-radius: 12px;
     }
     .telemetry-icon-wrap {
@@ -194,14 +202,14 @@
       flex-shrink: 0;
     }
     .bg-pill-emerald { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; }
-    .bg-pill-indigo { background: rgba(99, 102, 241, 0.2); color: #a5b4fc; }
-    .bg-pill-purple { background: rgba(168, 85, 247, 0.2); color: #d8b4fe; }
+    .bg-pill-cyan { background: rgba(0, 242, 254, 0.2); color: #00f2fe; }
+    .bg-pill-blue { background: rgba(59, 130, 246, 0.2); color: #93c5fd; }
 
-    /* Right Form Section - Unified Dark Glass */
+    /* Right Form Section - Sapphire Glass */
     .form-panel {
       flex: 1.25;
       padding: 44px 44px;
-      background: rgba(15, 23, 42, 0.6);
+      background: rgba(2, 16, 48, 0.7);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -215,7 +223,7 @@
       margin-bottom: 0.35rem;
     }
     .form-header-subtitle {
-      color: #94a3b8;
+      color: #93c5fd;
       font-size: 0.9rem;
       margin-bottom: 1.5rem;
     }
@@ -229,7 +237,7 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.6px;
-      color: #94a3b8;
+      color: #93c5fd;
       margin-bottom: 0.35rem;
     }
 
@@ -242,21 +250,21 @@
       width: 100%;
       padding: 11px 16px;
       background: rgba(255, 255, 255, 0.04);
-      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      border: 1.5px solid rgba(0, 240, 255, 0.16);
       border-radius: 12px;
       font-size: 0.95rem;
-      color: #f8fafc;
+      color: #ffffff;
       font-family: inherit;
       transition: all 0.2s ease;
     }
     .form-input-styled::placeholder {
-      color: rgba(255, 255, 255, 0.25);
+      color: rgba(147, 197, 253, 0.35);
     }
     .form-input-styled:focus {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: #6366f1;
+      background: rgba(0, 242, 254, 0.06);
+      border-color: #00f2fe;
       outline: none;
-      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.25);
+      box-shadow: 0 0 0 4px rgba(0, 242, 254, 0.25);
     }
 
     .password-eye-btn {
@@ -264,14 +272,14 @@
       right: 12px;
       background: transparent;
       border: none;
-      color: #64748b;
+      color: #60a5fa;
       cursor: pointer;
       padding: 6px;
       font-size: 0.95rem;
       transition: color 0.2s;
     }
     .password-eye-btn:hover {
-      color: #cbd5e1;
+      color: #00f2fe;
     }
 
     .btn-register-submit {
@@ -284,7 +292,7 @@
       font-weight: 700;
       width: 100%;
       margin-top: 1rem;
-      box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
+      box-shadow: 0 4px 18px rgba(0, 114, 255, 0.45);
       transition: all 0.2s ease;
       cursor: pointer;
       display: flex;
@@ -294,7 +302,7 @@
     }
     .btn-register-submit:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.55);
+      box-shadow: 0 8px 26px rgba(0, 242, 254, 0.6);
       color: white;
     }
 
@@ -312,16 +320,16 @@
       margin-top: 1.5rem;
       text-align: center;
       font-size: 0.9rem;
-      color: #94a3b8;
+      color: #93c5fd;
     }
     .register-footer-links a {
-      color: #818cf8;
+      color: #00f2fe;
       text-decoration: none;
       font-weight: 600;
     }
     .register-footer-links a:hover {
       text-decoration: underline;
-      color: #a5b4fc;
+      color: #38bdf8;
     }
 
     .switch-lux {
@@ -331,15 +339,15 @@
       height: 1.6rem !important;
       cursor: pointer;
       background-color: rgba(255, 255, 255, 0.15) !important;
-      border-color: rgba(255, 255, 255, 0.2) !important;
+      border-color: rgba(0, 240, 255, 0.3) !important;
       background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(255,255,255,0.7)'/%3e%3c/svg%3e") !important;
       transition: all 0.25s ease-in-out;
     }
     .switch-lux:checked {
-      background-color: #f59e0b !important;
-      border-color: #d97706 !important;
-      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e") !important;
-      box-shadow: 0 0 12px rgba(245, 158, 11, 0.4) !important;
+      background-color: #00f2fe !important;
+      border-color: #00f2fe !important;
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23000'/%3e%3c/svg%3e") !important;
+      box-shadow: 0 0 14px rgba(0, 242, 254, 0.5) !important;
     }
 
     @media (max-width: 991.98px) {
@@ -367,17 +375,15 @@
 
   <div class="auth-container">
     <div class="auth-card">
-      <!-- Left Visual Panel -->
+      <!-- Left Visual Panel with Venus Logo -->
       <div class="brand-hero-panel">
         <div class="brand-mesh-accent"></div>
         <div>
           <a href="/" class="brand-logo-chip">
-            <div class="brand-icon-box">
-              <i class="fas fa-bolt-lightning"></i>
-            </div>
+            <img src="{% static 'images/venus_logo.png' %}" alt="Venus Logo" class="brand-logo-img">
             <div>
-              <div class="brand-name">Pulse <span>Admin</span></div>
-              <div class="text-white-50 small" style="font-size: 0.65rem; letter-spacing: 0.8px; font-weight: 700; text-transform: uppercase;">CONTROL CENTER OS</div>
+              <div class="brand-name">Venus <span>Pulse</span></div>
+              <div class="small" style="color: #93c5fd; font-size: 0.65rem; letter-spacing: 0.8px; font-weight: 700; text-transform: uppercase;">CONTROL CENTER OS</div>
             </div>
           </a>
 
@@ -393,27 +399,27 @@
             </div>
             <div>
               <div class="fw-bold text-white small">Instant Account Verification</div>
-              <div class="text-white-50 small" style="font-size: 0.75rem;">Automatic VJAS Employee ID generation</div>
+              <div class="small" style="color: #93c5fd; font-size: 0.75rem;">Automatic VJAS Employee ID generation</div>
             </div>
           </div>
 
           <div class="telemetry-pill-item">
-            <div class="telemetry-icon-wrap bg-pill-indigo">
+            <div class="telemetry-icon-wrap bg-pill-cyan">
               <i class="fas fa-qrcode"></i>
             </div>
             <div>
               <div class="fw-bold text-white small">Automated QR Badge Token</div>
-              <div class="text-white-50 small" style="font-size: 0.75rem;">Encrypted attendance credential generated instantly</div>
+              <div class="small" style="color: #93c5fd; font-size: 0.75rem;">Encrypted attendance credential generated instantly</div>
             </div>
           </div>
 
           <div class="telemetry-pill-item">
-            <div class="telemetry-icon-wrap bg-pill-purple">
+            <div class="telemetry-icon-wrap bg-pill-blue">
               <i class="fas fa-shield-halved"></i>
             </div>
             <div>
               <div class="fw-bold text-white small">Role-Based Access</div>
-              <div class="text-white-50 small" style="font-size: 0.75rem;">Verified administrative permissions</div>
+              <div class="small" style="color: #93c5fd; font-size: 0.75rem;">Verified administrative permissions</div>
             </div>
           </div>
         </div>
@@ -501,12 +507,12 @@
             <!-- Optional Admin Toggle Switch if present -->
             {% if form.is_admin %}
               <div class="col-12">
-                <div class="rounded-3 p-3 d-flex align-items-center justify-content-between" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);">
+                <div class="rounded-3 p-3 d-flex align-items-center justify-content-between" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(0,240,255,0.16);">
                   <div>
                     <label class="fw-bold text-white mb-0 d-block" for="{{ form.is_admin.id_for_label }}" style="cursor: pointer; font-size: 0.88rem;">
-                      <i class="fas fa-shield-halved text-warning me-1"></i> Grant Admin Access
+                      <i class="fas fa-shield-halved text-cyan me-1"></i> Grant Admin Access
                     </label>
-                    <span class="text-white-50" style="font-size: 0.74rem;">Elevate account with management permissions</span>
+                    <span style="font-size: 0.74rem; color: #93c5fd;">Elevate account with management permissions</span>
                   </div>
                   <input type="checkbox" name="{{ form.is_admin.name }}" id="{{ form.is_admin.id_for_label }}" class="form-check-input switch-lux" {% if form.is_admin.value %}checked{% endif %}>
                 </div>
@@ -525,7 +531,7 @@
             {% endif %}
             {% if show_back_link %}
               <div class="mt-2">
-                <a href="{% url 'manage_users' %}" class="fw-semibold text-white-50 small" onmouseover="this.style.color='#818cf8';" onmouseout="this.style.color='rgba(255,255,255,0.5)';">
+                <a href="{% url 'manage_users' %}" class="fw-semibold small" style="color: #93c5fd;" onmouseover="this.style.color='#00f2fe';" onmouseout="this.style.color='#93c5fd';">
                   <i class="fas fa-arrow-left me-1"></i> Back to User Management
                 </a>
               </div>
@@ -543,11 +549,11 @@
       if (input.type === "password") {
         input.type = "text";
         icon.classList.replace("fa-eye", "fa-eye-slash");
-        icon.style.color = "#818cf8";
+        icon.style.color = "#00f2fe";
       } else {
         input.type = "password";
         icon.classList.replace("fa-eye-slash", "fa-eye");
-        icon.style.color = "#64748b";
+        icon.style.color = "#60a5fa";
       }
     }
   </script>

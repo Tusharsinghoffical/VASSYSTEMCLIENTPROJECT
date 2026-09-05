@@ -1,6 +1,6 @@
 {% extends 'admin_base.html' %}
 {% load static %}
-{% block title %}Onboard Employee | Pulse Admin{% endblock %}
+{% block title %}Onboard Employee | Venus Pulse{% endblock %}
 
 {% block content %}
 <div class="container-fluid px-3 px-md-4 py-4">
@@ -8,22 +8,22 @@
   <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
     <div>
       <div class="d-flex align-items-center gap-2 mb-1">
-        <span class="badge rounded-pill px-3 py-1" style="background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.3); color: #a5b4fc; font-size: 0.72rem; letter-spacing: 0.05em; font-weight: 700; text-transform: uppercase;">
+        <span class="badge rounded-pill px-3 py-1" style="background: rgba(0, 242, 254, 0.15); border: 1px solid rgba(0, 242, 254, 0.35); color: #00f2fe; font-size: 0.72rem; letter-spacing: 0.05em; font-weight: 700; text-transform: uppercase;">
           <i class="fas fa-id-badge me-1"></i> Identity Provisioning
         </span>
-        <span class="text-white-50 small">•</span>
-        <span class="text-white-50 small">New Account Provisioning</span>
+        <span class="small" style="color: #93c5fd;">•</span>
+        <span class="small" style="color: #93c5fd;">New Account Provisioning</span>
       </div>
       <h2 class="h3 fw-bold text-white mb-0 d-flex align-items-center gap-2">
-        <span style="background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+        <span style="background: linear-gradient(135deg, #ffffff 30%, #00f2fe 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
           Onboard New Employee
         </span>
       </h2>
-      <p class="text-white-50 small mb-0 mt-1">Configure credentials, role credentials, and initialize dynamic QR identity pass.</p>
+      <p class="small mb-0 mt-1" style="color: #93c5fd;">Configure credentials, role credentials, and initialize dynamic QR identity pass.</p>
     </div>
 
     <div>
-      <a href="{% url 'manage_users' %}" class="btn btn-sm d-inline-flex align-items-center gap-2 px-3 py-2 rounded-3 text-white-50" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); transition: all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.color='#fff';" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='rgba(255,255,255,0.5)';">
+      <a href="{% url 'manage_users' %}" class="btn btn-sm d-inline-flex align-items-center gap-2 px-3 py-2 rounded-3 text-white" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(0,240,255,0.2); backdrop-filter: blur(10px); transition: all 0.2s;" onmouseover="this.style.background='rgba(0,240,255,0.15)'; this.style.color='#fff';" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='#fff';">
         <i class="fas fa-arrow-left"></i> Back to Personnel Directory
       </a>
     </div>
@@ -32,9 +32,9 @@
   <!-- Form Container -->
   <div class="row justify-content-center">
     <div class="col-xl-9 col-lg-10">
-      <div class="card border-0 rounded-4 overflow-hidden shadow-2xl position-relative" style="background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.09) !important;">
+      <div class="card border-0 rounded-4 overflow-hidden shadow-2xl position-relative" style="background: rgba(2, 16, 48, 0.82); backdrop-filter: blur(20px); border: 1px solid rgba(0, 240, 255, 0.16) !important;">
         <!-- Glowing top border -->
-        <div style="height: 3px; background: linear-gradient(90deg, #6366f1, #06b6d4, #10b981);"></div>
+        <div style="height: 3px; background: linear-gradient(90deg, #00f2fe, #0066ff, #10b981);"></div>
 
         <div class="card-body p-4 p-md-5">
           <form method="POST" novalidate id="onboardForm">
@@ -48,8 +48,8 @@
             {% endif %}
 
             <!-- Section 1: Basic Identity -->
-            <div class="d-flex align-items-center gap-2 mb-3 pb-2" style="border-bottom: 1px solid rgba(255,255,255,0.07);">
-              <span class="d-inline-flex align-items-center justify-content-center rounded-2" style="width: 28px; height: 28px; background: rgba(99,102,241,0.2); color: #818cf8; font-size: 0.85rem;">
+            <div class="d-flex align-items-center gap-2 mb-3 pb-2" style="border-bottom: 1px solid rgba(0, 240, 255, 0.1);">
+              <span class="d-inline-flex align-items-center justify-content-center rounded-2" style="width: 28px; height: 28px; background: rgba(0, 242, 254, 0.18); color: #00f2fe; font-size: 0.85rem;">
                 <i class="fas fa-user"></i>
               </span>
               <span class="text-white fw-semibold small text-uppercase" style="letter-spacing: 0.06em;">Employee Credentials</span>
@@ -58,12 +58,12 @@
             <div class="row g-4 mb-4">
               <!-- Username -->
               <div class="col-md-6">
-                <label for="{{ form.username.id_for_label }}" class="form-label text-white-50 small fw-semibold d-flex align-items-center justify-content-between">
+                <label for="{{ form.username.id_for_label }}" class="form-label small fw-semibold d-flex align-items-center justify-content-between" style="color: #93c5fd;">
                   <span>Username Handle <span class="text-danger">*</span></span>
-                  <span class="text-white-50" style="font-size: 0.7rem;">Alphanumeric handle</span>
+                  <span style="font-size: 0.7rem; color: #60a5fa;">Alphanumeric handle</span>
                 </label>
                 <div class="input-group input-glass">
-                  <span class="input-group-text"><i class="fas fa-at text-white-50"></i></span>
+                  <span class="input-group-text"><i class="fas fa-at" style="color: #60a5fa;"></i></span>
                   <input type="text" name="{{ form.username.name }}" id="{{ form.username.id_for_label }}" value="{{ form.username.value|default:'' }}" class="form-control form-control-glass {% if form.username.errors %}is-invalid{% endif %}" placeholder="e.g. jdoe_01" required autocomplete="username">
                 </div>
                 {% if form.username.errors %}
@@ -73,12 +73,12 @@
 
               <!-- Official Email -->
               <div class="col-md-6">
-                <label for="{{ form.email.id_for_label }}" class="form-label text-white-50 small fw-semibold d-flex align-items-center justify-content-between">
+                <label for="{{ form.email.id_for_label }}" class="form-label small fw-semibold d-flex align-items-center justify-content-between" style="color: #93c5fd;">
                   <span>Corporate Email <span class="text-danger">*</span></span>
-                  <span class="text-white-50" style="font-size: 0.7rem;">For pass delivery</span>
+                  <span style="font-size: 0.7rem; color: #60a5fa;">For pass delivery</span>
                 </label>
                 <div class="input-group input-glass">
-                  <span class="input-group-text"><i class="fas fa-envelope text-white-50"></i></span>
+                  <span class="input-group-text"><i class="fas fa-envelope" style="color: #60a5fa;"></i></span>
                   <input type="email" name="{{ form.email.name }}" id="{{ form.email.id_for_label }}" value="{{ form.email.value|default:'' }}" class="form-control form-control-glass {% if form.email.errors %}is-invalid{% endif %}" placeholder="employee@venusjewel.com" required autocomplete="email">
                 </div>
                 {% if form.email.errors %}
@@ -88,11 +88,11 @@
 
               <!-- First Name -->
               <div class="col-md-6">
-                <label for="{{ form.first_name.id_for_label }}" class="form-label text-white-50 small fw-semibold">
+                <label for="{{ form.first_name.id_for_label }}" class="form-label small fw-semibold" style="color: #93c5fd;">
                   First Name <span class="text-danger">*</span>
                 </label>
                 <div class="input-group input-glass">
-                  <span class="input-group-text"><i class="fas fa-id-card text-white-50"></i></span>
+                  <span class="input-group-text"><i class="fas fa-id-card" style="color: #60a5fa;"></i></span>
                   <input type="text" name="{{ form.first_name.name }}" id="{{ form.first_name.id_for_label }}" value="{{ form.first_name.value|default:'' }}" class="form-control form-control-glass {% if form.first_name.errors %}is-invalid{% endif %}" placeholder="e.g. John" required>
                 </div>
                 {% if form.first_name.errors %}
@@ -102,11 +102,11 @@
 
               <!-- Last Name -->
               <div class="col-md-6">
-                <label for="{{ form.last_name.id_for_label }}" class="form-label text-white-50 small fw-semibold">
+                <label for="{{ form.last_name.id_for_label }}" class="form-label small fw-semibold" style="color: #93c5fd;">
                   Last Name <span class="text-danger">*</span>
                 </label>
                 <div class="input-group input-glass">
-                  <span class="input-group-text"><i class="fas fa-signature text-white-50"></i></span>
+                  <span class="input-group-text"><i class="fas fa-signature" style="color: #60a5fa;"></i></span>
                   <input type="text" name="{{ form.last_name.name }}" id="{{ form.last_name.id_for_label }}" value="{{ form.last_name.value|default:'' }}" class="form-control form-control-glass {% if form.last_name.errors %}is-invalid{% endif %}" placeholder="e.g. Doe" required>
                 </div>
                 {% if form.last_name.errors %}
@@ -116,8 +116,8 @@
             </div>
 
             <!-- Section 2: Security & Password -->
-            <div class="d-flex align-items-center gap-2 mb-3 pb-2" style="border-bottom: 1px solid rgba(255,255,255,0.07);">
-              <span class="d-inline-flex align-items-center justify-content-center rounded-2" style="width: 28px; height: 28px; background: rgba(6,182,212,0.2); color: #22d3ee; font-size: 0.85rem;">
+            <div class="d-flex align-items-center gap-2 mb-3 pb-2" style="border-bottom: 1px solid rgba(0, 240, 255, 0.1);">
+              <span class="d-inline-flex align-items-center justify-content-center rounded-2" style="width: 28px; height: 28px; background: rgba(59, 130, 246, 0.2); color: #60a5fa; font-size: 0.85rem;">
                 <i class="fas fa-key"></i>
               </span>
               <span class="text-white fw-semibold small text-uppercase" style="letter-spacing: 0.06em;">Access Passwords</span>
@@ -126,32 +126,32 @@
             <div class="row g-4 mb-4">
               <!-- Password 1 -->
               <div class="col-md-6">
-                <label for="{{ form.password1.id_for_label }}" class="form-label text-white-50 small fw-semibold">
+                <label for="{{ form.password1.id_for_label }}" class="form-label small fw-semibold" style="color: #93c5fd;">
                   Temporary Password <span class="text-danger">*</span>
                 </label>
                 <div class="input-group input-glass">
-                  <span class="input-group-text"><i class="fas fa-lock text-white-50"></i></span>
+                  <span class="input-group-text"><i class="fas fa-lock" style="color: #60a5fa;"></i></span>
                   <input type="password" name="{{ form.password1.name }}" id="{{ form.password1.id_for_label }}" class="form-control form-control-glass {% if form.password1.errors %}is-invalid{% endif %}" placeholder="••••••••••••" required autocomplete="new-password">
-                  <button type="button" class="btn border-0 text-white-50 px-3" onclick="togglePassVisibility('{{ form.password1.id_for_label }}', this)" tabindex="-1" style="background: rgba(255,255,255,0.02);">
+                  <button type="button" class="btn border-0 px-3" onclick="togglePassVisibility('{{ form.password1.id_for_label }}', this)" tabindex="-1" style="background: transparent; color: #60a5fa;">
                     <i class="fas fa-eye"></i>
                   </button>
                 </div>
                 {% if form.password1.errors %}
                   <div class="text-danger small mt-1"><i class="fas fa-circle-exclamation me-1"></i>{{ form.password1.errors|striptags }}</div>
                 {% else %}
-                  <div class="text-white-50 small mt-1" style="font-size: 0.72rem;">Min. 8 characters with alphanumeric balance.</div>
+                  <div class="small mt-1" style="font-size: 0.72rem; color: #93c5fd;">Min. 8 characters with alphanumeric balance.</div>
                 {% endif %}
               </div>
 
               <!-- Password 2 -->
               <div class="col-md-6">
-                <label for="{{ form.password2.id_for_label }}" class="form-label text-white-50 small fw-semibold">
+                <label for="{{ form.password2.id_for_label }}" class="form-label small fw-semibold" style="color: #93c5fd;">
                   Confirm Password <span class="text-danger">*</span>
                 </label>
                 <div class="input-group input-glass">
-                  <span class="input-group-text"><i class="fas fa-lock-open text-white-50"></i></span>
+                  <span class="input-group-text"><i class="fas fa-lock-open" style="color: #60a5fa;"></i></span>
                   <input type="password" name="{{ form.password2.name }}" id="{{ form.password2.id_for_label }}" class="form-control form-control-glass {% if form.password2.errors %}is-invalid{% endif %}" placeholder="••••••••••••" required autocomplete="new-password">
-                  <button type="button" class="btn border-0 text-white-50 px-3" onclick="togglePassVisibility('{{ form.password2.id_for_label }}', this)" tabindex="-1" style="background: rgba(255,255,255,0.02);">
+                  <button type="button" class="btn border-0 px-3" onclick="togglePassVisibility('{{ form.password2.id_for_label }}', this)" tabindex="-1" style="background: transparent; color: #60a5fa;">
                     <i class="fas fa-eye"></i>
                   </button>
                 </div>
@@ -162,13 +162,13 @@
             </div>
 
             <!-- Section 3: Permission Switch -->
-            <div class="rounded-4 p-3 mb-4" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);">
+            <div class="rounded-4 p-3 mb-4" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(0, 240, 255, 0.14);">
               <div class="form-check form-switch d-flex align-items-center justify-content-between p-0 m-0">
                 <div class="pe-3">
                   <label class="form-check-label fw-bold text-white d-block mb-1" for="{{ form.is_admin.id_for_label }}" style="cursor: pointer;">
-                    <i class="fas fa-shield-halved text-warning me-2"></i> Grant Executive Admin Access
+                    <i class="fas fa-shield-halved me-2" style="color: #00f2fe;"></i> Grant Executive Admin Access
                   </label>
-                  <p class="text-white-50 small mb-0" style="font-size: 0.78rem;">
+                  <p class="small mb-0" style="font-size: 0.78rem; color: #93c5fd;">
                     If toggled on, this account gains staff privileges, personnel management rights, and access to all telemetry control centers.
                   </p>
                 </div>
@@ -180,10 +180,10 @@
 
             <!-- Action Buttons -->
             <div class="d-flex flex-column flex-sm-row align-items-center gap-3 pt-2">
-              <button type="submit" class="btn btn-primary d-inline-flex align-items-center justify-content-center gap-2 px-4 py-3 rounded-3 fw-bold flex-grow-1 shadow-lg" style="background: linear-gradient(135deg, #6366f1, #4f46e5); border: none; font-size: 0.95rem; letter-spacing: 0.02em;">
+              <button type="submit" class="btn d-inline-flex align-items-center justify-content-center gap-2 px-4 py-3 rounded-3 fw-bold flex-grow-1 shadow-lg text-white" style="background: linear-gradient(135deg, #00f2fe, #0066ff); border: none; font-size: 0.95rem; letter-spacing: 0.02em;">
                 <i class="fas fa-user-plus"></i> Complete Provisioning & Generate QR Pass
               </button>
-              <a href="{% url 'manage_users' %}" class="btn text-white-50 px-4 py-3 rounded-3 fw-semibold" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem;">
+              <a href="{% url 'manage_users' %}" class="btn px-4 py-3 rounded-3 fw-semibold text-white" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(0, 240, 255, 0.2); font-size: 0.95rem;">
                 Cancel
               </a>
             </div>
@@ -191,11 +191,11 @@
         </div>
 
         <!-- Footer Notes -->
-        <div class="card-footer border-0 py-3 px-4 px-md-5 d-flex flex-wrap align-items-center justify-content-between gap-2" style="background: rgba(0,0,0,0.25); border-top: 1px solid rgba(255,255,255,0.05) !important;">
-          <span class="text-white-50 small d-flex align-items-center gap-2">
-            <i class="fas fa-qrcode text-info"></i> Instant QR badge creation active upon submission
+        <div class="card-footer border-0 py-3 px-4 px-md-5 d-flex flex-wrap align-items-center justify-content-between gap-2" style="background: rgba(1, 7, 24, 0.7); border-top: 1px solid rgba(0, 240, 255, 0.1) !important;">
+          <span class="small d-flex align-items-center gap-2" style="color: #93c5fd;">
+            <i class="fas fa-qrcode" style="color: #00f2fe;"></i> Instant QR badge creation active upon submission
           </span>
-          <span class="text-white-50 small">
+          <span class="small" style="color: #93c5fd;">
             Secured with SHA-256 HMAC
           </span>
         </div>
@@ -209,13 +209,13 @@
     border-radius: 12px;
     overflow: hidden;
     background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(0, 240, 255, 0.16);
     transition: all 0.25s ease;
   }
   .input-glass:focus-within {
-    border-color: #6366f1;
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
-    background: rgba(255, 255, 255, 0.07);
+    border-color: #00f2fe;
+    box-shadow: 0 0 0 3px rgba(0, 242, 254, 0.25);
+    background: rgba(0, 242, 254, 0.05);
   }
   .input-glass .input-group-text {
     background: transparent;
@@ -226,12 +226,12 @@
   .form-control-glass {
     background: transparent !important;
     border: none !important;
-    color: #f8fafc !important;
+    color: #ffffff !important;
     padding: 0.75rem 1rem;
     font-size: 0.95rem;
   }
   .form-control-glass::placeholder {
-    color: rgba(255, 255, 255, 0.3) !important;
+    color: rgba(147, 197, 253, 0.35) !important;
   }
   .form-control-glass:focus {
     box-shadow: none !important;
@@ -245,15 +245,15 @@
     height: 1.7rem !important;
     cursor: pointer;
     background-color: rgba(255, 255, 255, 0.15) !important;
-    border-color: rgba(255, 255, 255, 0.2) !important;
+    border-color: rgba(0, 240, 255, 0.3) !important;
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(255,255,255,0.7)'/%3e%3c/svg%3e") !important;
     transition: all 0.25s ease-in-out;
   }
   .switch-lux:checked {
-    background-color: #f59e0b !important;
-    border-color: #d97706 !important;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e") !important;
-    box-shadow: 0 0 12px rgba(245, 158, 11, 0.4) !important;
+    background-color: #00f2fe !important;
+    border-color: #00f2fe !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23000'/%3e%3c/svg%3e") !important;
+    box-shadow: 0 0 14px rgba(0, 242, 254, 0.5) !important;
   }
 </style>
 
@@ -263,10 +263,12 @@
     const icon = btn.querySelector('i');
     if (field.type === 'password') {
       field.type = 'text';
-      icon.className = 'fas fa-eye-slash text-primary';
+      icon.className = 'fas fa-eye-slash';
+      icon.style.color = '#00f2fe';
     } else {
       field.type = 'password';
-      icon.className = 'fas fa-eye text-white-50';
+      icon.className = 'fas fa-eye';
+      icon.style.color = '#60a5fa';
     }
   }
 </script>

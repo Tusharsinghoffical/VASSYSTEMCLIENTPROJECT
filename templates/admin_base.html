@@ -6,12 +6,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Pulse Admin | Control Center{% endblock %}</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{% static 'images/venus_logo.png' %}">
+    <link rel="shortcut icon" href="{% static 'images/venus_logo.png' %}">
+
     <script>
         // Auto-fix for Localhost HTTPS errors
         if (window.location.protocol === 'https:' && (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost')) {
             window.location.protocol = 'http:';
         }
     </script>
+
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,21 +28,31 @@
 
     <style>
         :root {
-            --sidebar-bg: #0b0f19;
-            --sidebar-surface: #111827;
-            --sidebar-hover: rgba(255, 255, 255, 0.06);
-            --sidebar-border: rgba(255, 255, 255, 0.07);
-            --primary-accent: #6366f1;
-            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-            --accent-glow: rgba(99, 102, 241, 0.25);
-            --body-bg: #f8fafc;
-            --card-border: #e2e8f0;
+            --sidebar-bg: #010718;
+            --sidebar-surface: #041235;
+            --sidebar-hover: rgba(0, 240, 255, 0.08);
+            --sidebar-border: rgba(0, 240, 255, 0.12);
+            --primary-accent: #00d2ff;
+            --primary-gradient: linear-gradient(135deg, #00f2fe 0%, #0066ff 100%);
+            --accent-glow: rgba(0, 242, 254, 0.35);
+            --body-bg: #01081b;
+            --card-bg: rgba(3, 16, 46, 0.78);
+            --card-border: rgba(0, 240, 255, 0.14);
+            --text-primary: #ffffff;
+            --text-secondary: #93c5fd;
+            --text-muted: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
             font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--body-bg);
-            color: #1e293b;
+            background-color: var(--body-bg) !important;
+            background-image: radial-gradient(circle at 50% 0%, #082154 0%, #01081b 75%) !important;
+            background-attachment: fixed;
+            color: #ffffff !important;
             min-height: 100vh;
             display: flex;
             overflow-x: hidden;
@@ -46,7 +62,7 @@
         .sidebar {
             width: 275px;
             background: var(--sidebar-bg);
-            background-image: radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 60%);
+            background-image: linear-gradient(180deg, #010718 0%, #021238 100%);
             border-right: 1px solid var(--sidebar-border);
             color: white;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -57,10 +73,11 @@
             z-index: 1040;
             display: flex;
             flex-direction: column;
+            box-shadow: 4px 0 25px rgba(0, 0, 0, 0.5);
         }
 
         .sidebar-header {
-            padding: 1.75rem 1.5rem 1.25rem 1.5rem;
+            padding: 1.5rem 1.4rem 1.25rem 1.4rem;
             border-bottom: 1px solid var(--sidebar-border);
             display: flex;
             align-items: center;
@@ -74,24 +91,24 @@
             text-decoration: none;
         }
 
-        .brand-icon {
+        .brand-logo-img {
             width: 44px;
             height: 44px;
             border-radius: 12px;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.25rem;
-            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
-            overflow: hidden;
+            object-fit: cover;
+            box-shadow: 0 4px 16px rgba(0, 229, 255, 0.4);
+            border: 1.5px solid rgba(0, 240, 255, 0.35);
             flex-shrink: 0;
+            transition: transform 0.25s ease;
+        }
+        .brand-logo-wrapper:hover .brand-logo-img {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
         }
 
         .brand-text h5 {
-            font-size: 1.15rem;
-            font-weight: 700;
+            font-size: 1.18rem;
+            font-weight: 800;
             letter-spacing: -0.3px;
             color: #ffffff;
             margin: 0;
@@ -99,7 +116,7 @@
         }
 
         .brand-text span {
-            background: linear-gradient(135deg, #818cf8, #c084fc);
+            background: linear-gradient(135deg, #00f2fe, #38bdf8);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -110,7 +127,7 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.8px;
-            color: #94a3b8;
+            color: #93c5fd;
         }
 
         .sidebar-nav-container {
@@ -123,7 +140,7 @@
             width: 5px;
         }
         .sidebar-nav-container::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 240, 255, 0.2);
             border-radius: 4px;
         }
 
@@ -132,7 +149,7 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1.1px;
-            color: #64748b;
+            color: #60a5fa;
             padding: 0.75rem 1rem 0.4rem 1rem;
             margin-top: 0.5rem;
         }
@@ -152,7 +169,7 @@
             align-items: center;
             justify-content: space-between;
             padding: 0.75rem 1rem;
-            color: #94a3b8;
+            color: #93c5fd;
             text-decoration: none;
             border-radius: 12px;
             transition: all 0.2s ease;
@@ -161,48 +178,53 @@
             position: relative;
         }
 
-        .nav-link-admin .nav-icon-wrap {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-            font-size: 0.95rem;
-            background: rgba(255, 255, 255, 0.04);
-            color: #94a3b8;
-            transition: all 0.2s ease;
-            flex-shrink: 0;
-        }
-
         .nav-link-admin:hover {
             color: #ffffff;
             background: var(--sidebar-hover);
-        }
-
-        .nav-link-admin:hover .nav-icon-wrap {
-            background: rgba(99, 102, 241, 0.18);
-            color: #818cf8;
+            transform: translateX(3px);
         }
 
         .nav-link-admin.active {
             color: #ffffff;
-            background: var(--primary-gradient);
-            font-weight: 600;
-            box-shadow: 0 4px 16px rgba(79, 70, 229, 0.35);
+            font-weight: 700;
+            background: linear-gradient(90deg, rgba(0, 242, 254, 0.18), rgba(0, 102, 255, 0.22));
+            box-shadow: 0 4px 16px rgba(0, 102, 255, 0.2);
+            border: 1px solid rgba(0, 240, 255, 0.25);
+            border-left: 3.5px solid #00f2fe;
+        }
+
+        .nav-icon-wrap {
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            margin-right: 12px;
+            font-size: 0.95rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.2s ease;
+        }
+
+        .nav-link-admin:hover .nav-icon-wrap {
+            background: rgba(0, 240, 255, 0.15);
+            border-color: rgba(0, 240, 255, 0.3);
+            color: #00f2fe;
         }
 
         .nav-link-admin.active .nav-icon-wrap {
-            background: rgba(255, 255, 255, 0.2);
-            color: #ffffff;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            box-shadow: 0 0 12px rgba(0, 242, 254, 0.5);
         }
 
         /* Sidebar User Card Footer */
         .sidebar-footer {
             padding: 1rem 1.25rem;
             border-top: 1px solid var(--sidebar-border);
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(1, 7, 24, 0.8);
         }
 
         .sidebar-user-card {
@@ -212,14 +234,15 @@
             padding: 0.5rem;
             border-radius: 12px;
             background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 240, 255, 0.15);
             text-decoration: none;
             color: white;
             transition: all 0.2s ease;
         }
 
         .sidebar-user-card:hover {
-            background: rgba(255, 255, 255, 0.07);
+            background: rgba(0, 240, 255, 0.08);
+            border-color: rgba(0, 240, 255, 0.3);
             color: white;
         }
 
@@ -227,7 +250,7 @@
             width: 36px;
             height: 36px;
             border-radius: 10px;
-            background: linear-gradient(135deg, #4f46e5, #ec4899);
+            background: var(--primary-gradient);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -235,7 +258,7 @@
             font-size: 0.9rem;
             color: white;
             flex-shrink: 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+            box-shadow: 0 2px 10px rgba(0, 242, 254, 0.35);
         }
 
         /* Content Area */
@@ -248,20 +271,20 @@
             flex-direction: column;
         }
 
-        /* Modern Glass Top Bar */
+        /* Modern Sapphire Glass Top Bar */
         .top-bar {
             position: sticky;
             top: 0;
             z-index: 1020;
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            background: rgba(255, 255, 255, 0.88);
-            border-bottom: 1px solid rgba(226, 232, 240, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            background: rgba(1, 8, 27, 0.85);
+            border-bottom: 1px solid var(--sidebar-border);
             padding: 0.85rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         }
 
         .content-body {
@@ -281,7 +304,8 @@
         .radar-box .radar-center {
             width: 8px;
             height: 8px;
-            background-color: #10b981;
+            background-color: #00f2fe;
+            box-shadow: 0 0 8px #00f2fe;
             border-radius: 50%;
             z-index: 2;
         }
@@ -290,7 +314,7 @@
             width: 18px;
             height: 18px;
             border-radius: 50%;
-            background-color: rgba(16, 185, 129, 0.4);
+            background-color: rgba(0, 242, 254, 0.4);
             animation: radarPulse 1.8s infinite cubic-bezier(0, 0, 0.2, 1);
             z-index: 1;
         }
@@ -305,20 +329,20 @@
             align-items: center;
             gap: 10px;
             padding: 5px 14px 5px 8px;
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(0, 240, 255, 0.2);
             border-radius: 999px;
             text-decoration: none;
-            color: #1e293b;
+            color: #ffffff;
             transition: all 0.2s ease;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
         .admin-profile-chip:hover {
-            border-color: #cbd5e1;
-            background: #f8fafc;
+            border-color: #00f2fe;
+            background: rgba(0, 240, 255, 0.1);
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-            color: #0f172a;
+            box-shadow: 0 0 16px rgba(0, 242, 254, 0.35);
+            color: #ffffff;
         }
 
         /* Sidebar Toggle Overlay for Mobile */
@@ -329,8 +353,8 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(4px);
+            background: rgba(1, 8, 27, 0.7);
+            backdrop-filter: blur(6px);
             z-index: 1030;
         }
 
@@ -364,15 +388,13 @@
 
     <!-- Sidebar Navigation -->
     <div class="sidebar" id="sidebar">
-        <!-- Brand Header -->
+        <!-- Brand Header with Official Venus Logo -->
         <div class="sidebar-header">
             <a href="{% url 'admin_dashboard' %}" class="brand-logo-wrapper">
-                <div class="brand-icon">
-                    <i class="fas fa-bolt-lightning"></i>
-                </div>
+                <img src="{% static 'images/venus_logo.png' %}" alt="Venus Logo" class="brand-logo-img">
                 <div class="brand-text">
-                    <h5>Pulse <span>Admin</span></h5>
-                    <div class="brand-badge"><i class="fas fa-shield-halved text-primary me-1"></i>Control Center</div>
+                    <h5>Venus <span>Pulse</span></h5>
+                    <div class="brand-badge"><i class="fas fa-shield-halved text-info me-1"></i>Control Center</div>
                 </div>
             </a>
             <button class="btn btn-sm text-white-50 d-lg-none" onclick="toggleSidebar()">
@@ -425,7 +447,7 @@
                             <span class="nav-icon-wrap"><i class="fas fa-qrcode"></i></span>
                             <span>Scan Mode</span>
                         </span>
-                        <span class="badge bg-emerald-500 bg-success bg-opacity-20 text-success rounded-pill px-2 py-1 small" style="font-size: 0.65rem;">LIVE</span>
+                        <span class="badge rounded-pill px-2 py-0.5 small" style="background: rgba(0, 242, 254, 0.2); border: 1px solid rgba(0, 242, 254, 0.4); color: #00f2fe; font-size: 0.65rem;">LIVE</span>
                     </a>
                 </li>
                 <li class="nav-item-admin">
@@ -456,13 +478,13 @@
                             <span class="nav-icon-wrap"><i class="fas fa-sliders"></i></span>
                             <span>Core Settings</span>
                         </span>
-                        <i class="fas fa-external-link-alt small text-muted"></i>
+                        <i class="fas fa-arrow-up-right-from-square small opacity-50"></i>
                     </a>
                 </li>
                 <li class="nav-item-admin mt-2">
                     <a href="{% url 'logout' %}" class="nav-link-admin text-danger">
                         <span class="d-flex align-items-center">
-                            <span class="nav-icon-wrap bg-danger bg-opacity-10 text-danger"><i class="fas fa-arrow-right-from-bracket"></i></span>
+                            <span class="nav-icon-wrap text-danger" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.25);"><i class="fas fa-arrow-right-from-bracket"></i></span>
                             <span>Sign Out</span>
                         </span>
                     </a>
@@ -477,10 +499,10 @@
                     {{ user.username|slice:":1"|upper }}
                 </div>
                 <div class="overflow-hidden flex-grow-1">
-                    <div class="fw-semibold text-truncate small">{{ user.get_full_name|default:user.username }}</div>
+                    <div class="fw-semibold text-truncate small text-white">{{ user.get_full_name|default:user.username }}</div>
                     <div class="text-white-50 small d-flex align-items-center gap-1" style="font-size: 0.72rem;">
                         <span class="badge bg-danger bg-opacity-75 rounded-pill px-2 py-0">ADMIN</span>
-                        <span>VJAS-{{ user.id|stringformat:"04d" }}</span>
+                        <span style="color: #93c5fd;">VJAS-{{ user.id|stringformat:"04d" }}</span>
                     </div>
                 </div>
                 <i class="fas fa-chevron-right text-white-50 small"></i>
@@ -490,79 +512,101 @@
 
     <!-- Main Content Area -->
     <div class="main-content">
-        <!-- Modern Top Header -->
+        <!-- Modern Sapphire Top Header -->
         <div class="top-bar">
             <!-- Left: Mobile Toggle & Status -->
             <div class="d-flex align-items-center gap-3">
-                <button class="btn btn-light border d-lg-none rounded-3 px-2 py-1" onclick="toggleSidebar()">
+                <button class="btn btn-sm d-lg-none rounded-3 px-2 py-1 text-white" onclick="toggleSidebar()" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(0,240,255,0.2);">
                     <i class="fas fa-bars"></i>
                 </button>
                 <div class="d-flex align-items-center gap-2">
-                    <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-2 border border-success border-opacity-25 d-flex align-items-center gap-2 shadow-xs">
+                    <span class="badge rounded-pill px-3 py-2 d-flex align-items-center gap-2" style="background: rgba(0, 242, 254, 0.12); border: 1px solid rgba(0, 242, 254, 0.3); color: #00f2fe;">
                         <span class="radar-box">
                             <span class="radar-wave"></span>
                             <span class="radar-center"></span>
                         </span>
                         <span class="fw-bold small text-uppercase" style="letter-spacing: 0.6px; font-size: 0.72rem;">Live System</span>
                     </span>
-                    <span id="adminLiveClock" class="fw-semibold text-secondary small ms-1 d-none d-md-inline" style="letter-spacing: 0.2px;"></span>
+                    <span id="adminLiveClock" class="fw-semibold small ms-1 d-none d-md-inline" style="color: #93c5fd; letter-spacing: 0.2px;"></span>
                 </div>
             </div>
 
-            <!-- Right: Admin Profile Button -->
+            <!-- Right: Admin Profile Chip with Logo / Avatar -->
             <div class="d-flex align-items-center gap-2">
                 <a href="{% url 'profile' %}" class="admin-profile-chip">
                     <div class="sidebar-user-avatar" style="width: 30px; height: 30px; font-size: 0.78rem; border-radius: 50%;">
                         {{ user.username|slice:":1"|upper }}
                     </div>
                     <div class="d-none d-sm-block text-start lh-1">
-                        <div class="fw-bold small text-dark">{{ user.get_full_name|default:user.username }}</div>
-                        <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-2 py-0 mt-1" style="font-size: 0.6rem; font-weight: 700;">ADMIN</span>
+                        <div class="fw-bold small text-white">{{ user.get_full_name|default:user.username }}</div>
+                        <span class="badge bg-danger bg-opacity-75 text-white rounded-pill px-2 py-0 mt-1" style="font-size: 0.6rem; font-weight: 700;">ADMIN</span>
                     </div>
-                    <i class="fas fa-chevron-down text-muted small ms-1 d-none d-sm-inline" style="font-size: 0.7rem;"></i>
                 </a>
             </div>
         </div>
 
-        <!-- Main Body Wrapper -->
+        <!-- Dynamic Content Body -->
         <div class="content-body">
+            <!-- Global Flash Messages Notification Banner -->
             {% if messages %}
-            <div class="mb-4">
+            <div class="container-fluid px-0 mb-4 animate__animated animate__fadeInDown">
                 {% for message in messages %}
-                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show rounded-4 shadow-sm border-0 d-flex align-items-center gap-2" role="alert">
-                    <i class="fas {% if message.tags == 'error' %}fa-circle-exclamation text-danger{% else %}fa-circle-check text-success{% endif %} fs-5"></i>
-                    <div>{{ message }}</div>
-                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"></button>
+                <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show border-0 rounded-4 shadow-sm p-3 d-flex align-items-center gap-3"
+                    role="alert" style="background: rgba(3, 20, 58, 0.85); border: 1px solid rgba(0, 240, 255, 0.25) !important; color: #ffffff;">
+                    <div class="d-flex align-items-center justify-content-center rounded-3 px-2 py-1" style="background: rgba(0, 242, 254, 0.2); color: #00f2fe;">
+                        {% if 'success' in message.tags %}
+                        <i class="fas fa-circle-check fa-lg"></i>
+                        {% elif 'error' in message.tags or 'danger' in message.tags %}
+                        <i class="fas fa-triangle-exclamation fa-lg text-danger"></i>
+                        {% else %}
+                        <i class="fas fa-circle-info fa-lg"></i>
+                        {% endif %}
+                    </div>
+                    <div class="flex-grow-1 fw-medium small text-white">{{ message }}</div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 {% endfor %}
             </div>
             {% endif %}
 
-            {% block content %}{% endblock %}
+            {% block content %}
+            {% endblock %}
         </div>
     </div>
 
+    <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function updateAdminClock() {
-            const clockEl = document.getElementById('adminLiveClock');
-            if (clockEl) {
-                const now = new Date();
-                const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
-                const dateStr = now.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' });
-                clockEl.innerHTML = `<span class="opacity-75 me-1"><i class="far fa-calendar-alt me-1"></i>${dateStr}</span> <span class="text-dark fw-bold"><i class="far fa-clock ms-2 me-1 text-primary"></i>${timeStr}</span>`;
-            }
-        }
-        updateAdminClock();
-        setInterval(updateAdminClock, 1000);
 
+    <script>
+        // Responsive Sidebar Toggle
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebarOverlay');
             sidebar.classList.toggle('show');
             overlay.classList.toggle('show');
         }
+
+        // Real-time Global Live System Clock (12h AM/PM with Seconds)
+        function updateAdminClock() {
+            const clockEl = document.getElementById('adminLiveClock');
+            if (clockEl) {
+                const now = new Date();
+                const options = { 
+                    weekday: 'short', 
+                    month: 'short', 
+                    day: 'numeric', 
+                    hour: '2-digit', 
+                    minute: '2-digit', 
+                    second: '2-digit', 
+                    hour12: true 
+                };
+                clockEl.textContent = now.toLocaleDateString('en-US', options);
+            }
+        }
+        setInterval(updateAdminClock, 1000);
+        updateAdminClock();
     </script>
+    {% block extra_js %}{% endblock %}
 </body>
 
 </html>

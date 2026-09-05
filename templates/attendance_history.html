@@ -1,20 +1,27 @@
 {% extends "index.html" %}
 {% load static %}
-{% block title %}Attendance History | Venus System{% endblock %}
+{% block title %}Attendance History | Venus Pulse{% endblock %}
 
 {% block content %}
 <div class="container py-4">
   <!-- Page Header -->
   <div class="row mb-4 align-items-center">
     <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-      <h2 class="fw-bold text-dark mb-1">
-        <i class="fas fa-calendar-check text-primary me-2"></i> Attendance History
+      <div class="d-flex align-items-center gap-2 mb-2 justify-content-center justify-content-md-start">
+        <img src="{% static 'images/venus_logo.png' %}" alt="Venus Logo" class="rounded-circle shadow-sm" style="width: 26px; height: 26px; border: 1px solid rgba(0, 242, 254, 0.4);" />
+        <span class="badge rounded-pill px-3 py-1 fw-bold small" style="background: rgba(0, 242, 254, 0.12); color: #00f2fe; border: 1px solid rgba(0, 242, 254, 0.3);">
+          PERSONAL LOGS
+        </span>
+        <span class="small" style="color: #93c5fd;">Biometric Attendance Ledger</span>
+      </div>
+      <h2 class="fw-bold text-white mb-1">
+        <i class="fas fa-calendar-check me-2" style="color: #00f2fe;"></i> Attendance History
       </h2>
-      <p class="text-muted mb-0">Review and export your personal attendance logs.</p>
+      <p class="small mb-0" style="color: #93c5fd;">Review and audit your verified attendance logs, timestamps, and locations.</p>
     </div>
     <div class="col-md-6 text-center text-md-end">
       {% if user.is_staff or user.is_superuser %}
-      <a href="{% url 'export_attendance_csv' %}" class="btn btn-primary px-4 py-2 rounded-pill shadow-sm fw-bold">
+      <a href="{% url 'export_attendance_csv' %}" class="btn rounded-pill px-4 py-2 fw-semibold text-white shadow-sm" style="background: linear-gradient(135deg, #00f2fe 0%, #0066ff 100%); border: none;">
         <i class="fas fa-file-csv me-2"></i> Download CSV Report
       </a>
       {% endif %}
@@ -24,91 +31,91 @@
   <!-- Summary Stats -->
   <div class="row g-4 mb-4">
     <div class="col-6 col-md-3">
-        <div class="card border-0 shadow-sm rounded-4 text-center p-3">
-            <div class="small text-muted mb-1">Total Logs</div>
-            <div class="h4 fw-bold mb-0 text-primary">{{ records|length }}</div>
+        <div class="card border-0 rounded-4 text-center p-3 shadow-lg" style="background: rgba(2, 16, 48, 0.85); backdrop-filter: blur(14px); border: 1px solid rgba(0, 242, 254, 0.18);">
+            <div class="small fw-bold text-uppercase mb-1" style="font-size: 0.72rem; letter-spacing: 0.6px; color: #93c5fd;">Total Logs</div>
+            <div class="h3 fw-bold mb-0 text-white">{{ records|length }}</div>
         </div>
     </div>
     <div class="col-6 col-md-3">
-        <div class="card border-0 shadow-sm rounded-4 text-center p-3">
-            <div class="small text-muted mb-1">Status</div>
-            <div class="h4 fw-bold mb-0 text-success">Active</div>
+        <div class="card border-0 rounded-4 text-center p-3 shadow-lg" style="background: rgba(2, 16, 48, 0.85); backdrop-filter: blur(14px); border: 1px solid rgba(0, 242, 254, 0.18);">
+            <div class="small fw-bold text-uppercase mb-1" style="font-size: 0.72rem; letter-spacing: 0.6px; color: #93c5fd;">Identity Status</div>
+            <div class="h3 fw-bold mb-0" style="color: #10b981;">Active</div>
         </div>
     </div>
   </div>
 
   <!-- Table Card -->
-  <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+  <div class="card border-0 rounded-4 overflow-hidden shadow-lg" style="background: rgba(2, 16, 48, 0.85); backdrop-filter: blur(14px); border: 1px solid rgba(0, 242, 254, 0.18);">
     <!-- Inline Search -->
-    <div class="card-header bg-white border-0 p-4">
-        <div class="input-group bg-light rounded-pill px-3">
-            <span class="input-group-text bg-transparent border-0 text-muted"><i class="fas fa-search"></i></span>
-            <input type="text" id="historySearch" class="form-control bg-transparent border-0 shadow-none ps-0" placeholder="Search by date, status or location...">
+    <div class="card-header p-4" style="background: rgba(3, 19, 58, 0.7); border-bottom: 1px solid rgba(0, 242, 254, 0.15);">
+        <div class="input-group rounded-pill px-3 py-1" style="background: rgba(3, 19, 58, 0.9); border: 1px solid rgba(0, 242, 254, 0.3);">
+            <span class="input-group-text bg-transparent border-0" style="color: #00f2fe;"><i class="fas fa-search"></i></span>
+            <input type="text" id="historySearch" class="form-control bg-transparent border-0 shadow-none ps-0 text-white" placeholder="Search by date, status or location...">
         </div>
     </div>
 
     <div class="card-body p-0">
       <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0" id="historyTable">
-          <thead class="table-light">
+        <table class="table align-middle mb-0" id="historyTable" style="color: #cbd5e1;">
+          <thead style="background: #020e2b; border-bottom: 1px solid rgba(0, 242, 254, 0.2);">
             <tr>
-              <th class="ps-4">S.No</th>
-              <th>Date</th>
-              <th>Status</th>
-              <th>Check-In</th>
-              <th>Check-Out</th>
-              <th>Location</th>
-              <th class="pe-4">Verification</th>
+              <th class="ps-4 py-3" style="color: #93c5fd; font-size: 0.72rem; letter-spacing: 0.6px; text-transform: uppercase;">#</th>
+              <th class="py-3" style="color: #93c5fd; font-size: 0.72rem; letter-spacing: 0.6px; text-transform: uppercase;">Date</th>
+              <th class="py-3" style="color: #93c5fd; font-size: 0.72rem; letter-spacing: 0.6px; text-transform: uppercase;">Status</th>
+              <th class="py-3" style="color: #93c5fd; font-size: 0.72rem; letter-spacing: 0.6px; text-transform: uppercase;">Check-In</th>
+              <th class="py-3" style="color: #93c5fd; font-size: 0.72rem; letter-spacing: 0.6px; text-transform: uppercase;">Check-Out</th>
+              <th class="py-3" style="color: #93c5fd; font-size: 0.72rem; letter-spacing: 0.6px; text-transform: uppercase;">Location</th>
+              <th class="pe-4 py-3" style="color: #93c5fd; font-size: 0.72rem; letter-spacing: 0.6px; text-transform: uppercase;">Token Signature</th>
             </tr>
           </thead>
           <tbody>
             {% for record in records %}
-            <tr>
-              <td class="ps-4 text-muted small">{{ forloop.counter }}</td>
-              <td class="fw-medium text-dark">{{ record.date|date:"F d, Y" }}</td>
-              <td>
+            <tr style="border-bottom: 1px solid rgba(0, 242, 254, 0.08);">
+              <td class="ps-4 py-3" style="color: #64748b;">{{ forloop.counter }}</td>
+              <td class="py-3 fw-semibold text-white">{{ record.date|date:"F d, Y" }}</td>
+              <td class="py-3">
                 {% if record.status == 'Present' %}
-                  <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-2">
+                  <span class="badge rounded-pill px-3 py-1 fw-bold" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);">
                     <i class="fas fa-check-circle me-1"></i> {{ record.status }}
                   </span>
                 {% else %}
-                  <span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-3 py-2">
+                  <span class="badge rounded-pill px-3 py-1 fw-bold" style="background: rgba(148, 163, 184, 0.15); color: #94a3b8;">
                     {{ record.status }}
                   </span>
                 {% endif %}
               </td>
-              <td>
+              <td class="py-3 text-white">
                 <div class="d-flex align-items-center">
-                  <div class="bg-success bg-opacity-10 text-success rounded-circle me-2 d-flex align-items-center justify-content-center" style="width: 28px; height: 28px;">
-                    <i class="fas fa-arrow-right small"></i>
+                  <div class="rounded-circle me-2 d-flex align-items-center justify-content-center" style="width: 28px; height: 28px; background: rgba(16, 185, 129, 0.15); color: #10b981;">
+                    <i class="fas fa-arrow-down-left small"></i>
                   </div>
                   <span class="small fw-semibold">{{ record.check_in|time:"g:i A"|default:"--" }}</span>
                 </div>
               </td>
-              <td>
+              <td class="py-3 text-white">
                 <div class="d-flex align-items-center">
-                  <div class="bg-danger bg-opacity-10 text-danger rounded-circle me-2 d-flex align-items-center justify-content-center" style="width: 28px; height: 28px;">
-                    <i class="fas fa-arrow-left small"></i>
+                  <div class="rounded-circle me-2 d-flex align-items-center justify-content-center" style="width: 28px; height: 28px; background: rgba(244, 63, 94, 0.15); color: #f43f5e;">
+                    <i class="fas fa-arrow-up-right small"></i>
                   </div>
                   <span class="small fw-semibold">{{ record.check_out|time:"g:i A"|default:"--" }}</span>
                 </div>
               </td>
-              <td class="text-muted small">
-                <i class="fas fa-map-marker-alt text-danger opacity-50 me-1"></i> {{ record.location_name|default:"N/A" }}
+              <td class="py-3 small" style="color: #93c5fd;">
+                <i class="fas fa-location-dot me-1" style="color: #00f2fe;"></i> {{ record.location_name|default:"Premises Verified" }}
               </td>
-              <td class="pe-4">
-                <span class="text-truncate d-inline-block small text-muted" style="max-width: 120px;" title="{{ record.qr_code }}">
+              <td class="pe-4 py-3">
+                <span class="text-truncate d-inline-block small rounded px-2 py-1" style="max-width: 130px; font-family: monospace; background: rgba(0, 242, 254, 0.1); color: #00f2fe; border: 1px solid rgba(0, 242, 254, 0.2);" title="{{ record.qr_code }}">
                   <i class="fas fa-key me-1"></i> {{ record.qr_code|truncatechars:15 }}
                 </span>
               </td>
             </tr>
             {% empty %}
             <tr>
-              <td colspan="7" class="py-5 text-center">
-                <div class="mb-3"><i class="fas fa-calendar-times fa-4x text-light"></i></div>
-                <h5 class="text-muted">No attendance records found</h5>
-                <p class="text-muted small">Start scanning your QR code to see your history here.</p>
-                <a href="{% url 'attendance' %}" class="btn btn-outline-primary btn-sm rounded-pill mt-2">Go to Scanner</a>
+              <td colspan="7" class="py-5 text-center text-white-50">
+                <div class="mb-3"><i class="fas fa-calendar-times fa-4x" style="color: rgba(0, 242, 254, 0.25);"></i></div>
+                <h5 class="text-white">No attendance records found</h5>
+                <p class="small" style="color: #93c5fd;">Start scanning your QR pass to populate your official ledger here.</p>
+                <a href="{% url 'attendance' %}" class="btn rounded-pill px-4 py-2 fw-semibold text-white shadow-sm mt-2" style="background: linear-gradient(135deg, #00f2fe 0%, #0066ff 100%); border: none;">Go to Scanner</a>
               </td>
             </tr>
             {% endfor %}
@@ -131,17 +138,4 @@
     });
   });
 </script>
-
-<style>
-  table thead th {
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    letter-spacing: 0.05em;
-    color: #64748b;
-    padding: 1.25rem 0.75rem !important;
-  }
-  .card { transition: all 0.3s ease; }
-  .table tbody tr:hover { background-color: rgba(99, 102, 241, 0.02); }
-</style>
 {% endblock %}

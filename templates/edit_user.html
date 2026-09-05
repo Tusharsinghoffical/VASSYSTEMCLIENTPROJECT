@@ -1,108 +1,117 @@
 {% extends "admin_base.html" %}
 {% load static %}
-{% block title %}Edit User: {{ user.username }} | Venus System{% endblock %}
+{% block title %}Edit User: {{ user.username }} | Venus Pulse{% endblock %}
 
 {% block content %}
-<div class="container py-4">
+<div class="container-fluid px-0">
   <!-- Page Header -->
   <div class="row mb-4 align-items-center">
     <div class="col-md-8 text-center text-md-start">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb mb-2">
-                <li class="breadcrumb-item small"><a href="{% url 'manage_users' %}" class="text-decoration-none">Manage Users</a></li>
-                <li class="breadcrumb-item active small" aria-current="page">Edit Employee</li>
-            </ol>
-        </nav>
-      <h2 class="fw-bold text-dark mb-1">
-        <i class="fas fa-user-edit text-primary me-2"></i> Edit Account: <span class="text-primary">{{ user.username }}</span>
+      <div class="d-flex align-items-center gap-2 mb-2 justify-content-center justify-content-md-start">
+        <img src="{% static 'images/venus_logo.png' %}" alt="Venus Logo" class="rounded-circle shadow-sm" style="width: 26px; height: 26px; border: 1px solid rgba(0, 242, 254, 0.4);" />
+        <span class="badge rounded-pill px-3 py-1 fw-bold small" style="background: rgba(0, 242, 254, 0.12); color: #00f2fe; border: 1px solid rgba(0, 242, 254, 0.3);">
+          ACCOUNT MODIFICATION
+        </span>
+        <span class="small" style="color: #93c5fd;">Personnel Directory Management</span>
+      </div>
+      <h2 class="fw-bold text-white mb-1">
+        <i class="fas fa-user-edit me-2" style="color: #00f2fe;"></i>Edit Employee: <span style="color: #00f2fe;">{{ user.username }}</span>
       </h2>
-      <p class="text-muted small mb-0">Modify employee credentials, contact information, and job position.</p>
+      <p class="small mb-0" style="color: #93c5fd;">Modify corporate credentials, verified contact details, and position assignments.</p>
     </div>
     <div class="col-md-4 text-md-end mt-3 mt-md-0">
-        <a href="{% url 'manage_users' %}" class="btn btn-outline-secondary px-4 rounded-pill fw-bold small">
-            <i class="fas fa-arrow-left me-1"></i> Cancel
-        </a>
+      <a href="{% url 'manage_users' %}" class="btn rounded-pill px-4 py-2 fw-semibold text-white shadow-sm" style="background: rgba(0, 242, 254, 0.12); border: 1px solid rgba(0, 242, 254, 0.35);">
+        <i class="fas fa-arrow-left me-1" style="color: #00f2fe;"></i> Cancel & Return
+      </a>
     </div>
   </div>
 
   <div class="row justify-content-center">
-    <div class="col-lg-9">
-      <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-        <div class="card-header bg-white border-0 p-4 pb-0">
-           <h5 class="fw-bold mb-0">Employee Detail Settings</h5>
+    <div class="col-lg-10">
+      <div class="card border-0 rounded-4 overflow-hidden shadow-xl" style="background: rgba(2, 16, 48, 0.85); backdrop-filter: blur(14px); border: 1px solid rgba(0, 242, 254, 0.18);">
+        <div class="card-header p-4" style="background: rgba(3, 19, 58, 0.7); border-bottom: 1px solid rgba(0, 242, 254, 0.15);">
+          <div class="d-flex align-items-center gap-3">
+            <div class="rounded-3 p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; background: rgba(0, 242, 254, 0.15); color: #00f2fe; border: 1px solid rgba(0, 242, 254, 0.3);">
+              <i class="fas fa-sliders fs-5"></i>
+            </div>
+            <div>
+              <h5 class="fw-bold text-white mb-0">Employee Detail Settings</h5>
+              <span class="small" style="color: #93c5fd;">Update personal and operational attributes</span>
+            </div>
+          </div>
         </div>
-        <div class="card-body p-4">
+        <div class="card-body p-4 p-md-5">
           <form method="post" novalidate>
             {% csrf_token %}
 
             <!-- System Credentials Section -->
             <div class="mb-5">
-                <div class="d-flex align-items-center mb-4">
-                    <div class="bg-primary text-white rounded-circle p-2 me-3" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
-                        <i class="fas fa-key small"></i>
-                    </div>
-                    <h6 class="fw-bold mb-0 text-dark opacity-75">Account Identity</h6>
+              <div class="d-flex align-items-center mb-3">
+                <div class="rounded-circle p-2 me-3 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: rgba(0, 242, 254, 0.15); color: #00f2fe; border: 1px solid rgba(0, 242, 254, 0.3);">
+                  <i class="fas fa-key small"></i>
                 </div>
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold small text-muted">Username</label>
-                        <input type="text" name="username" class="form-control-custom" value="{{ user.username }}" placeholder="Enter username">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold small text-muted">Email address</label>
-                        <input type="email" name="email" class="form-control-custom" value="{{ user.email }}" placeholder="Enter email">
-                    </div>
+                <h6 class="fw-bold mb-0 text-white">System Account Identity</h6>
+              </div>
+              <div class="row g-4">
+                <div class="col-md-6">
+                  <label class="form-label fw-bold small text-uppercase" style="font-size: 0.75rem; letter-spacing: 0.6px; color: #93c5fd;">Username Handle</label>
+                  <input type="text" name="username" class="form-control form-control-dark" value="{{ user.username }}" placeholder="Enter username">
                 </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-bold small text-uppercase" style="font-size: 0.75rem; letter-spacing: 0.6px; color: #93c5fd;">Corporate Email</label>
+                  <input type="email" name="email" class="form-control form-control-dark" value="{{ user.email }}" placeholder="Enter email">
+                </div>
+              </div>
             </div>
 
             <!-- Personal Info Section -->
             <div class="mb-5">
-                <div class="d-flex align-items-center mb-4">
-                    <div class="bg-primary text-white rounded-circle p-2 me-3" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
-                        <i class="fas fa-id-card small"></i>
-                    </div>
-                    <h6 class="fw-bold mb-0 text-dark opacity-75">Personal Details</h6>
+              <div class="d-flex align-items-center mb-3">
+                <div class="rounded-circle p-2 me-3 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: rgba(0, 242, 254, 0.15); color: #00f2fe; border: 1px solid rgba(0, 242, 254, 0.3);">
+                  <i class="fas fa-id-card small"></i>
                 </div>
-                <div class="row g-4 mb-4">
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold small text-muted">First Name</label>
-                        <input type="text" name="first_name" class="form-control-custom" value="{{ user.first_name }}" placeholder="First name">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold small text-muted">Last Name</label>
-                        <input type="text" name="last_name" class="form-control-custom" value="{{ user.last_name }}" placeholder="Last name">
-                    </div>
+                <h6 class="fw-bold mb-0 text-white">Personal Information</h6>
+              </div>
+              <div class="row g-4 mb-4">
+                <div class="col-md-6">
+                  <label class="form-label fw-bold small text-uppercase" style="font-size: 0.75rem; letter-spacing: 0.6px; color: #93c5fd;">First Name</label>
+                  <input type="text" name="first_name" class="form-control form-control-dark" value="{{ user.first_name }}" placeholder="First name">
                 </div>
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold small text-muted">Phone Number</label>
-                        <input type="text" name="phone" class="form-control-custom" value="{{ profile.phone }}" placeholder="Contact number">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold small text-muted">Position / Role</label>
-                        <input type="text" name="position" class="form-control-custom" value="{{ profile.position }}" placeholder="e.g. Senior Manager">
-                    </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-bold small text-uppercase" style="font-size: 0.75rem; letter-spacing: 0.6px; color: #93c5fd;">Last Name</label>
+                  <input type="text" name="last_name" class="form-control form-control-dark" value="{{ user.last_name }}" placeholder="Last name">
                 </div>
+              </div>
+              <div class="row g-4">
+                <div class="col-md-6">
+                  <label class="form-label fw-bold small text-uppercase" style="font-size: 0.75rem; letter-spacing: 0.6px; color: #93c5fd;">Phone Number</label>
+                  <input type="text" name="phone" class="form-control form-control-dark" value="{{ profile.phone }}" placeholder="Contact number">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-bold small text-uppercase" style="font-size: 0.75rem; letter-spacing: 0.6px; color: #93c5fd;">Job Position / Designation</label>
+                  <input type="text" name="position" class="form-control form-control-dark" value="{{ profile.position }}" placeholder="e.g. Senior Operations Specialist">
+                </div>
+              </div>
             </div>
 
             <!-- Contact/Address Section -->
             <div class="mb-4">
-                <div class="d-flex align-items-center mb-4">
-                    <div class="bg-primary text-white rounded-circle p-2 me-3" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
-                        <i class="fas fa-map-marker-alt small"></i>
-                    </div>
-                    <h6 class="fw-bold mb-0 text-dark opacity-75">Work Location / Address</h6>
+              <div class="d-flex align-items-center mb-3">
+                <div class="rounded-circle p-2 me-3 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: rgba(0, 242, 254, 0.15); color: #00f2fe; border: 1px solid rgba(0, 242, 254, 0.3);">
+                  <i class="fas fa-map-marker-alt small"></i>
                 </div>
-                <div class="mb-0">
-                    <label class="form-label fw-bold small text-muted">Full Address</label>
-                    <textarea name="address" rows="3" class="form-control-custom" style="resize: none;" placeholder="Enter full mailing address">{{ profile.address }}</textarea>
-                </div>
+                <h6 class="fw-bold mb-0 text-white">Work Location / Address</h6>
+              </div>
+              <div class="mb-0">
+                <label class="form-label fw-bold small text-uppercase" style="font-size: 0.75rem; letter-spacing: 0.6px; color: #93c5fd;">Full Address</label>
+                <textarea name="address" rows="3" class="form-control form-control-dark" style="resize: none;" placeholder="Enter premises mailing address">{{ profile.address }}</textarea>
+              </div>
             </div>
 
-            <div class="text-end border-top pt-4">
-                <button type="submit" class="btn btn-primary px-5 py-2 rounded-pill shadow-sm fw-bold">
-                    <i class="fas fa-save me-2"></i> Save Changes
-                </button>
+            <div class="text-end pt-4" style="border-top: 1px solid rgba(0, 242, 254, 0.15);">
+              <button type="submit" class="btn rounded-pill px-5 py-3 fw-bold text-white shadow-lg" style="background: linear-gradient(135deg, #00f2fe 0%, #0066ff 100%); border: none;">
+                <i class="fas fa-save me-2"></i> Save Changes
+              </button>
             </div>
           </form>
         </div>
@@ -112,27 +121,26 @@
 </div>
 
 <style>
-  .form-control-custom {
+  .form-control-dark {
     display: block;
     width: 100%;
-    padding: 0.75rem 1rem;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #1e293b;
-    background-color: #f8fafc;
-    background-clip: padding-box;
-    border: 2px solid #e2e8f0;
-    appearance: none;
-    border-radius: 12px;
-    transition: all 0.2s ease-in-out;
+    padding: 0.85rem 1.15rem;
+    font-size: 0.95rem;
+    color: #ffffff;
+    background-color: rgba(3, 19, 58, 0.7);
+    border: 1px solid rgba(0, 242, 254, 0.25);
+    border-radius: 14px;
+    transition: all 0.25s ease;
   }
-  .form-control-custom:focus {
-    color: #1e293b;
-    background-color: #fff;
-    border-color: #6366f1;
-    outline: 0;
-    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+  .form-control-dark:focus {
+    color: #ffffff;
+    background-color: rgba(3, 19, 58, 0.95);
+    border-color: #00f2fe;
+    outline: none;
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.25);
+  }
+  .form-control-dark::placeholder {
+    color: rgba(147, 197, 253, 0.45);
   }
 </style>
 {% endblock %}

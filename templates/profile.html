@@ -1,14 +1,14 @@
 {% extends base_template|default:"index.html" %}
 {% load static %}
 {% load form_tags %}
-{% block title %}My Profile & Attendance ID | Pulse Admin{% endblock %}
+{% block title %}My Profile & Attendance ID | Venus Pulse{% endblock %}
 
 {% block content %}
 <div class="container-fluid px-0">
   <!-- Profile Header Banner -->
   <div class="row mb-4">
     <div class="col-12">
-      <div class="card border-0 rounded-5 shadow-sm overflow-hidden bg-white">
+      <div class="card border-0 rounded-5 overflow-hidden shadow-2xl" style="background: rgba(2, 16, 48, 0.82); backdrop-filter: blur(20px); border: 1px solid rgba(0, 240, 255, 0.16) !important;">
         <div class="profile-banner-cover">
           <div class="banner-mesh-glow"></div>
         </div>
@@ -21,31 +21,31 @@
             </div>
             <div class="flex-grow-1 mb-2">
               <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
-                <h2 class="fw-bold text-dark mb-0">{{ user.get_full_name|default:user.username }}</h2>
+                <h2 class="fw-bold text-white mb-0">{{ user.get_full_name|default:user.username }}</h2>
                 {% if user.is_superuser %}
-                  <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-3 py-1 fw-bold border border-danger border-opacity-25 small">
+                  <span class="badge rounded-pill px-3 py-1 fw-bold small" style="background: rgba(239, 68, 68, 0.18); border: 1px solid rgba(239, 68, 68, 0.35); color: #fca5a5;">
                     <i class="fas fa-crown me-1"></i> Admin Officer
                   </span>
                 {% elif user.is_staff %}
-                  <span class="badge bg-warning bg-opacity-10 text-warning-emphasis rounded-pill px-3 py-1 fw-bold border border-warning border-opacity-25 small">
+                  <span class="badge rounded-pill px-3 py-1 fw-bold small" style="background: rgba(0, 242, 254, 0.18); border: 1px solid rgba(0, 242, 254, 0.35); color: #00f2fe;">
                     <i class="fas fa-shield-halved me-1"></i> Staff Member
                   </span>
                 {% else %}
-                  <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-1 fw-bold border border-primary border-opacity-25 small">
+                  <span class="badge rounded-pill px-3 py-1 fw-bold small" style="background: rgba(59, 130, 246, 0.18); border: 1px solid rgba(59, 130, 246, 0.35); color: #93c5fd;">
                     <i class="fas fa-user me-1"></i> Verified Employee
                   </span>
                 {% endif %}
               </div>
-              <div class="d-flex flex-wrap align-items-center gap-3 text-muted small">
-                <span class="text-secondary fw-semibold">
-                  <i class="fas fa-briefcase me-1 text-primary"></i> {{ profile.position|default:"Full Stack Developer" }}
+              <div class="d-flex flex-wrap align-items-center gap-3 small" style="color: #93c5fd;">
+                <span class="fw-semibold text-white">
+                  <i class="fas fa-briefcase me-1" style="color: #00f2fe;"></i> {{ profile.position|default:"Full Stack Developer" }}
                 </span>
                 <span class="opacity-50">•</span>
                 <span class="emp-id-badge">
-                  <i class="fas fa-id-card me-1 text-secondary"></i> VJAS-{{ user.id|stringformat:"04d" }}
+                  <i class="fas fa-id-card me-1"></i> VJAS-{{ user.id|stringformat:"04d" }}
                 </span>
                 <span class="opacity-50">•</span>
-                <span><i class="far fa-envelope me-1"></i> {{ user.email|default:"No email registered" }}</span>
+                <span><i class="far fa-envelope me-1" style="color: #00f2fe;"></i> {{ user.email|default:"No email registered" }}</span>
               </div>
             </div>
           </div>
@@ -58,15 +58,15 @@
     <!-- Left Column: VIP Attendance QR Smart Badge & Account Metadata -->
     <div class="col-lg-5 col-xl-4">
       <!-- Executive Digital Smart Badge Card -->
-      <div class="vip-badge-card mb-4 shadow-sm">
+      <div class="vip-badge-card mb-4 shadow-2xl">
         <div class="vip-badge-header">
           <div class="badge-lanyard-slot"></div>
           <div class="d-flex align-items-center justify-content-between w-100">
             <div class="d-flex align-items-center gap-2">
-              <i class="fas fa-bolt-lightning text-warning"></i>
+              <img src="{% static 'images/venus_logo.png' %}" alt="Venus" style="width: 20px; height: 20px; border-radius: 4px; object-fit: cover;">
               <span class="vip-badge-title">OFFICIAL PASS</span>
             </div>
-            <span class="badge bg-white bg-opacity-20 rounded-pill px-2 py-0 text-white small" style="font-size: 0.68rem; font-family: monospace;">
+            <span class="badge rounded-pill px-2.5 py-0.5 small" style="background: rgba(0, 242, 254, 0.2); border: 1px solid rgba(0, 242, 254, 0.4); color: #00f2fe; font-family: monospace;">
               VJAS-{{ user.id|stringformat:"04d" }}
             </span>
           </div>
@@ -74,68 +74,68 @@
 
         <div class="vip-badge-body">
           <!-- QR Code Display Box -->
-          <div class="qr-presentation-box shadow-xs">
+          <div class="qr-presentation-box shadow-sm">
             <img src="{{ qr_code_base64 }}" alt="Attendance QR Code" class="img-fluid rounded-3" id="profileQrImage">
             <div class="mt-2">
-              <span class="badge bg-success rounded-pill px-3 py-1 shadow-xs" style="font-size: 0.72rem;">
+              <span class="badge rounded-pill px-3 py-1 shadow-xs" style="background: rgba(0, 242, 254, 0.15); border: 1px solid rgba(0, 242, 254, 0.35); color: #00f2fe; font-size: 0.72rem;">
                 <i class="fas fa-shield-check me-1"></i> Profile Locked & Encrypted
               </span>
             </div>
           </div>
 
-          <h5 class="fw-bold text-dark mb-0">{{ user.get_full_name|default:user.username }}</h5>
-          <div class="text-muted small mb-2">{{ profile.position|default:"Team Member" }}</div>
+          <h5 class="fw-bold text-white mb-0">{{ user.get_full_name|default:user.username }}</h5>
+          <div class="small mb-3" style="color: #93c5fd;">{{ profile.position|default:"Team Member" }}</div>
 
           <div class="embedded-meta-box text-start small mb-3">
-            <div class="fw-bold text-dark mb-1 pb-1 border-bottom d-flex align-items-center gap-1">
-              <i class="fas fa-fingerprint text-primary"></i> Embedded Token Credentials:
+            <div class="fw-bold text-white mb-1 pb-1 border-bottom d-flex align-items-center gap-1" style="border-color: rgba(0, 240, 255, 0.15) !important;">
+              <i class="fas fa-fingerprint" style="color: #00f2fe;"></i> Embedded Token Credentials:
             </div>
-            <div class="d-flex justify-content-between py-1 text-muted">
+            <div class="d-flex justify-content-between py-1" style="color: #93c5fd;">
               <span>Employee ID:</span>
-              <strong class="text-dark font-monospace">VJAS-{{ user.id|stringformat:"04d" }}</strong>
+              <strong class="text-white font-monospace">VJAS-{{ user.id|stringformat:"04d" }}</strong>
             </div>
-            <div class="d-flex justify-content-between py-1 text-muted">
+            <div class="d-flex justify-content-between py-1" style="color: #93c5fd;">
               <span>User Handle:</span>
-              <strong class="text-dark">@{{ user.username }}</strong>
+              <strong class="text-white">@{{ user.username }}</strong>
             </div>
-            <div class="d-flex justify-content-between py-1 text-muted">
+            <div class="d-flex justify-content-between py-1" style="color: #93c5fd;">
               <span>Phone Link:</span>
-              <strong class="text-dark">{{ profile.phone|default:"Unlinked" }}</strong>
+              <strong class="text-white">{{ profile.phone|default:"Unlinked" }}</strong>
             </div>
           </div>
 
-          <div class="alert alert-light border small text-start mb-3 p-2 rounded-3" style="background: #f8fafc; font-size: 0.75rem; line-height: 1.4;">
-            <i class="fas fa-circle-info text-primary me-1"></i> <strong>Zero-Trust Notice:</strong> Yeh QR code sirf aapki profile ke sath bound hai. Doosre kisi phone ya profile par attendance mark nahi hogi.
+          <div class="alert border small text-start mb-3 p-2 rounded-3" style="background: rgba(0, 242, 254, 0.05); border-color: rgba(0, 240, 255, 0.2) !important; font-size: 0.75rem; line-height: 1.4; color: #93c5fd;">
+            <i class="fas fa-circle-info me-1" style="color: #00f2fe;"></i> <strong class="text-white">Zero-Trust Notice:</strong> Yeh QR code sirf aapki profile ke sath bound hai. Doosre kisi phone ya profile par attendance mark nahi hogi.
           </div>
 
           <div class="d-grid gap-2">
-            <a href="{% url 'download_my_qr' %}" class="btn btn-primary rounded-pill fw-bold py-2 shadow-xs" download>
+            <a href="{% url 'download_my_qr' %}" class="btn rounded-pill fw-bold py-2 shadow-sm text-white" style="background: linear-gradient(135deg, #00f2fe, #0066ff); border: none;" download>
               <i class="fas fa-download me-2"></i>Download QR Code (PNG)
             </a>
-            <button type="button" onclick="printQrBadge()" class="btn btn-outline-secondary rounded-pill fw-semibold py-2 btn-sm bg-white">
-              <i class="fas fa-print me-2"></i>Print Official ID Card
+            <button type="button" onclick="printQrBadge()" class="btn rounded-pill fw-semibold py-2 btn-sm text-white" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(0, 240, 255, 0.25);">
+              <i class="fas fa-print me-2" style="color: #00f2fe;"></i>Print Official ID Card
             </button>
           </div>
         </div>
       </div>
 
       <!-- Account Overview Card -->
-      <div class="card border-0 shadow-sm rounded-4 mb-4 bg-white">
+      <div class="card border-0 rounded-4 mb-4 shadow-2xl" style="background: rgba(2, 16, 48, 0.82); backdrop-filter: blur(20px); border: 1px solid rgba(0, 240, 255, 0.16) !important;">
         <div class="card-body p-4">
-          <h6 class="fw-bold text-dark mb-3">
-            <i class="fas fa-clock-rotate-left text-primary me-2"></i>Account Overview
+          <h6 class="fw-bold text-white mb-3">
+            <i class="fas fa-clock-rotate-left me-2" style="color: #00f2fe;"></i>Account Overview
           </h6>
           <div class="meta-row mb-3">
-            <div class="text-muted small fw-semibold text-uppercase" style="font-size: 0.7rem;">Username Handle</div>
-            <div class="fw-bold text-dark">@{{ user.username }}</div>
+            <div class="small fw-semibold text-uppercase" style="font-size: 0.7rem; color: #93c5fd;">Username Handle</div>
+            <div class="fw-bold text-white">@{{ user.username }}</div>
           </div>
           <div class="meta-row mb-3">
-            <div class="text-muted small fw-semibold text-uppercase" style="font-size: 0.7rem;">Enrollment Date</div>
-            <div class="fw-semibold text-primary"><i class="far fa-calendar me-1"></i>{{ user.date_joined|date:"M d, Y" }}</div>
+            <div class="small fw-semibold text-uppercase" style="font-size: 0.7rem; color: #93c5fd;">Enrollment Date</div>
+            <div class="fw-semibold" style="color: #00f2fe;"><i class="far fa-calendar me-1"></i>{{ user.date_joined|date:"M d, Y" }}</div>
           </div>
           <div class="meta-row mb-0">
-            <div class="text-muted small fw-semibold text-uppercase" style="font-size: 0.7rem;">Last Authentication</div>
-            <div class="fw-semibold text-secondary small"><i class="far fa-clock me-1"></i>{{ user.last_login|date:"M d, Y • h:i A"|default:"First login session" }}</div>
+            <div class="small fw-semibold text-uppercase" style="font-size: 0.7rem; color: #93c5fd;">Last Authentication</div>
+            <div class="fw-semibold small text-white"><i class="far fa-clock me-1" style="color: #60a5fa;"></i>{{ user.last_login|date:"M d, Y • h:i A"|default:"First login session" }}</div>
           </div>
         </div>
       </div>
@@ -143,15 +143,15 @@
 
     <!-- Right Column: Edit Profile Form -->
     <div class="col-lg-7 col-xl-8">
-      <div class="card border-0 shadow-sm rounded-4 bg-white">
-        <div class="card-header bg-white border-0 p-4 pb-2">
+      <div class="card border-0 rounded-4 shadow-2xl" style="background: rgba(2, 16, 48, 0.82); backdrop-filter: blur(20px); border: 1px solid rgba(0, 240, 255, 0.16) !important;">
+        <div class="card-header border-0 p-4 pb-2" style="background: transparent; border-bottom: 1px solid rgba(0, 240, 255, 0.08) !important;">
           <div class="d-flex align-items-center gap-2">
-            <div class="bg-primary bg-opacity-10 text-primary rounded-3 p-2 d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+            <div class="rounded-3 p-2 d-flex align-items-center justify-content-center" style="width: 38px; height: 38px; background: rgba(0, 242, 254, 0.15); color: #00f2fe;">
               <i class="fas fa-user-pen"></i>
             </div>
             <div>
-              <h5 class="fw-bold mb-0 text-dark">Personal Details & Preferences</h5>
-              <p class="text-muted small mb-0">Modify employee profile, communication phone & position records</p>
+              <h5 class="fw-bold mb-0 text-white">Personal Details & Preferences</h5>
+              <p class="small mb-0" style="color: #93c5fd;">Modify employee profile, communication phone & position records</p>
             </div>
           </div>
         </div>
@@ -197,8 +197,8 @@
               {% if profile_form.address.errors %}<div class="text-danger small mt-1">{{ profile_form.address.errors.0 }}</div>{% endif %}
             </div>
 
-            <div class="d-flex justify-content-end pt-3 border-top">
-              <button type="submit" class="btn btn-primary px-5 py-2 rounded-pill shadow-xs fw-bold">
+            <div class="d-flex justify-content-end pt-3" style="border-top: 1px solid rgba(0, 240, 255, 0.1);">
+              <button type="submit" class="btn px-5 py-2.5 rounded-pill shadow-sm fw-bold text-white" style="background: linear-gradient(135deg, #00f2fe, #0066ff); border: none;">
                 <i class="fas fa-check-circle me-2"></i>Save Changes
               </button>
             </div>
@@ -212,7 +212,7 @@
 <style>
   .profile-banner-cover {
     height: 140px;
-    background: linear-gradient(135deg, #0b0f19 0%, #1e1b4b 50%, #4338ca 100%);
+    background: linear-gradient(135deg, #01081b 0%, #031c56 50%, #0044aa 100%);
     position: relative;
     overflow: hidden;
   }
@@ -221,23 +221,24 @@
     width: 250px;
     height: 250px;
     border-radius: 50%;
-    background: rgba(168, 85, 247, 0.25);
+    background: rgba(0, 242, 254, 0.25);
     filter: blur(60px);
     top: -80px;
     right: 20%;
   }
 
   .profile-avatar-outer {
-    background: #ffffff;
+    background: rgba(0, 240, 255, 0.25);
     padding: 6px;
     border-radius: 50%;
     display: inline-block;
+    box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
   }
   .profile-avatar-inner {
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    background: linear-gradient(135deg, #00f2fe, #0066ff);
     color: white;
     display: flex;
     align-items: center;
@@ -246,35 +247,47 @@
     font-weight: 800;
   }
 
+  .emp-id-badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 8px;
+    font-weight: 700;
+    background: rgba(0, 242, 254, 0.15);
+    color: #00f2fe;
+    border: 1px solid rgba(0, 242, 254, 0.35);
+  }
+
   /* VIP Attendance Smart Badge */
   .vip-badge-card {
-    background: #ffffff;
+    background: rgba(2, 16, 48, 0.85);
+    backdrop-filter: blur(20px);
     border-radius: 24px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid rgba(0, 240, 255, 0.2);
     overflow: hidden;
     position: relative;
   }
   .vip-badge-header {
-    background: linear-gradient(135deg, #0b0f19 0%, #1e1b4b 60%, #31104b 100%);
+    background: linear-gradient(135deg, #010718 0%, #031b54 60%, #0044aa 100%);
     padding: 1.25rem 1.5rem 1rem 1.5rem;
     color: white;
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.18);
   }
   .badge-lanyard-slot {
     width: 44px;
     height: 6px;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(0, 242, 254, 0.4);
     margin-bottom: 12px;
   }
   .vip-badge-title {
     font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 1.2px;
-    color: #e0e7ff;
+    color: #ffffff;
   }
   .vip-badge-body {
     padding: 1.75rem 1.5rem;
@@ -282,12 +295,13 @@
   }
 
   .qr-presentation-box {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    border: 2px solid rgba(0, 240, 255, 0.4);
     border-radius: 18px;
     padding: 1.25rem;
     display: inline-block;
     margin-bottom: 1rem;
+    box-shadow: 0 0 25px rgba(0, 242, 254, 0.25);
   }
   .qr-presentation-box img {
     width: 190px;
@@ -296,8 +310,8 @@
   }
 
   .embedded-meta-box {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(0, 240, 255, 0.15);
     border-radius: 12px;
     padding: 0.85rem 1rem;
   }
@@ -307,8 +321,9 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    color: #475569;
+    color: #93c5fd;
     margin-bottom: 0.4rem;
+    display: block;
   }
 
   .form-control-custom {
@@ -316,17 +331,18 @@
     width: 100%;
     padding: 0.75rem 1rem;
     font-size: 0.95rem;
-    color: #1e293b;
-    background-color: #f8fafc;
-    border: 1px solid #cbd5e1;
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(0, 240, 255, 0.18);
     border-radius: 12px;
     transition: all 0.2s ease;
   }
   .form-control-custom:focus {
-    background-color: #ffffff;
-    border-color: #6366f1;
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    background-color: rgba(0, 242, 254, 0.06);
+    border-color: #00f2fe;
+    box-shadow: 0 0 0 3px rgba(0, 242, 254, 0.25);
     outline: none;
+    color: #ffffff;
   }
 </style>
 
@@ -341,12 +357,12 @@
         <title>Attendance Credential - {{ user.get_full_name|default:user.username }}</title>
         <style>
           body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; text-align: center; padding: 20px; margin: 0; background: #fff; }
-          .badge-card { border: 2px solid #6366f1; border-radius: 16px; padding: 24px; max-width: 320px; margin: 0 auto; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-          .header { font-size: 13px; font-weight: bold; letter-spacing: 1px; color: #4338ca; text-transform: uppercase; margin-bottom: 8px; }
+          .badge-card { border: 2px solid #00f2fe; border-radius: 16px; padding: 24px; max-width: 320px; margin: 0 auto; box-shadow: 0 4px 14px rgba(0,0,0,0.1); }
+          .header { font-size: 13px; font-weight: bold; letter-spacing: 1px; color: #0055ff; text-transform: uppercase; margin-bottom: 8px; }
           .name { font-size: 20px; font-weight: bold; color: #1e293b; margin: 8px 0 4px; }
           .role { font-size: 13px; color: #64748b; margin-bottom: 12px; }
           .qr-img { width: 200px; height: 200px; display: block; margin: 0 auto 12px; }
-          .emp-id { display: inline-block; background: #e0e7ff; color: #4338ca; padding: 4px 14px; border-radius: 999px; font-size: 12px; font-weight: bold; margin-bottom: 12px; font-family: monospace; }
+          .emp-id { display: inline-block; background: #e0f2fe; color: #0284c7; padding: 4px 14px; border-radius: 999px; font-size: 12px; font-weight: bold; margin-bottom: 12px; font-family: monospace; }
           .footer { font-size: 10px; color: #94a3b8; line-height: 1.4; border-top: 1px dashed #cbd5e1; padding-top: 10px; }
         </style>
       </head>
@@ -369,4 +385,3 @@
   }
 </script>
 {% endblock %}
-

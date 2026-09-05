@@ -1,94 +1,99 @@
 {% extends "admin_base.html" %}
 {% load static %}
-{% block title %}Attendance Report: {{ user_obj.username }} | Venus System{% endblock %}
+{% block title %}Attendance Log: {{ user_obj.username }} | Venus Pulse{% endblock %}
 
 {% block content %}
-<div class="container py-4">
+<div class="container-fluid px-0">
   <!-- Page Header -->
   <div class="row mb-4 align-items-center">
     <div class="col-md-8 text-center text-md-start">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb mb-2">
-                <li class="breadcrumb-item small"><a href="{% url 'manage_users' %}" class="text-decoration-none">Manage Users</a></li>
-                <li class="breadcrumb-item active small" aria-current="page">Employee Report</li>
-            </ol>
-        </nav>
-      <h2 class="fw-bold text-dark mb-1">
-        <i class="fas fa-file-medical-alt text-primary me-2"></i> Attendance Log: <span class="text-primary">{{ user_obj.get_full_name|default:user_obj.username }}</span>
+      <div class="d-flex align-items-center gap-2 mb-2 justify-content-center justify-content-md-start">
+        <img src="{% static 'images/venus_logo.png' %}" alt="Venus Logo" class="rounded-circle shadow-sm" style="width: 26px; height: 26px; border: 1px solid rgba(0, 242, 254, 0.4);" />
+        <span class="badge rounded-pill px-3 py-1 fw-bold small" style="background: rgba(0, 242, 254, 0.12); color: #00f2fe; border: 1px solid rgba(0, 242, 254, 0.3);">
+          AUDIT ARCHIVE
+        </span>
+        <span class="small" style="color: #93c5fd;">Personnel Specific Attendance Ledger</span>
+      </div>
+      <h2 class="fw-bold text-white mb-1">
+        <i class="fas fa-file-medical-alt me-2" style="color: #00f2fe;"></i> Attendance Log: <span style="color: #00f2fe;">{{ user_obj.get_full_name|default:user_obj.username }}</span>
       </h2>
-      <p class="text-muted small mb-0"><i class="fas fa-envelope me-1"></i> {{ user_obj.email }} | <i class="fas fa-id-card me-1"></i> VJAS-{{ user_obj.id|stringformat:"04d" }}</p>
+      <p class="small mb-0" style="color: #93c5fd;">
+        <i class="fas fa-envelope me-1"></i> {{ user_obj.email }} &nbsp;|&nbsp; 
+        <i class="fas fa-id-card me-1"></i> VJAS-{{ user_obj.id|stringformat:"04d" }}
+      </p>
     </div>
     <div class="col-md-4 text-md-end mt-3 mt-md-0">
-        <a href="{% url 'manage_users' %}" class="btn btn-outline-secondary px-4 rounded-pill fw-bold small">
-            <i class="fas fa-arrow-left me-1"></i> Back to Users
-        </a>
+      <a href="{% url 'manage_users' %}" class="btn rounded-pill px-4 py-2 fw-semibold text-white shadow-sm" style="background: rgba(0, 242, 254, 0.12); border: 1px solid rgba(0, 242, 254, 0.35);">
+        <i class="fas fa-arrow-left me-1" style="color: #00f2fe;"></i> Back to User Directory
+      </a>
     </div>
   </div>
 
   <!-- Stats Grid -->
   <div class="row g-4 mb-4">
     <div class="col-md-3">
-        <div class="card border-0 shadow-sm rounded-4 text-center p-3">
-            <div class="small text-muted mb-1 fw-bold text-uppercase opacity-75">Work Sessions</div>
-            <div class="h4 fw-bold mb-0 text-primary">{{ records|length }}</div>
+        <div class="card border-0 rounded-4 text-center p-3 shadow-lg" style="background: rgba(2, 16, 48, 0.85); backdrop-filter: blur(14px); border: 1px solid rgba(0, 242, 254, 0.18);">
+            <div class="small fw-bold text-uppercase mb-1" style="font-size: 0.72rem; letter-spacing: 0.6px; color: #93c5fd;">Work Sessions</div>
+            <div class="h3 fw-bold mb-0 text-white">{{ records|length }}</div>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="card border-0 shadow-sm rounded-4 text-center p-3">
-            <div class="small text-muted mb-1 fw-bold text-uppercase opacity-75">First Record</div>
-            <div class="h4 fw-bold mb-0 text-dark small">{{ records.last.date|date:"M d, Y"|default:"--" }}</div>
+        <div class="card border-0 rounded-4 text-center p-3 shadow-lg" style="background: rgba(2, 16, 48, 0.85); backdrop-filter: blur(14px); border: 1px solid rgba(0, 242, 254, 0.18);">
+            <div class="small fw-bold text-uppercase mb-1" style="font-size: 0.72rem; letter-spacing: 0.6px; color: #93c5fd;">First Record</div>
+            <div class="h4 fw-bold mb-0 text-white" style="font-size: 1.15rem;">{{ records.last.date|date:"M d, Y"|default:"--" }}</div>
         </div>
     </div>
   </div>
 
-  <!-- Records Table -->
-  <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-    <div class="card-header bg-white border-0 p-4">
-        <h5 class="fw-bold mb-0">Detailed Activity History</h5>
+  <!-- Records Table Card -->
+  <div class="card border-0 rounded-4 overflow-hidden shadow-lg" style="background: rgba(2, 16, 48, 0.85); backdrop-filter: blur(14px); border: 1px solid rgba(0, 242, 254, 0.18);">
+    <div class="card-header p-4" style="background: rgba(3, 19, 58, 0.7); border-bottom: 1px solid rgba(0, 242, 254, 0.15);">
+        <h5 class="fw-bold text-white mb-0">Detailed Activity History</h5>
+        <span class="small" style="color: #93c5fd;">Timestamped entries recorded by optical sensor</span>
     </div>
     <div class="card-body p-0">
       <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
-          <thead class="table-light">
+        <table class="table align-middle mb-0" style="color: #cbd5e1;">
+          <thead style="background: #020e2b; border-bottom: 1px solid rgba(0, 242, 254, 0.2);">
             <tr>
-              <th class="ps-4">#</th>
-              <th>Date</th>
-              <th>Check-In</th>
-              <th>Check-Out</th>
-              <th>Location</th>
-              <th class="pe-4">Verification</th>
+              <th class="ps-4 py-3" style="color: #93c5fd; font-size: 0.72rem; letter-spacing: 0.6px; text-transform: uppercase;">#</th>
+              <th class="py-3" style="color: #93c5fd; font-size: 0.72rem; letter-spacing: 0.6px; text-transform: uppercase;">Date</th>
+              <th class="py-3" style="color: #93c5fd; font-size: 0.72rem; letter-spacing: 0.6px; text-transform: uppercase;">Check-In</th>
+              <th class="py-3" style="color: #93c5fd; font-size: 0.72rem; letter-spacing: 0.6px; text-transform: uppercase;">Check-Out</th>
+              <th class="py-3" style="color: #93c5fd; font-size: 0.72rem; letter-spacing: 0.6px; text-transform: uppercase;">Location</th>
+              <th class="pe-4 py-3" style="color: #93c5fd; font-size: 0.72rem; letter-spacing: 0.6px; text-transform: uppercase;">Token Verification</th>
             </tr>
           </thead>
           <tbody>
             {% for record in records %}
-            <tr>
-              <td class="ps-4 text-muted small">{{ forloop.counter }}</td>
-              <td class="fw-bold text-dark text-nowrap">{{ record.date|date:"F d, Y" }}</td>
-              <td>
-                <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-2">
+            <tr style="border-bottom: 1px solid rgba(0, 242, 254, 0.08);">
+              <td class="ps-4 py-3" style="color: #64748b;">{{ forloop.counter }}</td>
+              <td class="py-3 fw-bold text-white text-nowrap">{{ record.date|date:"F d, Y" }}</td>
+              <td class="py-3">
+                <span class="badge rounded-pill px-3 py-1 fw-bold" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);">
                     <i class="fas fa-sign-in-alt me-1"></i> {{ record.check_in|time:"g:i A"|default:"--" }}
                 </span>
               </td>
-              <td>
-                <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-3 py-2">
+              <td class="py-3">
+                <span class="badge rounded-pill px-3 py-1 fw-bold" style="background: rgba(244, 63, 94, 0.15); color: #f43f5e; border: 1px solid rgba(244, 63, 94, 0.3);">
                     <i class="fas fa-sign-out-alt me-1"></i> {{ record.check_out|time:"g:i A"|default:"--" }}
                 </span>
               </td>
-              <td class="small text-muted">
-                <i class="fas fa-map-marker-alt text-primary opacity-50 me-1"></i> {{ record.location_name|default:"--" }}
+              <td class="py-3 small" style="color: #93c5fd;">
+                <i class="fas fa-location-dot me-1" style="color: #00f2fe;"></i> {{ record.location_name|default:"--" }}
               </td>
-              <td class="pe-4">
-                <span class="small text-muted font-monospace bg-light p-1 rounded" title="{{ record.qr_code }}">
+              <td class="pe-4 py-3">
+                <span class="small rounded px-2 py-1" style="max-width: 130px; font-family: monospace; background: rgba(0, 242, 254, 0.1); color: #00f2fe; border: 1px solid rgba(0, 242, 254, 0.2);" title="{{ record.qr_code }}">
                    {{ record.qr_code|truncatechars:12 }}
                 </span>
               </td>
             </tr>
             {% empty %}
             <tr>
-              <td colspan="6" class="py-5 text-center text-muted">
-                <div class="mb-3 opacity-25"><i class="fas fa-calendar-times fa-4x"></i></div>
-                <h5 class="fw-bold">No Attendance Records Found</h5>
-                <p class="small">This employee has not recorded any attendance sessions yet.</p>
+              <td colspan="6" class="py-5 text-center text-white-50">
+                <div class="mb-3"><i class="fas fa-calendar-times fa-4x" style="color: rgba(0, 242, 254, 0.25);"></i></div>
+                <h5 class="fw-bold text-white">No Attendance Records Found</h5>
+                <p class="small" style="color: #93c5fd;">This employee has not recorded any attendance sessions yet.</p>
               </td>
             </tr>
             {% endfor %}
@@ -98,18 +103,4 @@
     </div>
   </div>
 </div>
-
-<style>
-  table thead th {
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    letter-spacing: 0.05em;
-    color: #64748b;
-    padding: 1.25rem 0.75rem !important;
-  }
-  .table tbody tr:hover {
-    background-color: rgba(99, 102, 241, 0.02);
-  }
-</style>
 {% endblock %}

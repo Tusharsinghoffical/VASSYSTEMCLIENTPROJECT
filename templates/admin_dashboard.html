@@ -1,6 +1,6 @@
 {% extends 'admin_base.html' %}
 {% load static %}
-{% block title %}Dashboard | Pulse Admin{% endblock %}
+{% block title %}Dashboard | Venus Pulse Control Center{% endblock %}
 
 {% block content %}
 <div class="container-fluid px-3 px-md-4 py-4">
@@ -10,21 +10,21 @@
     <div class="col-12">
       <div class="hero-command-card position-relative overflow-hidden p-4 p-md-5 rounded-4 shadow-2xl">
         <!-- Ambient radiant backdrop orbs -->
-        <div class="hero-ambient-glow glow-primary"></div>
-        <div class="hero-ambient-glow glow-secondary"></div>
+        <div class="hero-ambient-glow glow-cyan"></div>
+        <div class="hero-ambient-glow glow-royal"></div>
 
         <div class="row align-items-center position-relative z-1">
           <div class="col-lg-8">
             <div class="d-flex align-items-center gap-2 mb-3">
               <span class="badge rounded-pill px-3 py-1 text-uppercase fw-bold hero-badge">
-                <span class="live-pulse-dot me-1"></span> Live System Telemetry
+                <span class="live-pulse-dot me-1"></span> Live Telemetry Synchronized
               </span>
               <span class="text-white-50 small">•</span>
-              <span class="text-white-50 small" id="live_clock_sub">{{ server_time }}</span>
+              <span class="small" id="live_clock_sub" style="color: #93c5fd;">{{ server_time }}</span>
             </div>
 
             <h1 class="hero-title text-white">
-              Pulse Admin <span>Control Center</span>
+              Venus Pulse <span>Control Center</span>
             </h1>
             <p class="hero-subtitle">
               Welcome back, <strong class="text-white">{{ user.get_full_name|default:user.username }}</strong>! Currently, 
@@ -49,9 +49,7 @@
             <div class="hero-graphic-box">
               <div class="pulse-ring ring-1"></div>
               <div class="pulse-ring ring-2"></div>
-              <div class="hero-icon-center">
-                <i class="fas fa-shield-cat fa-3x"></i>
-              </div>
+              <img src="{% static 'images/venus_logo.png' %}" alt="Venus Emblem" class="hero-logo-center">
             </div>
           </div>
         </div>
@@ -63,84 +61,84 @@
   <div class="row g-3 g-xl-4 mb-4">
     <!-- Live In-Office Metric -->
     <div class="col-sm-6 col-xl-3">
-      <div class="metric-card metric-emerald">
+      <div class="metric-card metric-cyan">
         <div class="d-flex align-items-center justify-content-between mb-2">
           <span class="metric-label">Live On-Premises</span>
-          <div class="metric-icon-wrap bg-emerald-light text-emerald">
+          <div class="metric-icon-wrap bg-cyan-light text-cyan">
             <i class="fas fa-street-view"></i>
           </div>
         </div>
         <div class="d-flex align-items-center gap-3 my-2">
-          <h2 class="metric-value text-emerald mb-0" id="live_present_count_card">{{ live_present_count }}</h2>
-          <span class="badge rounded-pill px-2.5 py-1 small fw-bold d-inline-flex align-items-center gap-1.5" style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.35); color: #34d399; font-size: 0.75rem;">
+          <h2 class="metric-value text-cyan mb-0" id="live_present_count_card">{{ live_present_count }}</h2>
+          <span class="badge rounded-pill px-2.5 py-1 small fw-bold d-inline-flex align-items-center gap-1.5" style="background: rgba(0, 242, 254, 0.15); border: 1px solid rgba(0, 242, 254, 0.35); color: #00f2fe; font-size: 0.75rem;">
             <span class="spinner-grow spinner-grow-sm" style="width: 7px; height: 7px;" role="status"></span> Active
           </span>
         </div>
         <p class="metric-footnote mb-0">
-          <i class="fas fa-clock-rotate-left me-1 text-emerald"></i> Real-time present check-ins
+          <i class="fas fa-clock-rotate-left me-1 text-cyan"></i> Real-time present check-ins
         </p>
       </div>
     </div>
 
     <!-- Total Members -->
     <div class="col-sm-6 col-xl-3">
-      <div class="metric-card metric-indigo">
+      <div class="metric-card metric-blue">
         <div class="d-flex align-items-center justify-content-between mb-2">
           <span class="metric-label">Registered Personnel</span>
-          <div class="metric-icon-wrap bg-indigo-light text-indigo">
+          <div class="metric-icon-wrap bg-blue-light text-blue">
             <i class="fas fa-users"></i>
           </div>
         </div>
         <div class="d-flex align-items-center gap-3 my-2">
-          <h2 class="metric-value text-indigo mb-0" id="live_total_users">{{ total_users }}</h2>
-          <span class="badge rounded-pill px-2.5 py-1 small fw-semibold" style="background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.35); color: #a5b4fc; font-size: 0.75rem;">
+          <h2 class="metric-value text-blue mb-0" id="live_total_users">{{ total_users }}</h2>
+          <span class="badge rounded-pill px-2.5 py-1 small fw-semibold" style="background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.35); color: #93c5fd; font-size: 0.75rem;">
             Roster Pool
           </span>
         </div>
         <p class="metric-footnote mb-0">
-          <i class="fas fa-user-check me-1 text-indigo"></i> Total employees & admins
+          <i class="fas fa-user-check me-1 text-blue"></i> Total employees & admins
         </p>
       </div>
     </div>
 
     <!-- Active Sessions Today -->
     <div class="col-sm-6 col-xl-3">
-      <div class="metric-card metric-sky">
+      <div class="metric-card metric-teal">
         <div class="d-flex align-items-center justify-content-between mb-2">
           <span class="metric-label">Active Sessions</span>
-          <div class="metric-icon-wrap bg-sky-light text-sky">
+          <div class="metric-icon-wrap bg-teal-light text-teal">
             <i class="fas fa-fingerprint"></i>
           </div>
         </div>
         <div class="d-flex align-items-center gap-3 my-2">
-          <h2 class="metric-value text-sky mb-0" id="live_active_sessions">{{ active_sessions }}</h2>
-          <span class="badge rounded-pill px-2.5 py-1 small fw-semibold" style="background: rgba(14, 165, 233, 0.15); border: 1px solid rgba(14, 165, 233, 0.35); color: #7dd3fc; font-size: 0.75rem;">
+          <h2 class="metric-value text-teal mb-0" id="live_active_sessions">{{ active_sessions }}</h2>
+          <span class="badge rounded-pill px-2.5 py-1 small fw-semibold" style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.35); color: #6ee7b7; font-size: 0.75rem;">
             Authenticated
           </span>
         </div>
         <p class="metric-footnote mb-0">
-          <i class="fas fa-shield-halved me-1 text-sky"></i> Valid system logins
+          <i class="fas fa-shield-halved me-1 text-teal"></i> Valid system logins
         </p>
       </div>
     </div>
 
     <!-- Security & Health Status -->
     <div class="col-sm-6 col-xl-3">
-      <div class="metric-card metric-violet">
+      <div class="metric-card metric-indigo">
         <div class="d-flex align-items-center justify-content-between mb-2">
           <span class="metric-label">System Security</span>
-          <div class="metric-icon-wrap bg-violet-light text-violet">
+          <div class="metric-icon-wrap bg-indigo-light text-indigo">
             <i class="fas fa-lock"></i>
           </div>
         </div>
         <div class="d-flex align-items-center gap-3 my-2">
-          <h2 class="metric-value text-violet mb-0">100%</h2>
-          <span class="badge rounded-pill px-2.5 py-1 small fw-semibold" style="background: rgba(168, 85, 247, 0.15); border: 1px solid rgba(168, 85, 247, 0.35); color: #d8b4fe; font-size: 0.75rem;">
+          <h2 class="metric-value text-indigo mb-0">100%</h2>
+          <span class="badge rounded-pill px-2.5 py-1 small fw-semibold" style="background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.35); color: #c7d2fe; font-size: 0.75rem;">
             Encrypted
           </span>
         </div>
         <p class="metric-footnote mb-0">
-          <i class="fas fa-qrcode me-1 text-violet"></i> Profile-Locked QR tokens
+          <i class="fas fa-qrcode me-1 text-indigo"></i> Profile-Locked QR tokens
         </p>
       </div>
     </div>
@@ -152,7 +150,7 @@
     <div class="col-md-6 col-lg-4">
       <a href="{% url 'profile' %}" class="action-bento-card group">
         <div class="d-flex align-items-start gap-3">
-          <div class="bento-icon-box bg-purple-gradient text-white">
+          <div class="bento-icon-box bg-cyan-gradient text-white">
             <i class="fas fa-id-badge"></i>
           </div>
           <div class="flex-grow-1">
@@ -188,7 +186,7 @@
     <div class="col-md-6 col-lg-4">
       <a href="{% url 'attendance' %}" class="action-bento-card group">
         <div class="d-flex align-items-start gap-3">
-          <div class="bento-icon-box bg-rose-gradient text-white">
+          <div class="bento-icon-box bg-royal-gradient text-white">
             <i class="fas fa-qrcode"></i>
           </div>
           <div class="flex-grow-1">
@@ -206,7 +204,7 @@
     <div class="col-md-6 col-lg-4">
       <a href="{% url 'add_user' %}" class="action-bento-card group">
         <div class="d-flex align-items-start gap-3">
-          <div class="bento-icon-box bg-emerald-gradient text-white">
+          <div class="bento-icon-box bg-teal-gradient text-white">
             <i class="fas fa-user-plus"></i>
           </div>
           <div class="flex-grow-1">
@@ -224,7 +222,7 @@
     <div class="col-md-6 col-lg-4">
       <a href="{% url 'reports' %}" class="action-bento-card group">
         <div class="d-flex align-items-start gap-3">
-          <div class="bento-icon-box bg-amber-gradient text-white">
+          <div class="bento-icon-box bg-indigo-gradient text-white">
             <i class="fas fa-clock-rotate-left"></i>
           </div>
           <div class="flex-grow-1">
@@ -242,7 +240,7 @@
     <div class="col-md-6 col-lg-4">
       <a href="{% url 'download_csv' %}" class="action-bento-card group">
         <div class="d-flex align-items-start gap-3">
-          <div class="bento-icon-box bg-cyan-gradient text-white">
+          <div class="bento-icon-box bg-sky-gradient text-white">
             <i class="fas fa-file-csv"></i>
           </div>
           <div class="flex-grow-1">
@@ -260,25 +258,25 @@
   <!-- Live Attendance Activity Stream Table -->
   <div class="row">
     <div class="col-12">
-      <div class="card border-0 rounded-4 overflow-hidden shadow-2xl" style="background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08) !important;">
-        <div class="card-header border-0 p-4 pb-3" style="background: transparent; border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;">
+      <div class="card border-0 rounded-4 overflow-hidden shadow-2xl" style="background: rgba(2, 16, 48, 0.82); backdrop-filter: blur(20px); border: 1px solid rgba(0, 240, 255, 0.14) !important;">
+        <div class="card-header border-0 p-4 pb-3" style="background: transparent; border-bottom: 1px solid rgba(0, 240, 255, 0.08) !important;">
           <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
             <div>
               <div class="d-flex align-items-center gap-2">
                 <h5 class="fw-bold mb-0 text-white">
-                  <i class="fas fa-wave-pulse text-primary me-2"></i>Live Attendance Stream
+                  <i class="fas fa-wave-pulse me-2" style="color: #00f2fe;"></i>Live Attendance Stream
                 </h5>
-                <span class="badge rounded-pill px-2.5 py-1 small fw-bold d-inline-flex align-items-center gap-1.5" style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.35); color: #34d399; font-size: 0.75rem;">
+                <span class="badge rounded-pill px-2.5 py-1 small fw-bold d-inline-flex align-items-center gap-1.5" style="background: rgba(0, 242, 254, 0.15); border: 1px solid rgba(0, 242, 254, 0.35); color: #00f2fe; font-size: 0.75rem;">
                   <span class="spinner-grow spinner-grow-sm" style="width: 6px; height: 6px;" role="status"></span> Live Feed
                 </span>
               </div>
-              <p class="text-white-50 small mb-0 mt-1">Real-time attendance check-ins and check-outs across all premises</p>
+              <p class="small mb-0 mt-1" style="color: #93c5fd;">Real-time attendance check-ins and check-outs across all premises</p>
             </div>
             <div class="d-flex gap-2">
-              <a href="{% url 'attendance_report' %}" class="btn btn-sm rounded-pill px-3 fw-bold text-white-50" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12); transition: all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.color='#fff';" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='rgba(255,255,255,0.5)';">
+              <a href="{% url 'attendance_report' %}" class="btn btn-sm rounded-pill px-3 fw-bold" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(0, 240, 255, 0.2); color: #93c5fd; transition: all 0.2s;" onmouseover="this.style.background='rgba(0, 240, 255, 0.15)'; this.style.color='#fff';" onmouseout="this.style.background='rgba(255, 255, 255, 0.05)'; this.style.color='#93c5fd';">
                 <i class="fas fa-list-check me-1"></i> Full Log
               </a>
-              <a href="{% url 'export_attendance_csv' %}" class="btn btn-sm btn-primary rounded-pill px-3 fw-bold shadow-sm" style="background: linear-gradient(135deg, #6366f1, #4f46e5); border: none;">
+              <a href="{% url 'export_attendance_csv' %}" class="btn btn-sm rounded-pill px-3 fw-bold text-white shadow-sm" style="background: linear-gradient(135deg, #00f2fe, #0066ff); border: none;">
                 <i class="fas fa-download me-1"></i> Export CSV
               </a>
             </div>
@@ -287,7 +285,7 @@
 
         <div class="card-body p-0">
           <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0 text-white" style="--bs-table-bg: transparent; --bs-table-hover-bg: rgba(255, 255, 255, 0.03); color: #f8fafc;">
+            <table class="table table-hover align-middle mb-0 text-white" style="--bs-table-bg: transparent; --bs-table-hover-bg: rgba(0, 240, 255, 0.04); color: #f8fafc;">
               <thead class="modern-table-header">
                 <tr>
                   <th class="ps-4">Employee</th>
@@ -298,9 +296,9 @@
                   <th class="pe-4 text-end">Location</th>
                 </tr>
               </thead>
-              <tbody id="recentAttendanceBody" style="border-top: 1px solid rgba(255,255,255,0.06);">
+              <tbody id="recentAttendanceBody" style="border-top: 1px solid rgba(0, 240, 255, 0.08);">
                 {% for record in recent_attendance %}
-                <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                <tr style="border-bottom: 1px solid rgba(0, 240, 255, 0.05);">
                   <td class="ps-4 py-3">
                     <div class="d-flex align-items-center">
                       <div class="table-avatar me-3">
@@ -308,11 +306,11 @@
                       </div>
                       <div>
                         <div class="fw-bold text-white mb-0">{{ record.user.get_full_name|default:record.user.username }}</div>
-                        <div class="text-white-50 small" style="font-size: 0.75rem;">{{ record.user.email|default:"No email recorded" }}</div>
+                        <div class="small" style="font-size: 0.75rem; color: #93c5fd;">{{ record.user.email|default:"No email recorded" }}</div>
                       </div>
                     </div>
                   </td>
-                  <td class="text-white-50 small">
+                  <td class="small" style="color: #93c5fd;">
                     <i class="far fa-calendar me-1 opacity-50"></i>{{ record.date|date:"M d, Y" }}
                   </td>
                   <td>
@@ -328,9 +326,9 @@
                   </td>
                   <td class="small">
                     {% if record.check_in %}
-                    <span class="fw-semibold text-white"><i class="fas fa-arrow-down-left text-success me-1"></i>{{ record.check_in|time:"g:i A" }}</span>
+                    <span class="fw-semibold text-white"><i class="fas fa-arrow-down-left me-1" style="color: #00f2fe;"></i>{{ record.check_in|time:"g:i A" }}</span>
                     {% else %}
-                    <span class="text-white-50">--</span>
+                    <span style="color: #64748b;">--</span>
                     {% endif %}
                   </td>
                   <td class="small">
@@ -343,17 +341,17 @@
                     {% endif %}
                   </td>
                   <td class="pe-4 text-end small">
-                    <span class="badge rounded-pill px-3 py-1 text-white" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12); font-weight: 500;">
+                    <span class="badge rounded-pill px-3 py-1 text-white" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(0, 240, 255, 0.16); font-weight: 500;">
                       <i class="fas fa-location-dot text-danger me-1"></i>{{ record.location_name|default:"N/A" }}
                     </span>
                   </td>
                 </tr>
                 {% empty %}
                 <tr>
-                  <td colspan="6" class="py-5 text-center text-white-50">
+                  <td colspan="6" class="py-5 text-center" style="color: #93c5fd;">
                     <div class="mb-2"><i class="fas fa-calendar-xmark fa-3x opacity-25"></i></div>
                     <div class="fw-semibold text-white">No recent attendance records found today.</div>
-                    <p class="small text-white-50 mb-0">Records will dynamically appear here when users check in.</p>
+                    <p class="small mb-0" style="color: #93c5fd;">Records will dynamically appear here when users check in.</p>
                   </td>
                 </tr>
                 {% endfor %}
@@ -369,8 +367,8 @@
 <style>
   /* Hero Command Card */
   .hero-command-card {
-    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 60%, #1e293b 100%);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: linear-gradient(135deg, #020f30 0%, #061e56 60%, #010a20 100%);
+    border: 1px solid rgba(0, 240, 255, 0.2);
   }
 
   .hero-ambient-glow {
@@ -380,25 +378,25 @@
     pointer-events: none;
     z-index: 0;
   }
-  .glow-primary {
+  .glow-cyan {
     width: 320px;
     height: 320px;
-    background: rgba(99, 102, 241, 0.28);
+    background: rgba(0, 242, 254, 0.25);
     top: -100px;
     right: 15%;
   }
-  .glow-secondary {
+  .glow-royal {
     width: 250px;
     height: 250px;
-    background: rgba(236, 72, 153, 0.2);
+    background: rgba(0, 102, 255, 0.22);
     bottom: -80px;
     right: -40px;
   }
 
   .hero-badge {
-    background: rgba(99, 102, 241, 0.2);
-    border: 1px solid rgba(99, 102, 241, 0.4);
-    color: #c7d2fe;
+    background: rgba(0, 242, 254, 0.15);
+    border: 1px solid rgba(0, 242, 254, 0.4);
+    color: #00f2fe;
     font-size: 0.72rem;
     letter-spacing: 0.8px;
   }
@@ -408,8 +406,8 @@
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background-color: #10b981;
-    box-shadow: 0 0 10px #10b981;
+    background-color: #00f2fe;
+    box-shadow: 0 0 10px #00f2fe;
     animation: pulseSlow 2s infinite ease-in-out;
   }
   @keyframes pulseSlow {
@@ -424,7 +422,7 @@
     margin-bottom: 0.6rem;
   }
   .hero-title span {
-    background: linear-gradient(135deg, #a5b4fc, #f472b6);
+    background: linear-gradient(135deg, #00f2fe, #38bdf8);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -432,38 +430,39 @@
 
   .hero-subtitle {
     font-size: 1.02rem;
-    color: #cbd5e1;
+    color: #93c5fd;
     max-width: 650px;
     line-height: 1.55;
     margin-bottom: 1.5rem;
   }
 
   .highlight-counter {
-    color: #38bdf8;
-    background: rgba(56, 189, 248, 0.15);
+    color: #00f2fe;
+    background: rgba(0, 242, 254, 0.15);
     padding: 0.1rem 0.6rem;
     border-radius: 6px;
+    border: 1px solid rgba(0, 242, 254, 0.3);
   }
 
   .hero-btn-primary {
-    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    background: linear-gradient(135deg, #00f2fe, #0066ff);
     color: white;
     font-weight: 600;
     border-radius: 999px;
     padding: 0.65rem 1.4rem;
-    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+    box-shadow: 0 4px 16px rgba(0, 114, 255, 0.4);
     border: none;
     transition: all 0.2s ease;
   }
   .hero-btn-primary:hover {
     color: white;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
+    box-shadow: 0 6px 22px rgba(0, 242, 254, 0.6);
   }
 
   .hero-btn-glass {
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(0, 240, 255, 0.25);
     backdrop-filter: blur(10px);
     color: white;
     font-weight: 600;
@@ -472,27 +471,28 @@
     transition: all 0.2s ease;
   }
   .hero-btn-glass:hover {
-    background: rgba(255, 255, 255, 0.22);
+    background: rgba(0, 240, 255, 0.18);
+    border-color: #00f2fe;
     color: white;
     transform: translateY(-2px);
   }
 
   .hero-btn-outline {
     background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    color: #cbd5e1;
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    color: #93c5fd;
     font-weight: 600;
     border-radius: 999px;
     padding: 0.65rem 1.3rem;
     transition: all 0.2s ease;
   }
   .hero-btn-outline:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(0, 240, 255, 0.1);
     color: white;
     transform: translateY(-2px);
   }
 
-  /* Pulse Ring Graphic */
+  /* Pulse Ring Graphic with Venus Logo Center */
   .hero-graphic-box {
     position: relative;
     width: 170px;
@@ -504,43 +504,39 @@
   .pulse-ring {
     position: absolute;
     border-radius: 50%;
-    border: 1px dashed rgba(255, 255, 255, 0.15);
+    border: 1px dashed rgba(0, 242, 254, 0.3);
   }
   .ring-1 { width: 170px; height: 170px; animation: spinClockwise 25s linear infinite; }
   .ring-2 { width: 120px; height: 120px; animation: spinCounter 18s linear infinite; }
   @keyframes spinClockwise { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   @keyframes spinCounter { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
 
-  .hero-icon-center {
+  .hero-logo-center {
     width: 80px;
     height: 80px;
     border-radius: 20px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(12px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #818cf8;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    object-fit: cover;
+    box-shadow: 0 0 25px rgba(0, 242, 254, 0.5);
+    border: 2px solid rgba(0, 240, 255, 0.4);
+    z-index: 2;
   }
 
-  /* Metric Cards - Sleek Dark Glassmorphism */
+  /* Metric Cards - Sapphire Glassmorphism */
   .metric-card {
-    background: rgba(15, 23, 42, 0.75);
+    background: rgba(2, 16, 48, 0.82);
     backdrop-filter: blur(16px);
     border-radius: 20px;
     padding: 1.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(0, 240, 255, 0.14);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
   }
   .metric-card:hover {
     transform: translateY(-4px);
-    border-color: rgba(255, 255, 255, 0.16);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    border-color: rgba(0, 240, 255, 0.35);
+    box-shadow: 0 12px 30px rgba(0, 114, 255, 0.25);
   }
   .metric-card::before {
     content: '';
@@ -550,17 +546,17 @@
     right: 0;
     height: 3px;
   }
-  .metric-emerald::before { background: #10b981; }
+  .metric-cyan::before { background: #00f2fe; }
+  .metric-blue::before { background: #3b82f6; }
+  .metric-teal::before { background: #10b981; }
   .metric-indigo::before { background: #6366f1; }
-  .metric-sky::before { background: #0ea5e9; }
-  .metric-violet::before { background: #8b5cf6; }
 
   .metric-label {
     font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: #94a3b8;
+    color: #93c5fd;
   }
   .metric-value {
     font-size: 2.25rem;
@@ -572,7 +568,7 @@
   .metric-footnote {
     font-size: 0.78rem;
     margin-top: 0.65rem;
-    color: #94a3b8 !important;
+    color: #93c5fd !important;
   }
 
   .metric-icon-wrap {
@@ -584,33 +580,33 @@
     justify-content: center;
     font-size: 1.25rem;
   }
-  .bg-emerald-light { background: rgba(16, 185, 129, 0.18); }
-  .text-emerald { color: #34d399 !important; }
-  .bg-indigo-light { background: rgba(99, 102, 241, 0.18); }
-  .text-indigo { color: #818cf8 !important; }
-  .bg-sky-light { background: rgba(14, 165, 233, 0.18); }
-  .text-sky { color: #38bdf8 !important; }
-  .bg-violet-light { background: rgba(139, 92, 246, 0.18); }
-  .text-violet { color: #c084fc !important; }
+  .bg-cyan-light { background: rgba(0, 242, 254, 0.16); }
+  .text-cyan { color: #00f2fe !important; }
+  .bg-blue-light { background: rgba(59, 130, 246, 0.16); }
+  .text-blue { color: #60a5fa !important; }
+  .bg-teal-light { background: rgba(16, 185, 129, 0.16); }
+  .text-teal { color: #34d399 !important; }
+  .bg-indigo-light { background: rgba(99, 102, 241, 0.16); }
+  .text-indigo { color: #a5b4fc !important; }
 
-  /* Bento Action Cards - High Contrast Dark */
+  /* Bento Action Cards - Sapphire Luxury */
   .action-bento-card {
     display: block;
-    background: rgba(15, 23, 42, 0.75);
+    background: rgba(2, 16, 48, 0.82);
     backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(0, 240, 255, 0.14);
     border-radius: 20px;
     padding: 1.4rem;
     text-decoration: none;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     height: 100%;
   }
   .action-bento-card:hover {
     transform: translateY(-4px);
-    background: rgba(30, 41, 59, 0.85);
-    border-color: rgba(99, 102, 241, 0.4);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+    background: rgba(4, 24, 68, 0.9);
+    border-color: #00f2fe;
+    box-shadow: 0 12px 28px rgba(0, 242, 254, 0.25);
   }
 
   .bento-icon-box {
@@ -622,32 +618,32 @@
     justify-content: center;
     font-size: 1.25rem;
     flex-shrink: 0;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.3);
   }
-  .bg-purple-gradient { background: linear-gradient(135deg, #8b5cf6, #6366f1); }
+  .bg-cyan-gradient { background: linear-gradient(135deg, #00f2fe, #0072ff); }
   .bg-blue-gradient { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
-  .bg-rose-gradient { background: linear-gradient(135deg, #f43f5e, #e11d48); }
-  .bg-emerald-gradient { background: linear-gradient(135deg, #10b981, #059669); }
-  .bg-amber-gradient { background: linear-gradient(135deg, #f59e0b, #d97706); }
-  .bg-cyan-gradient { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+  .bg-royal-gradient { background: linear-gradient(135deg, #0055ff, #0022aa); }
+  .bg-teal-gradient { background: linear-gradient(135deg, #10b981, #059669); }
+  .bg-indigo-gradient { background: linear-gradient(135deg, #6366f1, #4338ca); }
+  .bg-sky-gradient { background: linear-gradient(135deg, #0284c7, #0369a1); }
 
   .action-title {
     font-size: 0.98rem;
     font-weight: 700;
-    color: #f8fafc;
+    color: #ffffff;
   }
   .action-arrow {
     font-size: 0.75rem;
-    color: #64748b;
+    color: #60a5fa;
     transition: all 0.2s ease;
   }
   .action-bento-card:hover .action-arrow {
-    color: #818cf8;
+    color: #00f2fe;
     transform: translate(2px, -2px);
   }
   .action-desc {
     font-size: 0.82rem;
-    color: #94a3b8;
+    color: #93c5fd;
     margin: 0;
     line-height: 1.4;
   }
@@ -658,9 +654,9 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.6px;
-    color: #94a3b8;
-    background: rgba(255, 255, 255, 0.03);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    color: #93c5fd;
+    background: rgba(0, 240, 255, 0.04);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.1);
     padding: 1rem 0.85rem;
   }
 
@@ -668,7 +664,7 @@
     width: 38px;
     height: 38px;
     border-radius: 10px;
-    background: linear-gradient(135deg, #4338ca, #6366f1);
+    background: linear-gradient(135deg, #00f2fe, #0066ff);
     color: #ffffff;
     font-weight: 700;
     display: flex;
@@ -676,6 +672,7 @@
     justify-content: center;
     font-size: 0.9rem;
     flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0, 242, 254, 0.3);
   }
 
   .status-pill {
@@ -687,9 +684,9 @@
     font-weight: 600;
   }
   .status-present {
-    background: rgba(16, 185, 129, 0.15);
-    color: #34d399;
-    border: 1px solid rgba(16, 185, 129, 0.3);
+    background: rgba(0, 242, 254, 0.15);
+    color: #00f2fe;
+    border: 1px solid rgba(0, 242, 254, 0.35);
   }
   .status-still-in {
     background: rgba(245, 158, 11, 0.15);
@@ -698,7 +695,7 @@
   }
   .status-other {
     background: rgba(255, 255, 255, 0.06);
-    color: #94a3b8;
+    color: #93c5fd;
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
 </style>
@@ -728,15 +725,15 @@
             if (data.recent_attendance.length === 0) {
               tbody.innerHTML = `
                 <tr>
-                  <td colspan="6" class="py-5 text-center text-white-50">
+                  <td colspan="6" class="py-5 text-center" style="color: #93c5fd;">
                     <div class="mb-2"><i class="fas fa-calendar-xmark fa-3x opacity-25"></i></div>
                     <div class="fw-semibold text-white">No recent attendance records found today.</div>
-                    <p class="small text-white-50 mb-0">Records will dynamically appear here when users check in.</p>
+                    <p class="small mb-0" style="color: #93c5fd;">Records will dynamically appear here when users check in.</p>
                   </td>
                 </tr>`;
             } else {
               tbody.innerHTML = data.recent_attendance.map(r => `
-                <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                <tr style="border-bottom: 1px solid rgba(0, 240, 255, 0.05);">
                   <td class="ps-4 py-3">
                     <div class="d-flex align-items-center">
                       <div class="table-avatar me-3">
@@ -744,11 +741,11 @@
                       </div>
                       <div>
                         <div class="fw-bold text-white mb-0">${r.name}</div>
-                        <div class="text-white-50 small" style="font-size: 0.75rem;">${r.email}</div>
+                        <div class="small" style="font-size: 0.75rem; color: #93c5fd;">${r.email}</div>
                       </div>
                     </div>
                   </td>
-                  <td class="text-white-50 small">
+                  <td class="small" style="color: #93c5fd;">
                     <i class="far fa-calendar me-1 opacity-50"></i>${r.date}
                   </td>
                   <td>
@@ -758,8 +755,8 @@
                   </td>
                   <td class="small">
                     ${r.check_in 
-                      ? `<span class="fw-semibold text-white"><i class="fas fa-arrow-down-left text-success me-1"></i>${r.check_in}</span>`
-                      : '<span class="text-white-50">--</span>'}
+                      ? `<span class="fw-semibold text-white"><i class="fas fa-arrow-down-left me-1" style="color: #00f2fe;"></i>${r.check_in}</span>`
+                      : '<span style="color: #64748b;">--</span>'}
                   </td>
                   <td class="small">
                     ${r.check_out 
@@ -767,7 +764,7 @@
                       : '<span class="status-pill status-still-in"><span class="spinner-grow spinner-grow-sm me-1" style="width: 6px; height: 6px;" role="status"></span> Still In</span>'}
                   </td>
                   <td class="pe-4 text-end small">
-                    <span class="badge rounded-pill px-3 py-1 text-white" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12); font-weight: 500;">
+                    <span class="badge rounded-pill px-3 py-1 text-white" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(0, 240, 255, 0.16); font-weight: 500;">
                       <i class="fas fa-location-dot text-danger me-1"></i>${r.location_name}
                     </span>
                   </td>

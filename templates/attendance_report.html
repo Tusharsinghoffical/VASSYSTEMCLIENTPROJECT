@@ -1,139 +1,147 @@
 {% extends "admin_base.html" %}
 {% load static %}
-{% block title %}Attendance Analytics | Venus System{% endblock %}
+{% block title %}Attendance Analytics & Logs | Venus Pulse{% endblock %}
 
 {% block content %}
-<div class="container py-4">
+<div class="container-fluid px-0">
     <!-- Page Header -->
     <div class="row mb-4 align-items-center">
         <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-            <h2 class="fw-bold text-dark mb-1"><i class="fas fa-chart-line text-primary me-2"></i> Attendance Analytics
+            <div class="d-flex align-items-center gap-2 mb-2 justify-content-center justify-content-md-start">
+                <img src="{% static 'images/venus_logo.png' %}" alt="Venus Logo" class="rounded-circle shadow-sm" style="width: 26px; height: 26px; border: 1px solid rgba(0, 242, 254, 0.4);" />
+                <span class="badge rounded-pill px-3 py-1 fw-bold small" style="background: rgba(0, 242, 254, 0.12); color: #00f2fe; border: 1px solid rgba(0, 242, 254, 0.3);">
+                    AUDIT TELEMETRY
+                </span>
+                <span class="small" style="color: #93c5fd;">System Attendance Logs</span>
+            </div>
+            <h2 class="fw-bold text-white mb-1">
+                <i class="fas fa-chart-line me-2" style="color: #00f2fe;"></i>Attendance Analytics & Logs
             </h2>
-            <p class="text-muted small mb-0">Global attendance tracking, check-ins, and performance statistics.</p>
+            <p class="small mb-0" style="color: #93c5fd;">Global attendance tracking, check-in records, and historical logs across all facilities.</p>
         </div>
         <div class="col-md-6 text-center text-md-end">
-            <a href="{% url 'export_attendance_csv' %}" class="btn btn-outline-primary rounded-pill px-4 fw-bold small">
+            <a href="{% url 'export_attendance_csv' %}" class="btn rounded-pill px-4 py-2 fw-semibold text-white shadow-sm" style="background: linear-gradient(135deg, #00f2fe 0%, #0066ff 100%); border: none;">
                 <i class="fas fa-file-export me-1"></i> Export Attendance CSV
             </a>
         </div>
     </div>
 
     <!-- Summary Stats -->
-    <div class="row g-4 mb-5">
+    <div class="row g-4 mb-4">
         <div class="col-md-4">
-            <div class="card border-0 shadow-sm rounded-4 p-4 d-flex flex-row align-items-center">
-                <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-3 me-3">
+            <div class="card border-0 rounded-4 p-4 shadow-lg d-flex flex-row align-items-center" style="background: rgba(2, 16, 48, 0.85); backdrop-filter: blur(14px); border: 1px solid rgba(0, 242, 254, 0.18);">
+                <div class="rounded-circle p-3 me-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; background: rgba(0, 242, 254, 0.15); color: #00f2fe; border: 1px solid rgba(0, 242, 254, 0.3);">
                     <i class="fas fa-users fa-2x"></i>
                 </div>
                 <div>
-                    <div class="text-muted small fw-bold text-uppercase opacity-75">Total Work Force</div>
-                    <div class="h3 fw-bold mb-0 text-dark">{{ total_users }}</div>
+                    <div class="small fw-bold text-uppercase" style="letter-spacing: 0.6px; color: #93c5fd;">Total Workforce</div>
+                    <div class="h3 fw-bold mb-0 text-white">{{ total_users }}</div>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card border-0 shadow-sm rounded-4 p-4 d-flex flex-row align-items-center">
-                <div class="bg-success bg-opacity-10 text-success rounded-circle p-3 me-3">
+            <div class="card border-0 rounded-4 p-4 shadow-lg d-flex flex-row align-items-center" style="background: rgba(2, 16, 48, 0.85); backdrop-filter: blur(14px); border: 1px solid rgba(0, 242, 254, 0.18);">
+                <div class="rounded-circle p-3 me-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);">
                     <i class="fas fa-calendar-check fa-2x"></i>
                 </div>
                 <div>
-                    <div class="text-muted small fw-bold text-uppercase opacity-75">Check-ins Today</div>
-                    <div class="h3 fw-bold mb-0 text-dark">{{ present_today }}</div>
+                    <div class="small fw-bold text-uppercase" style="letter-spacing: 0.6px; color: #93c5fd;">Check-ins Today</div>
+                    <div class="h3 fw-bold mb-0" style="color: #10b981;">{{ present_today }}</div>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card border-0 shadow-sm rounded-4 p-4 d-flex flex-row align-items-center">
-                <div class="bg-danger bg-opacity-10 text-danger rounded-circle p-3 me-3">
+            <div class="card border-0 rounded-4 p-4 shadow-lg d-flex flex-row align-items-center" style="background: rgba(2, 16, 48, 0.85); backdrop-filter: blur(14px); border: 1px solid rgba(0, 242, 254, 0.18);">
+                <div class="rounded-circle p-3 me-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; background: rgba(0, 242, 254, 0.15); color: #00f2fe; border: 1px solid rgba(0, 242, 254, 0.3);">
                     <i class="fas fa-door-open fa-2x pulse-icon"></i>
                 </div>
                 <div>
-                    <div class="text-muted small fw-bold text-uppercase opacity-75">Active Right Now</div>
-                    <div class="h3 fw-bold mb-0 text-danger">{{ active_now }}</div>
+                    <div class="small fw-bold text-uppercase" style="letter-spacing: 0.6px; color: #93c5fd;">Active On-Premises</div>
+                    <div class="h3 fw-bold mb-0" style="color: #00f2fe;">{{ active_now }}</div>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Main Report Card -->
-    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-        <div class="card-header bg-white border-0 p-4 border-bottom">
+    <div class="card border-0 rounded-4 overflow-hidden shadow-lg" style="background: rgba(2, 16, 48, 0.85); backdrop-filter: blur(14px); border: 1px solid rgba(0, 242, 254, 0.18);">
+        <div class="card-header p-4" style="background: rgba(3, 19, 58, 0.7); border-bottom: 1px solid rgba(0, 242, 254, 0.15);">
             <div class="row g-3 align-items-center">
                 <div class="col-md-6">
-                    <h5 class="fw-bold mb-0">Global Activity Log (Latest Updates)</h5>
+                    <h5 class="fw-bold text-white mb-0">Global Activity Log (Real-time Records)</h5>
+                    <span class="small" style="color: #93c5fd;">Filter by employee name, corporate email, or date</span>
                 </div>
                 <div class="col-md-6">
-                    <div class="input-group bg-light rounded-pill px-3 py-1">
-                        <span class="input-group-text bg-transparent border-0 text-muted"><i
-                                class="fas fa-search"></i></span>
+                    <div class="input-group rounded-pill px-3 py-1" style="background: rgba(3, 19, 58, 0.9); border: 1px solid rgba(0, 242, 254, 0.3);">
+                        <span class="input-group-text bg-transparent border-0" style="color: #00f2fe;">
+                            <i class="fas fa-search"></i>
+                        </span>
                         <input type="text" id="searchInput"
-                            class="form-control bg-transparent border-0 shadow-none ps-0"
-                            placeholder="Search by name, email or date...">
+                            class="form-control bg-transparent border-0 shadow-none ps-0 text-white"
+                            placeholder="Filter records..." style="outline: none;">
                     </div>
                 </div>
             </div>
         </div>
         <div class="card-body p-0">
-            <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
-                <table class="table table-hover align-middle mb-0" id="activityTable">
-                    <thead class="table-light sticky-top">
+            <div class="table-responsive" style="max-height: 520px; overflow-y: auto;">
+                <table class="table align-middle mb-0" id="activityTable" style="color: #cbd5e1;">
+                    <thead class="sticky-top" style="background: #020e2b; border-bottom: 1px solid rgba(0, 242, 254, 0.2);">
                         <tr>
-                            <th class="ps-4">Employee</th>
-                            <th>Scan Date</th>
-                            <th>Check-in</th>
-                            <th>Check-out</th>
-                            <th>Scanned Location</th>
+                            <th class="ps-4" style="color: #93c5fd; font-size: 0.72rem; letter-spacing: 0.6px; text-transform: uppercase;">Employee</th>
+                            <th style="color: #93c5fd; font-size: 0.72rem; letter-spacing: 0.6px; text-transform: uppercase;">Scan Date</th>
+                            <th style="color: #93c5fd; font-size: 0.72rem; letter-spacing: 0.6px; text-transform: uppercase;">Check-in</th>
+                            <th style="color: #93c5fd; font-size: 0.72rem; letter-spacing: 0.6px; text-transform: uppercase;">Check-out</th>
+                            <th class="pe-4" style="color: #93c5fd; font-size: 0.72rem; letter-spacing: 0.6px; text-transform: uppercase;">Location</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for record in records %}
-                        <tr>
-                            <td class="ps-4">
+                        <tr style="border-bottom: 1px solid rgba(0, 242, 254, 0.08); transition: background 0.2s;" class="audit-row">
+                            <td class="ps-4 py-3">
                                 <div class="d-flex align-items-center">
-                                    <div
-                                        class="avatar-sm bg-primary bg-opacity-10 text-primary rounded-pill me-3 d-flex align-items-center justify-content-center fw-bold small">
+                                    <div class="rounded-circle text-white fw-bold me-3 d-flex align-items-center justify-content-center small shadow-sm" style="width: 38px; height: 38px; background: linear-gradient(135deg, #00f2fe 0%, #0066ff 100%);">
                                         {{ record.user.username|slice:":1"|upper }}
                                     </div>
                                     <div>
-                                        <div class="fw-bold text-dark">{{ record.name|default:record.user.username }}
-                                        </div>
-                                        <div class="text-muted small">{{ record.email|default:record.user.email }}</div>
+                                        <div class="fw-bold text-white">{{ record.name|default:record.user.username }}</div>
+                                        <div class="small" style="color: #93c5fd;">{{ record.email|default:record.user.email }}</div>
                                     </div>
                                 </div>
                             </td>
-                            <td class="fw-bold text-dark text-nowrap">
-                                <i class="far fa-calendar-alt text-muted small me-1"></i> {{ record.date|date:"M d, Y" }}
+                            <td class="fw-bold text-white text-nowrap py-3">
+                                <i class="far fa-calendar-alt small me-1" style="color: #00f2fe;"></i> {{ record.date|date:"M d, Y" }}
                             </td>
-                            <td>
+                            <td class="py-3">
                                 {% if record.check_in %}
-                                <span
-                                    class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 fw-bold border border-success border-opacity-25 pb-1">
+                                <span class="badge rounded-pill px-3 py-1 fw-bold" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);">
                                     <i class="fas fa-sign-in-alt me-1"></i> {{ record.check_in|time:"g:i A" }}
                                 </span>
                                 {% else %}
-                                <span class="text-muted small">--</span>
+                                <span style="color: #64748b;">--</span>
                                 {% endif %}
                             </td>
-                            <td>
+                            <td class="py-3">
                                 {% if record.check_out %}
-                                <span
-                                    class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-3 fw-bold border border-danger border-opacity-25 pb-1">
+                                <span class="badge rounded-pill px-3 py-1 fw-bold" style="background: rgba(244, 63, 94, 0.15); color: #f43f5e; border: 1px solid rgba(244, 63, 94, 0.3);">
                                     <i class="fas fa-sign-out-alt me-1"></i> {{ record.check_out|time:"g:i A" }}
                                 </span>
                                 {% else %}
-                                <span
-                                    class="badge bg-warning bg-opacity-10 text-warning-emphasis rounded-pill px-3 fw-bold pb-1 shadow-sm"><i
-                                        class="fas fa-running me-1"></i> Active</span>
+                                <span class="badge rounded-pill px-3 py-1 fw-bold" style="background: rgba(0, 242, 254, 0.15); color: #00f2fe; border: 1px solid rgba(0, 242, 254, 0.3);">
+                                    <i class="fas fa-running me-1"></i> Still In
+                                </span>
                                 {% endif %}
                             </td>
-                            <td class="pe-4 text-muted small">
-                                <i class="fas fa-map-marker-alt text-primary opacity-50 me-1"></i> {{ record.location_name|default:"Unknown Location" }}
+                            <td class="pe-4 py-3 small" style="color: #cbd5e1;">
+                                <i class="fas fa-location-dot me-1" style="color: #00f2fe;"></i> {{ record.location_name|default:"Premises Verified" }}
                             </td>
                         </tr>
                         {% empty %}
                         <tr>
-                            <td colspan="5" class="py-5 text-center text-muted italic">No attendance records found
-                                across the entire system.</td>
+                            <td colspan="5" class="py-5 text-center text-white-50">
+                                <i class="fas fa-inbox fa-3x mb-3 d-block" style="color: rgba(0, 242, 254, 0.3);"></i>
+                                No attendance records found across the system.
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -144,40 +152,16 @@
 </div>
 
 <style>
-    table thead th {
-        font-weight: 600;
-        text-transform: uppercase;
-        font-size: 0.75rem;
-        letter-spacing: 0.05em;
-        color: #64748b;
-        padding: 1.25rem 0.75rem !important;
+    .audit-row:hover {
+        background-color: rgba(0, 242, 254, 0.05) !important;
     }
-
-    .avatar-sm {
-        width: 32px;
-        height: 32px;
-    }
-
-    .table tbody tr:hover {
-        background-color: rgba(99, 102, 241, 0.02);
-    }
-
     .pulse-icon {
-        animation: pulse 2s infinite;
+        animation: pulseEffect 2s infinite;
     }
-
-    @keyframes pulse {
-        0% {
-            transform: scale(1);
-        }
-
-        50% {
-            transform: scale(1.1);
-        }
-
-        100% {
-            transform: scale(1);
-        }
+    @keyframes pulseEffect {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
     }
 </style>
 
