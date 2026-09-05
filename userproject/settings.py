@@ -29,12 +29,23 @@ for host in ["vassystemclientproject.onrender.com", ".onrender.com", "testserver
     if host not in ALLOWED_HOSTS:
         ALLOWED_HOSTS.append(host)
 
-CSRF_TRUSTED_ORIGINS = [
+# Reverse Proxy SSL Header for Render / Cloud hosting
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+USE_X_FORWARDED_HOST = True
+USE_X_FORWARDED_PORT = True
+
+CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[])
+for origin in [
     "https://vassystemclientproject.onrender.com",
     "https://*.onrender.com",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
-]
+    "http://localhost",
+    "http://127.0.0.1",
+]:
+    if origin not in CSRF_TRUSTED_ORIGINS:
+        CSRF_TRUSTED_ORIGINS.append(origin)
+
 
 
 

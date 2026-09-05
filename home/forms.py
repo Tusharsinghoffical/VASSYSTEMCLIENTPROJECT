@@ -44,6 +44,9 @@ class CustomUserCreationForm(UserCreationForm):
         self.fields['is_admin'].widget.attrs.update({
             'class': 'form-check-input',
         })
+        for fname in ['username', 'password1', 'password2']:
+            if fname in self.fields:
+                self.fields[fname].help_text = ''
     
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -74,6 +77,9 @@ class AdminUserCreationForm(UserCreationForm):
                 field.widget.attrs.update({
                     'class': 'form-control',
                 })
+        for fname in ['username', 'password1', 'password2']:
+            if fname in self.fields:
+                self.fields[fname].help_text = ''
     
     def save(self, commit=True):
         user = super().save(commit=False)
