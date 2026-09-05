@@ -11,10 +11,10 @@ from django.http import JsonResponse, HttpResponse
 from django.utils import timezone
 from django.utils.timezone import localtime, now
 from django.db.models import Q, Count
-from django.db.models.functions import TruncWeek, TruncMonth, TruncYear
 from django.conf import settings
 from django.core.paginator import Paginator
 from django.contrib.sessions.models import Session
+from django.db import transaction
 from .models import Attendance, Profile
 from .forms import UserForm, ProfileForm, AdminUserCreationForm, CustomUserCreationForm
 
@@ -208,53 +208,54 @@ def mark_attendance(request):
             user_display_name = target_user.get_full_name() or target_user.username
             employee_code = f"VJAS-{target_user.id:04d}"
 
-            record, created = Attendance.objects.get_or_create(
-                user=target_user,
-                date=today,
-                defaults={
-                    "name": user_display_name,
-                    "email": target_user.email,
-                    "qr_code": raw_qr_record,
-                    "location_name": location_name,
-                }
-            )
+            with transaction.atomic():
+                record, created = Attendance.objects.select_for_update().get_or_create(
+                    user=target_user,
+                    date=today,
+                    defaults={
+                        "name": user_display_name,
+                        "email": target_user.email,
+                        "qr_code": raw_qr_record,
+                        "location_name": location_name,
+                    }
+                )
 
-            # Update details if previously missing
-            if not record.name:
-                record.name = user_display_name
-            if not record.email:
-                record.email = target_user.email
-            if location_name and not record.location_name:
-                record.location_name = location_name
+                # Update details if previously missing
+                if not record.name:
+                    record.name = user_display_name
+                if not record.email:
+                    record.email = target_user.email
+                if location_name and not record.location_name:
+                    record.location_name = location_name
 
-            if mode == "check_in":
-                if record.check_in:
-                    formatted_time = record.check_in.strftime("%I:%M %p")
+                if mode == "check_in":
+                    if record.check_in:
+                        formatted_time = record.check_in.strftime("%I:%M %p")
+                        return JsonResponse({
+                            "message": f"ℹ️ {user_display_name} ({employee_code}) is already Checked In today at {formatted_time}."
+                        })
+                    record.check_in = now_time
+                    record.save()
                     return JsonResponse({
-                        "message": f"ℹ️ {user_display_name} ({employee_code}) is already Checked In today at {formatted_time}."
+                        "message": f"✅ Check-In marked successfully for {user_display_name} ({employee_code})!"
                     })
-                record.check_in = now_time
-                record.save()
-                return JsonResponse({
-                    "message": f"✅ Check-In marked successfully for {user_display_name} ({employee_code})!"
-                })
 
-            elif mode == "check_out":
-                if not record.check_in:
+                elif mode == "check_out":
+                    if not record.check_in:
+                        return JsonResponse({
+                            "message": f"⚠️ {user_display_name} ({employee_code}) needs to Check-In first before Checking Out."
+                        })
+                    if record.check_out:
+                        formatted_time = record.check_out.strftime("%I:%M %p")
+                        return JsonResponse({
+                            "message": f"ℹ️ {user_display_name} ({employee_code}) is already Checked Out today at {formatted_time}."
+                        })
+                    record.check_out = now_time
+                    record.save()
                     return JsonResponse({
-                        "message": f"⚠️ {user_display_name} ({employee_code}) needs to Check-In first before Checking Out."
+                        "message": f"✅ Check-Out marked successfully for {user_display_name} ({employee_code})!"
                     })
-                if record.check_out:
-                    formatted_time = record.check_out.strftime("%I:%M %p")
-                    return JsonResponse({
-                        "message": f"ℹ️ {user_display_name} ({employee_code}) is already Checked Out today at {formatted_time}."
-                    })
-                record.check_out = now_time
-                record.save()
-                return JsonResponse({
-                    "message": f"✅ Check-Out marked successfully for {user_display_name} ({employee_code})!"
-                })
-            return JsonResponse({"error": "❌ Invalid mode."}, status=400)
+                return JsonResponse({"error": "❌ Invalid mode."}, status=400)
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)
     return JsonResponse({"error": "Method Not Allowed"}, status=405)
@@ -332,13 +333,36 @@ def edit_user_view(request, user_id):
     user = get_object_or_404(User, id=user_id)
     profile, created = Profile.objects.get_or_create(user=user)
     if request.method == 'POST':
-        user.username = request.POST.get('username')
-        user.email = request.POST.get('email')
-        user.first_name = request.POST.get('first_name')
-        user.last_name = request.POST.get('last_name')
-        profile.phone = request.POST.get('phone')
-        profile.position = request.POST.get('position')
-        profile.address = request.POST.get('address')
+        username = request.POST.get('username', '').strip()
+        email = request.POST.get('email', '').strip().lower()
+        first_name = request.POST.get('first_name', '').strip()
+        last_name = request.POST.get('last_name', '').strip()
+        phone = request.POST.get('phone', '').strip()
+        position = request.POST.get('position', '').strip()
+        address = request.POST.get('address', '').strip()
+
+        if not username:
+            messages.error(request, "⚠️ Username cannot be blank.")
+            return render(request, 'edit_user.html', {'user': user, 'profile': profile})
+        if not email:
+            messages.error(request, "⚠️ Email address cannot be blank.")
+            return render(request, 'edit_user.html', {'user': user, 'profile': profile})
+
+        if User.objects.filter(username__iexact=username).exclude(id=user.id).exists():
+            messages.error(request, f"⚠️ Username '@{username}' is already in use by another account.")
+            return render(request, 'edit_user.html', {'user': user, 'profile': profile})
+
+        if User.objects.filter(email__iexact=email).exclude(id=user.id).exists():
+            messages.error(request, f"⚠️ Email '{email}' is already registered to another account.")
+            return render(request, 'edit_user.html', {'user': user, 'profile': profile})
+
+        user.username = username
+        user.email = email
+        user.first_name = first_name
+        user.last_name = last_name
+        profile.phone = phone
+        profile.position = position
+        profile.address = address
         user.save()
         profile.save()
         messages.success(request, "✅ User updated successfully!")
@@ -428,6 +452,13 @@ def profile_view(request):
             profile_form.save()
             messages.success(request, "✅ Profile updated!")
             return redirect('profile')
+        else:
+            for field, errors in user_form.errors.items():
+                for err in errors:
+                    messages.error(request, f"⚠️ {field.replace('_', ' ').capitalize()}: {err}")
+            for field, errors in profile_form.errors.items():
+                for err in errors:
+                    messages.error(request, f"⚠️ {field.replace('_', ' ').capitalize()}: {err}")
     else:
         user_form = UserForm(instance=user)
         profile_form = ProfileForm(instance=profile)
