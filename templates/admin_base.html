@@ -13,211 +13,532 @@
         }
     </script>
     <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
     <style>
         :root {
-            --sidebar-bg: #0f172a;
-            --sidebar-hover: #1e293b;
+            --sidebar-bg: #0b0f19;
+            --sidebar-surface: #111827;
+            --sidebar-hover: rgba(255, 255, 255, 0.06);
+            --sidebar-border: rgba(255, 255, 255, 0.07);
             --primary-accent: #6366f1;
-            --body-bg: #f1f5f9;
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            --accent-glow: rgba(99, 102, 241, 0.25);
+            --body-bg: #f8fafc;
+            --card-border: #e2e8f0;
         }
 
         body {
-            font-family: 'Outfit', sans-serif;
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--body-bg);
-            display: flex;
+            color: #1e293b;
             min-height: 100vh;
+            display: flex;
             overflow-x: hidden;
         }
 
         /* Sidebar Styling */
         .sidebar {
-            width: 260px;
+            width: 275px;
             background: var(--sidebar-bg);
+            background-image: radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 60%);
+            border-right: 1px solid var(--sidebar-border);
             color: white;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: fixed;
+            top: 0;
+            left: 0;
             height: 100vh;
-            z-index: 1000;
+            z-index: 1040;
+            display: flex;
+            flex-direction: column;
         }
 
         .sidebar-header {
-            padding: 2.5rem 1.5rem;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1.75rem 1.5rem 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--sidebar-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand-logo-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .brand-text h5 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            color: #ffffff;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .brand-text span {
+            background: linear-gradient(135deg, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-badge {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #94a3b8;
+        }
+
+        .sidebar-nav-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 1.25rem 0.85rem;
+        }
+
+        .sidebar-nav-container::-webkit-scrollbar {
+            width: 5px;
+        }
+        .sidebar-nav-container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .nav-category-title {
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.1px;
+            color: #64748b;
+            padding: 0.75rem 1rem 0.4rem 1rem;
+            margin-top: 0.5rem;
         }
 
         .nav-list {
-            padding: 1.5rem 0;
             list-style: none;
+            padding: 0;
+            margin: 0;
         }
 
         .nav-item-admin {
-            margin: 0.2rem 1rem;
+            margin-bottom: 4px;
         }
 
         .nav-link-admin {
             display: flex;
             align-items: center;
-            padding: 0.8rem 1.2rem;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
             color: #94a3b8;
             text-decoration: none;
             border-radius: 12px;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
             font-weight: 500;
+            font-size: 0.92rem;
+            position: relative;
         }
 
-        .nav-link-admin i {
-            width: 20px;
+        .nav-link-admin .nav-icon-wrap {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             margin-right: 12px;
-            font-size: 1.1rem;
+            font-size: 0.95rem;
+            background: rgba(255, 255, 255, 0.04);
+            color: #94a3b8;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
         }
 
-        .nav-link-admin:hover,
-        .nav-link-admin.active {
+        .nav-link-admin:hover {
+            color: #ffffff;
             background: var(--sidebar-hover);
-            color: white;
+        }
+
+        .nav-link-admin:hover .nav-icon-wrap {
+            background: rgba(99, 102, 241, 0.18);
+            color: #818cf8;
         }
 
         .nav-link-admin.active {
-            background: var(--primary-accent);
+            color: #ffffff;
+            background: var(--primary-gradient);
+            font-weight: 600;
+            box-shadow: 0 4px 16px rgba(79, 70, 229, 0.35);
+        }
+
+        .nav-link-admin.active .nav-icon-wrap {
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+        }
+
+        /* Sidebar User Card Footer */
+        .sidebar-footer {
+            padding: 1rem 1.25rem;
+            border-top: 1px solid var(--sidebar-border);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar-user-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.5rem;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-decoration: none;
             color: white;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-user-card:hover {
+            background: rgba(255, 255, 255, 0.07);
+            color: white;
+        }
+
+        .sidebar-user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #4f46e5, #ec4899);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: white;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
         }
 
         /* Content Area */
         .main-content {
             flex-grow: 1;
-            margin-left: 260px;
-            padding: 2rem;
-            width: calc(100% - 260px);
-        }
-
-        /* Top Bar */
-        .top-bar {
-            background: white;
-            padding: 1rem 2rem;
-            margin: -2rem -2rem 2rem -2rem;
+            margin-left: 275px;
+            width: calc(100% - 275px);
+            min-height: 100vh;
             display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            flex-direction: column;
         }
 
-        @media (max-width: 991px) {
-            .sidebar {
-                margin-left: -260px;
-            }
+        /* Modern Glass Top Bar */
+        .top-bar {
+            position: sticky;
+            top: 0;
+            z-index: 1020;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            background: rgba(255, 255, 255, 0.88);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.85);
+            padding: 0.85rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+        }
 
+        .content-body {
+            flex-grow: 1;
+            padding: 1.75rem 2rem 3rem 2rem;
+        }
+
+        /* Live Radar Dot Animation */
+        .radar-box {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 10px;
+            height: 10px;
+        }
+        .radar-box .radar-center {
+            width: 8px;
+            height: 8px;
+            background-color: #10b981;
+            border-radius: 50%;
+            z-index: 2;
+        }
+        .radar-box .radar-wave {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background-color: rgba(16, 185, 129, 0.4);
+            animation: radarPulse 1.8s infinite cubic-bezier(0, 0, 0.2, 1);
+            z-index: 1;
+        }
+        @keyframes radarPulse {
+            0% { transform: scale(0.6); opacity: 0.9; }
+            100% { transform: scale(2.2); opacity: 0; }
+        }
+
+        /* Top Bar Admin Chip */
+        .admin-profile-chip {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 14px 5px 8px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 999px;
+            text-decoration: none;
+            color: #1e293b;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+        }
+        .admin-profile-chip:hover {
+            border-color: #cbd5e1;
+            background: #f8fafc;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            color: #0f172a;
+        }
+
+        /* Sidebar Toggle Overlay for Mobile */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1030;
+        }
+
+        @media (max-width: 991.98px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            .sidebar-overlay.show {
+                display: block;
+            }
             .main-content {
                 margin-left: 0;
                 width: 100%;
             }
-
-            .sidebar.active {
-                margin-left: 0;
+            .content-body {
+                padding: 1.25rem;
+            }
+            .top-bar {
+                padding: 0.75rem 1.25rem;
             }
         }
     </style>
 </head>
 
 <body>
-    <!-- Sidebar -->
-    <div class="sidebar shadow" id="sidebar">
-        <div class="sidebar-header">
-            <img src="{% static 'logo2.jpg' %}" alt="Logo" class="rounded-3 shadow-sm mb-2" width="50">
-            <h5 class="fw-bold mb-0">Pulse <span class="text-primary">Admin</span></h5>
-            <small class="opacity-50">Control Center</small>
-        </div>
-        <ul class="nav-list">
-            <li class="nav-item-admin">
-                <a href="{% url 'admin_dashboard' %}"
-                    class="nav-link-admin {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">
-                    <i class="fas fa-th-large"></i> Dashboard
-                </a>
-            </li>
-            <li class="nav-item-admin">
-                <a href="{% url 'manage_users' %}"
-                    class="nav-link-admin {% if request.resolver_match.url_name == 'manage_users' %}active{% endif %}">
-                    <i class="fas fa-users"></i> Manage Users
-                </a>
-            </li>
-            <li class="nav-item-admin">
-                <a href="{% url 'reports' %}"
-                    class="nav-link-admin {% if request.resolver_match.url_name == 'reports' %}active{% endif %}">
-                    <i class="fas fa-history"></i> Login Records
-                </a>
-            </li>
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
-            <li class="nav-item-admin">
-                <a href="{% url 'attendance' %}"
-                    class="nav-link-admin {% if request.resolver_match.url_name == 'attendance' %}active{% endif %}">
-                    <i class="fas fa-qrcode"></i> Scan Mode
-                </a>
-            </li>
-            <li class="nav-item-admin">
-                <a href="{% url 'profile' %}"
-                    class="nav-link-admin {% if request.resolver_match.url_name == 'profile' %}active{% endif %}">
-                    <i class="fas fa-user-shield"></i> Admin Profile
-                </a>
-            </li>
-            <li class="nav-item-admin">
-                <a href="/admin/" target="_blank" class="nav-link-admin">
-                    <i class="fas fa-cog"></i> Settings
-                </a>
-            </li>
-            <hr class="mx-3 opacity-10">
-            <li class="nav-item-admin">
-                <a href="{% url 'logout' %}" class="nav-link-admin text-danger">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </a>
-            </li>
-        </ul>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="sidebar">
+        <!-- Brand Header -->
+        <div class="sidebar-header">
+            <a href="{% url 'admin_dashboard' %}" class="brand-logo-wrapper">
+                <div class="brand-icon">
+                    <i class="fas fa-bolt-lightning"></i>
+                </div>
+                <div class="brand-text">
+                    <h5>Pulse <span>Admin</span></h5>
+                    <div class="brand-badge"><i class="fas fa-shield-halved text-primary me-1"></i>Control Center</div>
+                </div>
+            </a>
+            <button class="btn btn-sm text-white-50 d-lg-none" onclick="toggleSidebar()">
+                <i class="fas fa-times fa-lg"></i>
+            </button>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="sidebar-nav-container">
+            <div class="nav-category-title">Core System</div>
+            <ul class="nav-list">
+                <li class="nav-item-admin">
+                    <a href="{% url 'admin_dashboard' %}"
+                        class="nav-link-admin {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">
+                        <span class="d-flex align-items-center">
+                            <span class="nav-icon-wrap"><i class="fas fa-chart-pie"></i></span>
+                            <span>Dashboard</span>
+                        </span>
+                        {% if request.resolver_match.url_name == 'admin_dashboard' %}
+                        <i class="fas fa-chevron-right small opacity-75"></i>
+                        {% endif %}
+                    </a>
+                </li>
+                <li class="nav-item-admin">
+                    <a href="{% url 'manage_users' %}"
+                        class="nav-link-admin {% if request.resolver_match.url_name == 'manage_users' or request.resolver_match.url_name == 'edit_user' or request.resolver_match.url_name == 'add_user' %}active{% endif %}">
+                        <span class="d-flex align-items-center">
+                            <span class="nav-icon-wrap"><i class="fas fa-users-gear"></i></span>
+                            <span>Manage Users</span>
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item-admin">
+                    <a href="{% url 'reports' %}"
+                        class="nav-link-admin {% if request.resolver_match.url_name == 'reports' %}active{% endif %}">
+                        <span class="d-flex align-items-center">
+                            <span class="nav-icon-wrap"><i class="fas fa-shield-halved"></i></span>
+                            <span>Login Records</span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="nav-category-title">Operations</div>
+            <ul class="nav-list">
+                <li class="nav-item-admin">
+                    <a href="{% url 'attendance' %}"
+                        class="nav-link-admin {% if request.resolver_match.url_name == 'attendance' %}active{% endif %}">
+                        <span class="d-flex align-items-center">
+                            <span class="nav-icon-wrap"><i class="fas fa-qrcode"></i></span>
+                            <span>Scan Mode</span>
+                        </span>
+                        <span class="badge bg-emerald-500 bg-success bg-opacity-20 text-success rounded-pill px-2 py-1 small" style="font-size: 0.65rem;">LIVE</span>
+                    </a>
+                </li>
+                <li class="nav-item-admin">
+                    <a href="{% url 'attendance_report' %}"
+                        class="nav-link-admin {% if request.resolver_match.url_name == 'attendance_report' %}active{% endif %}">
+                        <span class="d-flex align-items-center">
+                            <span class="nav-icon-wrap"><i class="fas fa-calendar-check"></i></span>
+                            <span>Attendance Logs</span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="nav-category-title">Account & Config</div>
+            <ul class="nav-list">
+                <li class="nav-item-admin">
+                    <a href="{% url 'profile' %}"
+                        class="nav-link-admin {% if request.resolver_match.url_name == 'profile' %}active{% endif %}">
+                        <span class="d-flex align-items-center">
+                            <span class="nav-icon-wrap"><i class="fas fa-id-badge"></i></span>
+                            <span>Admin Profile</span>
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item-admin">
+                    <a href="/admin/" target="_blank" class="nav-link-admin">
+                        <span class="d-flex align-items-center">
+                            <span class="nav-icon-wrap"><i class="fas fa-sliders"></i></span>
+                            <span>Core Settings</span>
+                        </span>
+                        <i class="fas fa-external-link-alt small text-muted"></i>
+                    </a>
+                </li>
+                <li class="nav-item-admin mt-2">
+                    <a href="{% url 'logout' %}" class="nav-link-admin text-danger">
+                        <span class="d-flex align-items-center">
+                            <span class="nav-icon-wrap bg-danger bg-opacity-10 text-danger"><i class="fas fa-arrow-right-from-bracket"></i></span>
+                            <span>Sign Out</span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Sidebar Footer -->
+        <div class="sidebar-footer">
+            <a href="{% url 'profile' %}" class="sidebar-user-card">
+                <div class="sidebar-user-avatar">
+                    {{ user.username|slice:":1"|upper }}
+                </div>
+                <div class="overflow-hidden flex-grow-1">
+                    <div class="fw-semibold text-truncate small">{{ user.get_full_name|default:user.username }}</div>
+                    <div class="text-white-50 small d-flex align-items-center gap-1" style="font-size: 0.72rem;">
+                        <span class="badge bg-danger bg-opacity-75 rounded-pill px-2 py-0">ADMIN</span>
+                        <span>VJAS-{{ user.id|stringformat:"04d" }}</span>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right text-white-50 small"></i>
+            </a>
+        </div>
     </div>
 
     <!-- Main Content Area -->
     <div class="main-content">
+        <!-- Modern Top Header -->
         <div class="top-bar">
-            <div class="d-flex align-items-center w-100 justify-content-between">
-                <!-- Live System Indicator -->
+            <!-- Left: Mobile Toggle & Status -->
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn btn-light border d-lg-none rounded-3 px-2 py-1" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
                 <div class="d-flex align-items-center gap-2">
-                    <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-2 border border-success border-opacity-25 d-flex align-items-center gap-2">
-                        <span class="spinner-grow spinner-grow-sm text-success" style="width: 8px; height: 8px;" role="status"></span>
-                        <span class="fw-bold small text-uppercase" style="letter-spacing: 0.5px;">Live System</span>
+                    <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-2 border border-success border-opacity-25 d-flex align-items-center gap-2 shadow-xs">
+                        <span class="radar-box">
+                            <span class="radar-wave"></span>
+                            <span class="radar-center"></span>
+                        </span>
+                        <span class="fw-bold small text-uppercase" style="letter-spacing: 0.6px; font-size: 0.72rem;">Live System</span>
                     </span>
-                    <span id="adminLiveClock" class="fw-semibold text-muted small ms-2 d-none d-sm-inline"></span>
+                    <span id="adminLiveClock" class="fw-semibold text-secondary small ms-1 d-none d-md-inline" style="letter-spacing: 0.2px;"></span>
                 </div>
+            </div>
 
-                <!-- Admin Profile Dropdown / Link -->
-                <a href="{% url 'profile' %}" class="text-decoration-none d-flex align-items-center bg-light px-3 py-1 rounded-pill shadow-sm border">
-                    <div class="text-end me-2">
-                        <div class="fw-bold small lh-1 text-dark">{{ user.get_full_name|default:user.username }}</div>
-                        <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill x-small"
-                            style="font-size: 0.6rem;">ADMIN</span>
-                    </div>
-                    <div class="bg-primary text-white rounded-circle p-2 d-flex align-items-center justify-content-center fw-bold shadow-sm"
-                        style="width: 32px; height: 32px; font-size: 0.85rem;">
+            <!-- Right: Admin Profile Button -->
+            <div class="d-flex align-items-center gap-2">
+                <a href="{% url 'profile' %}" class="admin-profile-chip">
+                    <div class="sidebar-user-avatar" style="width: 30px; height: 30px; font-size: 0.78rem; border-radius: 50%;">
                         {{ user.username|slice:":1"|upper }}
                     </div>
+                    <div class="d-none d-sm-block text-start lh-1">
+                        <div class="fw-bold small text-dark">{{ user.get_full_name|default:user.username }}</div>
+                        <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-2 py-0 mt-1" style="font-size: 0.6rem; font-weight: 700;">ADMIN</span>
+                    </div>
+                    <i class="fas fa-chevron-down text-muted small ms-1 d-none d-sm-inline" style="font-size: 0.7rem;"></i>
                 </a>
             </div>
         </div>
 
-        {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show rounded-4 shadow-sm border-0"
-            role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-        {% endfor %}
-        {% endif %}
+        <!-- Main Body Wrapper -->
+        <div class="content-body">
+            {% if messages %}
+            <div class="mb-4">
+                {% for message in messages %}
+                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show rounded-4 shadow-sm border-0 d-flex align-items-center gap-2" role="alert">
+                    <i class="fas {% if message.tags == 'error' %}fa-circle-exclamation text-danger{% else %}fa-circle-check text-success{% endif %} fs-5"></i>
+                    <div>{{ message }}</div>
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"></button>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
 
-        {% block content %}{% endblock %}
+            {% block content %}{% endblock %}
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -226,11 +547,20 @@
             const clockEl = document.getElementById('adminLiveClock');
             if (clockEl) {
                 const now = new Date();
-                clockEl.innerHTML = '<i class="far fa-clock me-1"></i> ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+                const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+                const dateStr = now.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' });
+                clockEl.innerHTML = `<span class="opacity-75 me-1"><i class="far fa-calendar-alt me-1"></i>${dateStr}</span> <span class="text-dark fw-bold"><i class="far fa-clock ms-2 me-1 text-primary"></i>${timeStr}</span>`;
             }
         }
         updateAdminClock();
         setInterval(updateAdminClock, 1000);
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('show');
+            overlay.classList.toggle('show');
+        }
     </script>
 </body>
 
