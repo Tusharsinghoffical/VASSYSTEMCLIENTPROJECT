@@ -8,13 +8,13 @@
   <title>Sign In | Venus Pulse Control Center</title>
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="{% static 'images/venus_logo.png' %}">
-  <link rel="shortcut icon" href="{% static 'images/venus_logo.png' %}">
+  <link rel="icon" type="image/png" href="{% static 'logo.png' %}">
+  <link rel="shortcut icon" href="{% static 'logo.png' %}">
 
-  <!-- Google Fonts: Inter & Outfit -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Bootstrap 5 CSS & FontAwesome -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -22,13 +22,12 @@
 
   <style>
     :root {
-      --primary-accent: #00f2fe;
-      --primary-gradient: linear-gradient(135deg, #00f2fe 0%, #0066ff 100%);
-      --bg-dark-base: #01081b;
-      --card-bg-dark: rgba(2, 16, 48, 0.85);
-      --border-subtle: rgba(0, 240, 255, 0.15);
-      --font-display: 'Outfit', sans-serif;
-      --font-body: 'Inter', sans-serif;
+      --primary-blue: #0066ff;
+      --primary-gradient: linear-gradient(135deg, #0066ff 0%, #0284c7 100%);
+      --bg-white: #f8fafc;
+      --card-white: #ffffff;
+      --border-color: #e2e8f0;
+      --font-family: 'Plus Jakarta Sans', 'Outfit', sans-serif;
     }
 
     * {
@@ -38,40 +37,15 @@
     }
 
     body {
-      font-family: var(--font-body);
-      background-color: var(--bg-dark-base);
-      background-image: radial-gradient(circle at 50% 0%, #082154 0%, #01081b 80%);
-      background-attachment: fixed;
+      font-family: var(--font-family);
+      background-color: var(--bg-white);
       min-height: 100vh;
-      color: #ffffff;
+      color: #0f172a;
       overflow-x: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
-    }
-
-    /* Ambient Background Glow */
-    .ambient-glow-orb {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(100px);
-      pointer-events: none;
-      z-index: 0;
-    }
-    .orb-1 {
-      width: 480px;
-      height: 480px;
-      background: radial-gradient(circle, rgba(0, 242, 254, 0.22) 0%, transparent 70%);
-      top: -120px;
-      left: -100px;
-    }
-    .orb-2 {
-      width: 420px;
-      height: 420px;
-      background: radial-gradient(circle, rgba(0, 102, 255, 0.22) 0%, transparent 70%);
-      bottom: -100px;
-      right: -80px;
     }
 
     .auth-container {
@@ -84,160 +58,142 @@
 
     .auth-card {
       display: flex;
-      background: var(--card-bg-dark);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid var(--border-subtle);
+      background: var(--card-white);
+      border: 1px solid var(--border-color);
       border-radius: 28px;
       overflow: hidden;
-      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 50px rgba(0, 242, 254, 0.15);
+      box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.08);
     }
 
     /* Left Hero Panel */
     .brand-hero-panel {
       flex: 1;
       padding: 48px 44px;
-      background: linear-gradient(150deg, rgba(2, 17, 54, 0.9) 0%, rgba(1, 8, 27, 0.95) 100%);
-      border-right: 1px solid var(--border-subtle);
+      background: linear-gradient(150deg, #004ecc 0%, #0066ff 60%, #0284c7 100%);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       position: relative;
       overflow: hidden;
-    }
-
-    .brand-mesh-accent {
-      position: absolute;
-      width: 280px;
-      height: 280px;
-      border-radius: 50%;
-      background: rgba(0, 242, 254, 0.18);
-      filter: blur(60px);
-      top: -60px;
-      right: -60px;
-      pointer-events: none;
+      color: white;
     }
 
     .brand-logo-chip {
       display: inline-flex;
       align-items: center;
       gap: 12px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 6px 16px 6px 8px;
+      border-radius: 999px;
       text-decoration: none;
+      margin-bottom: 28px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     }
+
     .brand-logo-img {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
       object-fit: cover;
-      box-shadow: 0 4px 18px rgba(0, 242, 254, 0.45);
-      border: 2px solid rgba(0, 240, 255, 0.4);
-      flex-shrink: 0;
-      transition: transform 0.25s ease;
-    }
-    .brand-logo-chip:hover .brand-logo-img {
-      transform: scale(1.05);
+      background: white;
+      border: 1.5px solid rgba(255, 255, 255, 0.8);
     }
 
     .brand-name {
-      font-size: 1.3rem;
+      font-size: 1.05rem;
       font-weight: 800;
       color: #ffffff;
-      line-height: 1.1;
-      margin: 0;
+      line-height: 1.2;
     }
     .brand-name span {
-      background: linear-gradient(135deg, #00f2fe, #38bdf8);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: #e0f2fe;
     }
 
     .brand-headline {
       font-size: 2.1rem;
       font-weight: 800;
-      letter-spacing: -0.5px;
       line-height: 1.2;
-      margin-top: 2rem;
-      margin-bottom: 0.85rem;
       color: #ffffff;
+      margin-bottom: 1rem;
     }
     .brand-headline span {
-      background: linear-gradient(135deg, #00f2fe, #38bdf8);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: #e0f2fe;
     }
+
     .brand-description {
       font-size: 0.95rem;
-      color: #93c5fd;
-      line-height: 1.55;
-      font-weight: 400;
+      color: #e0e7ff;
+      line-height: 1.6;
       margin-bottom: 2rem;
     }
 
-    /* Telemetry Feature Chips */
+    /* Telemetry Highlights */
     .telemetry-pills {
       display: flex;
       flex-direction: column;
       gap: 12px;
     }
+
     .telemetry-pill-item {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 10px 14px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(0, 240, 255, 0.12);
-      border-radius: 12px;
+      gap: 14px;
+      padding: 12px 16px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
+
     .telemetry-icon-wrap {
-      width: 34px;
-      height: 34px;
+      width: 36px;
+      height: 36px;
       border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.9rem;
+      font-size: 1rem;
       flex-shrink: 0;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
     }
-    .bg-pill-cyan { background: rgba(0, 242, 254, 0.2); color: #00f2fe; }
-    .bg-pill-emerald { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; }
-    .bg-pill-blue { background: rgba(59, 130, 246, 0.2); color: #93c5fd; }
 
-    /* Right Form Section - Sapphire Glass */
+    /* Right Form Section */
     .form-panel {
-      flex: 1.15;
-      padding: 48px 46px;
-      background: rgba(2, 16, 48, 0.7);
+      flex: 1.1;
+      padding: 48px 48px;
+      background: #ffffff;
       display: flex;
       flex-direction: column;
       justify-content: center;
     }
 
     .form-header-title {
-      font-size: 1.85rem;
+      font-size: 1.8rem;
       font-weight: 800;
-      color: #ffffff;
+      color: #0f172a;
       letter-spacing: -0.5px;
-      margin-bottom: 0.35rem;
+      margin-bottom: 6px;
     }
+
     .form-header-subtitle {
-      color: #93c5fd;
-      font-size: 0.92rem;
-      margin-bottom: 1.75rem;
+      font-size: 0.9rem;
+      color: #64748b;
+      margin-bottom: 28px;
     }
 
     .form-field-group {
-      margin-bottom: 1.25rem;
+      margin-bottom: 20px;
     }
+
     .form-field-label {
       display: block;
-      font-size: 0.74rem;
+      font-size: 0.82rem;
       font-weight: 700;
+      color: #334155;
       text-transform: uppercase;
-      letter-spacing: 0.6px;
-      color: #93c5fd;
-      margin-bottom: 0.45rem;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
     }
 
     .input-wrapper {
@@ -245,127 +201,115 @@
       display: flex;
       align-items: center;
     }
+
     .input-lead-icon {
       position: absolute;
       left: 16px;
-      color: #60a5fa;
+      color: #94a3b8;
       font-size: 1rem;
       pointer-events: none;
-      transition: color 0.2s;
     }
+
     .form-input-styled {
       width: 100%;
-      padding: 13px 18px 13px 44px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1.5px solid rgba(0, 240, 255, 0.16);
+      padding: 13px 45px 13px 44px;
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
       border-radius: 14px;
-      font-size: 0.98rem;
-      color: #ffffff;
-      font-family: inherit;
+      font-size: 0.95rem;
+      color: #0f172a;
+      font-family: var(--font-family);
       transition: all 0.2s ease;
-    }
-    .form-input-styled::placeholder {
-      color: rgba(147, 197, 253, 0.35);
-    }
-    .form-input-styled:focus {
-      background: rgba(0, 242, 254, 0.06);
-      border-color: #00f2fe;
       outline: none;
-      box-shadow: 0 0 0 4px rgba(0, 242, 254, 0.25);
     }
-    .input-wrapper:focus-within .input-lead-icon {
-      color: #00f2fe;
+
+    .form-input-styled:focus {
+      border-color: #0066ff;
+      box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.12);
     }
 
     .password-eye-btn {
       position: absolute;
       right: 14px;
-      background: transparent;
+      background: none;
       border: none;
-      color: #60a5fa;
+      color: #94a3b8;
       cursor: pointer;
       padding: 6px;
-      font-size: 0.95rem;
-      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
     }
     .password-eye-btn:hover {
-      color: #00f2fe;
+      color: #0066ff;
     }
 
     .btn-submit-lux {
-      background: var(--primary-gradient);
+      width: 100%;
+      padding: 14px 24px;
+      margin-top: 14px;
+      background: linear-gradient(135deg, #0066ff 0%, #0052cc 100%);
       color: white;
       border: none;
       border-radius: 14px;
-      padding: 14px 20px;
-      font-size: 1.05rem;
+      font-size: 1rem;
       font-weight: 700;
-      width: 100%;
-      margin-top: 1.25rem;
-      box-shadow: 0 4px 18px rgba(0, 114, 255, 0.45);
-      transition: all 0.2s ease;
+      letter-spacing: 0.3px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 10px;
+      box-shadow: 0 4px 16px rgba(0, 102, 255, 0.25);
+      transition: all 0.2s ease;
     }
     .btn-submit-lux:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 26px rgba(0, 242, 254, 0.6);
-      color: white;
+      box-shadow: 0 8px 24px rgba(0, 102, 255, 0.35);
+      background: linear-gradient(135deg, #0052cc 0%, #003d99 100%);
     }
 
     .auth-footer-links {
-      margin-top: 1.75rem;
+      margin-top: 24px;
       text-align: center;
-      font-size: 0.9rem;
-      color: #93c5fd;
+      font-size: 0.88rem;
+      color: #64748b;
     }
     .auth-footer-links a {
-      color: #00f2fe;
+      color: #0066ff;
       text-decoration: none;
-      font-weight: 600;
+      font-weight: 700;
     }
     .auth-footer-links a:hover {
       text-decoration: underline;
-      color: #38bdf8;
     }
 
-    @media (max-width: 991.98px) {
+    @media (max-width: 900px) {
       .auth-card {
         flex-direction: column;
-        max-width: 520px;
-        margin: 0 auto;
       }
       .brand-hero-panel {
-        padding: 40px 30px;
-        border-right: none;
-        border-bottom: 1px solid var(--border-subtle);
+        padding: 32px 24px;
       }
       .form-panel {
-        padding: 40px 30px;
+        padding: 36px 24px;
       }
     }
   </style>
 </head>
 
 <body>
-  <!-- Ambient Radiant Orbs -->
-  <div class="ambient-glow-orb orb-1"></div>
-  <div class="ambient-glow-orb orb-2"></div>
-
   <div class="auth-container">
     <div class="auth-card">
-      <!-- Left Visual Showcase Panel with Venus Logo -->
+      <!-- Left Visual Showcase Panel with Official Venus Logo -->
       <div class="brand-hero-panel">
-        <div class="brand-mesh-accent"></div>
         <div>
           <a href="/" class="brand-logo-chip">
-            <img src="{% static 'images/venus_logo.png' %}" alt="Venus Logo" class="brand-logo-img">
+            <img src="{% static 'logo.png' %}" alt="Venus Logo" class="brand-logo-img" onerror="this.src='/static/images/venus_logo.png'">
             <div>
               <div class="brand-name">Venus <span>Pulse</span></div>
-              <div class="small" style="color: #93c5fd; font-size: 0.65rem; letter-spacing: 0.8px; font-weight: 700; text-transform: uppercase;">CONTROL CENTER OS</div>
+              <div class="small" style="color: #e0f2fe; font-size: 0.65rem; letter-spacing: 0.8px; font-weight: 700; text-transform: uppercase;">CONTROL CENTER OS</div>
             </div>
           </a>
 
@@ -376,32 +320,32 @@
         <!-- Telemetry Highlights -->
         <div class="telemetry-pills">
           <div class="telemetry-pill-item">
-            <div class="telemetry-icon-wrap bg-pill-cyan">
+            <div class="telemetry-icon-wrap">
               <i class="fas fa-qrcode"></i>
             </div>
             <div>
               <div class="fw-bold text-white small">Instant QR Verification</div>
-              <div class="small" style="color: #93c5fd; font-size: 0.75rem;">HMAC SHA-256 profile-locked tokens</div>
+              <div class="small" style="color: #e0f2fe; font-size: 0.75rem;">HMAC SHA-256 profile-locked tokens</div>
             </div>
           </div>
 
           <div class="telemetry-pill-item">
-            <div class="telemetry-icon-wrap bg-pill-emerald">
+            <div class="telemetry-icon-wrap">
               <i class="fas fa-satellite-dish"></i>
             </div>
             <div>
               <div class="fw-bold text-white small">Live Telemetry Sync</div>
-              <div class="small" style="color: #93c5fd; font-size: 0.75rem;">Sub-second on-premises headcount feeds</div>
+              <div class="small" style="color: #e0f2fe; font-size: 0.75rem;">Sub-second on-premises headcount feeds</div>
             </div>
           </div>
 
           <div class="telemetry-pill-item">
-            <div class="telemetry-icon-wrap bg-pill-blue">
+            <div class="telemetry-icon-wrap">
               <i class="fas fa-shield-halved"></i>
             </div>
             <div>
               <div class="fw-bold text-white small">Zero-Trust Access Control</div>
-              <div class="small" style="color: #93c5fd; font-size: 0.75rem;">Administrative session auditing</div>
+              <div class="small" style="color: #e0f2fe; font-size: 0.75rem;">Administrative session auditing</div>
             </div>
           </div>
         </div>
@@ -415,7 +359,7 @@
         {% if messages %}
         <div class="mb-3">
           {% for message in messages %}
-          <div class="alert alert-danger border-0 rounded-4 py-2 px-3 small d-flex align-items-center gap-2" role="alert" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3) !important; color: #fca5a5;">
+          <div class="alert alert-danger border-0 rounded-4 py-2 px-3 small d-flex align-items-center gap-2" role="alert">
             <i class="fas fa-circle-exclamation"></i>
             <span>{{ message }}</span>
           </div>
@@ -424,7 +368,7 @@
         {% endif %}
 
         {% if form.errors %}
-        <div class="alert alert-danger border-0 rounded-4 py-2 px-3 small mb-3" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3) !important; color: #fca5a5;">
+        <div class="alert alert-danger border-0 rounded-4 py-2 px-3 small mb-3">
           <i class="fas fa-circle-exclamation me-1"></i> Invalid username or password. Please try again.
         </div>
         {% endif %}
@@ -453,19 +397,19 @@
             </div>
           </div>
 
-          <div class="d-flex justify-content-between align-items-center mb-2">
+          <div class="d-flex justify-content-between align-items-center mb-3">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="rememberMe" style="cursor: pointer; background-color: rgba(255,255,255,0.1); border-color: rgba(0,240,255,0.3);">
-              <label class="form-check-label small" for="rememberMe" style="cursor: pointer; color: #93c5fd;">
+              <input class="form-check-input" type="checkbox" id="rememberMe" style="cursor: pointer;">
+              <label class="form-check-label small" for="rememberMe" style="cursor: pointer; color: #475569;">
                 Remember this device
               </label>
             </div>
-            <a href="{% url 'password_reset' %}" class="small text-decoration-none" style="color: #93c5fd;" onmouseover="this.style.color='#00f2fe';" onmouseout="this.style.color='#93c5fd';">Forgot Password?</a>
+            <a href="{% url 'password_reset' %}" class="small text-decoration-none fw-semibold" style="color: #0066ff;">Forgot Password?</a>
           </div>
 
           <button type="submit" class="btn-submit-lux">
             <span>Authenticate & Enter</span>
-            <i class="fas fa-arrow-right-long"></i>
+            <i class="fas fa-arrow-right"></i>
           </button>
 
           <div class="auth-footer-links">
@@ -483,11 +427,11 @@
       if (passwordInput.type === "password") {
         passwordInput.type = "text";
         toggleIcon.classList.replace("fa-eye", "fa-eye-slash");
-        toggleIcon.style.color = "#00f2fe";
+        toggleIcon.style.color = "#0066ff";
       } else {
         passwordInput.type = "password";
         toggleIcon.classList.replace("fa-eye-slash", "fa-eye");
-        toggleIcon.style.color = "#60a5fa";
+        toggleIcon.style.color = "#94a3b8";
       }
     }
   </script>

@@ -8,8 +8,8 @@
     <title>{% block title %}Pulse Admin | Control Center{% endblock %}</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{% static 'images/venus_logo.png' %}">
-    <link rel="shortcut icon" href="{% static 'images/venus_logo.png' %}">
+    <link rel="icon" type="image/png" href="{% static 'logo.png' %}">
+    <link rel="shortcut icon" href="{% static 'logo.png' %}">
 
     <script>
         // Auto-fix for Localhost HTTPS errors
@@ -21,25 +21,23 @@
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
     <style>
         :root {
-            --sidebar-bg: #010718;
-            --sidebar-surface: #041235;
-            --sidebar-hover: rgba(0, 240, 255, 0.08);
-            --sidebar-border: rgba(0, 240, 255, 0.12);
-            --primary-accent: #00d2ff;
-            --primary-gradient: linear-gradient(135deg, #00f2fe 0%, #0066ff 100%);
-            --accent-glow: rgba(0, 242, 254, 0.35);
-            --body-bg: #01081b;
-            --card-bg: rgba(3, 16, 46, 0.78);
-            --card-border: rgba(0, 240, 255, 0.14);
-            --text-primary: #ffffff;
-            --text-secondary: #93c5fd;
+            --body-bg: #f8fafc;
+            --sidebar-bg: #ffffff;
+            --sidebar-border: #e2e8f0;
+            --sidebar-hover: #f1f5f9;
+            --primary-blue: #0066ff;
+            --primary-gradient: linear-gradient(135deg, #0066ff 0%, #0284c7 100%);
+            --card-bg: #ffffff;
+            --card-border: #e2e8f0;
+            --text-main: #0f172a;
+            --text-secondary: #475569;
             --text-muted: #64748b;
         }
 
@@ -48,23 +46,20 @@
         }
 
         body {
-            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Plus Jakarta Sans', 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--body-bg) !important;
-            background-image: radial-gradient(circle at 50% 0%, #082154 0%, #01081b 75%) !important;
-            background-attachment: fixed;
-            color: #ffffff !important;
+            color: var(--text-main) !important;
             min-height: 100vh;
             display: flex;
             overflow-x: hidden;
         }
 
-        /* Sidebar Styling */
+        /* Sidebar Styling (Modern Clean White) */
         .sidebar {
             width: 275px;
             background: var(--sidebar-bg);
-            background-image: linear-gradient(180deg, #010718 0%, #021238 100%);
             border-right: 1px solid var(--sidebar-border);
-            color: white;
+            color: var(--text-main);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: fixed;
             top: 0;
@@ -73,15 +68,16 @@
             z-index: 1040;
             display: flex;
             flex-direction: column;
-            box-shadow: 4px 0 25px rgba(0, 0, 0, 0.5);
+            box-shadow: 2px 0 16px rgba(0, 0, 0, 0.03);
         }
 
         .sidebar-header {
-            padding: 1.5rem 1.4rem 1.25rem 1.4rem;
+            padding: 1.4rem 1.4rem 1.25rem 1.4rem;
             border-bottom: 1px solid var(--sidebar-border);
             display: flex;
             align-items: center;
             justify-content: space-between;
+            background: #ffffff;
         }
 
         .brand-logo-wrapper {
@@ -96,30 +92,27 @@
             height: 44px;
             border-radius: 12px;
             object-fit: cover;
-            box-shadow: 0 4px 16px rgba(0, 229, 255, 0.4);
-            border: 1.5px solid rgba(0, 240, 255, 0.35);
+            box-shadow: 0 2px 10px rgba(0, 102, 255, 0.15);
+            border: 1.5px solid #bfdbfe;
             flex-shrink: 0;
             transition: transform 0.25s ease;
         }
         .brand-logo-wrapper:hover .brand-logo-img {
             transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
+            box-shadow: 0 4px 14px rgba(0, 102, 255, 0.25);
         }
 
         .brand-text h5 {
             font-size: 1.18rem;
             font-weight: 800;
             letter-spacing: -0.3px;
-            color: #ffffff;
+            color: #0f172a;
             margin: 0;
             line-height: 1.2;
         }
 
         .brand-text span {
-            background: linear-gradient(135deg, #00f2fe, #38bdf8);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--primary-blue);
         }
 
         .brand-badge {
@@ -127,7 +120,7 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.8px;
-            color: #93c5fd;
+            color: #64748b;
         }
 
         .sidebar-nav-container {
@@ -140,7 +133,7 @@
             width: 5px;
         }
         .sidebar-nav-container::-webkit-scrollbar-thumb {
-            background: rgba(0, 240, 255, 0.2);
+            background: #cbd5e1;
             border-radius: 4px;
         }
 
@@ -149,7 +142,7 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1.1px;
-            color: #60a5fa;
+            color: #64748b;
             padding: 0.75rem 1rem 0.4rem 1rem;
             margin-top: 0.5rem;
         }
@@ -169,28 +162,27 @@
             align-items: center;
             justify-content: space-between;
             padding: 0.75rem 1rem;
-            color: #93c5fd;
+            color: #475569;
             text-decoration: none;
             border-radius: 12px;
             transition: all 0.2s ease;
-            font-weight: 500;
+            font-weight: 600;
             font-size: 0.92rem;
             position: relative;
         }
 
         .nav-link-admin:hover {
-            color: #ffffff;
+            color: #0f172a;
             background: var(--sidebar-hover);
             transform: translateX(3px);
         }
 
         .nav-link-admin.active {
-            color: #ffffff;
+            color: var(--primary-blue);
             font-weight: 700;
-            background: linear-gradient(90deg, rgba(0, 242, 254, 0.18), rgba(0, 102, 255, 0.22));
-            box-shadow: 0 4px 16px rgba(0, 102, 255, 0.2);
-            border: 1px solid rgba(0, 240, 255, 0.25);
-            border-left: 3.5px solid #00f2fe;
+            background: #eff6ff;
+            border: 1px solid #dbeafe;
+            border-left: 3.5px solid var(--primary-blue);
         }
 
         .nav-icon-wrap {
@@ -202,48 +194,49 @@
             border-radius: 8px;
             margin-right: 12px;
             font-size: 0.95rem;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            color: #64748b;
             transition: all 0.2s ease;
         }
 
         .nav-link-admin:hover .nav-icon-wrap {
-            background: rgba(0, 240, 255, 0.15);
-            border-color: rgba(0, 240, 255, 0.3);
-            color: #00f2fe;
+            background: #e0f2fe;
+            border-color: #bae6fd;
+            color: var(--primary-blue);
         }
 
         .nav-link-admin.active .nav-icon-wrap {
-            background: var(--primary-gradient);
+            background: var(--primary-blue);
             color: white;
             border: none;
-            box-shadow: 0 0 12px rgba(0, 242, 254, 0.5);
+            box-shadow: 0 2px 8px rgba(0, 102, 255, 0.35);
         }
 
         /* Sidebar User Card Footer */
         .sidebar-footer {
             padding: 1rem 1.25rem;
             border-top: 1px solid var(--sidebar-border);
-            background: rgba(1, 7, 24, 0.8);
+            background: #ffffff;
         }
 
         .sidebar-user-card {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 0.5rem;
+            padding: 0.65rem 0.75rem;
             border-radius: 12px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(0, 240, 255, 0.15);
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
             text-decoration: none;
-            color: white;
+            color: #0f172a;
             transition: all 0.2s ease;
         }
 
         .sidebar-user-card:hover {
-            background: rgba(0, 240, 255, 0.08);
-            border-color: rgba(0, 240, 255, 0.3);
-            color: white;
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+            color: #0f172a;
         }
 
         .sidebar-user-avatar {
@@ -258,7 +251,7 @@
             font-size: 0.9rem;
             color: white;
             flex-shrink: 0;
-            box-shadow: 0 2px 10px rgba(0, 242, 254, 0.35);
+            box-shadow: 0 2px 8px rgba(0, 102, 255, 0.25);
         }
 
         /* Content Area */
@@ -269,22 +262,23 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            background: var(--body-bg);
         }
 
-        /* Modern Sapphire Glass Top Bar */
+        /* Top Bar */
         .top-bar {
             position: sticky;
             top: 0;
             z-index: 1020;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            background: rgba(1, 8, 27, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.92);
             border-bottom: 1px solid var(--sidebar-border);
             padding: 0.85rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
         }
 
         .content-body {
@@ -304,8 +298,8 @@
         .radar-box .radar-center {
             width: 8px;
             height: 8px;
-            background-color: #00f2fe;
-            box-shadow: 0 0 8px #00f2fe;
+            background-color: #10b981;
+            box-shadow: 0 0 8px #10b981;
             border-radius: 50%;
             z-index: 2;
         }
@@ -314,7 +308,7 @@
             width: 18px;
             height: 18px;
             border-radius: 50%;
-            background-color: rgba(0, 242, 254, 0.4);
+            background-color: rgba(16, 185, 129, 0.35);
             animation: radarPulse 1.8s infinite cubic-bezier(0, 0, 0.2, 1);
             z-index: 1;
         }
@@ -329,20 +323,59 @@
             align-items: center;
             gap: 10px;
             padding: 5px 14px 5px 8px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(0, 240, 255, 0.2);
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
             border-radius: 999px;
             text-decoration: none;
-            color: #ffffff;
+            color: #0f172a;
             transition: all 0.2s ease;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
         }
         .admin-profile-chip:hover {
-            border-color: #00f2fe;
-            background: rgba(0, 240, 255, 0.1);
+            border-color: #0066ff;
+            background: #f8fafc;
             transform: translateY(-1px);
-            box-shadow: 0 0 16px rgba(0, 242, 254, 0.35);
-            color: #ffffff;
+            color: #0f172a;
+        }
+
+        /* Card Global Defaults for White Theme */
+        .card {
+            background-color: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 18px !important;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04) !important;
+            color: #0f172a !important;
+        }
+
+        /* Form Inputs */
+        .form-control-custom, .form-control {
+            background-color: #ffffff !important;
+            border: 1.5px solid #cbd5e1 !important;
+            color: #0f172a !important;
+            border-radius: 12px;
+        }
+        .form-control-custom:focus, .form-control:focus {
+            border-color: #0066ff !important;
+            box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.12) !important;
+            background-color: #ffffff !important;
+            color: #0f172a !important;
+        }
+
+        /* Tables */
+        .table {
+            color: #334155 !important;
+        }
+        .table thead th {
+            background-color: #f8fafc !important;
+            color: #64748b !important;
+            border-bottom: 1px solid #e2e8f0 !important;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+        .table tbody tr:hover {
+            background-color: #f8fafc !important;
         }
 
         /* Sidebar Toggle Overlay for Mobile */
@@ -353,8 +386,8 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(1, 8, 27, 0.7);
-            backdrop-filter: blur(6px);
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(4px);
             z-index: 1030;
         }
 
@@ -391,13 +424,13 @@
         <!-- Brand Header with Official Venus Logo -->
         <div class="sidebar-header">
             <a href="{% url 'admin_dashboard' %}" class="brand-logo-wrapper">
-                <img src="{% static 'images/venus_logo.png' %}" alt="Venus Logo" class="brand-logo-img">
+                <img src="{% static 'logo.png' %}" alt="Venus Logo" class="brand-logo-img" onerror="this.src='/static/images/venus_logo.png'">
                 <div class="brand-text">
                     <h5>Venus <span>Pulse</span></h5>
-                    <div class="brand-badge"><i class="fas fa-shield-halved text-info me-1"></i>Control Center</div>
+                    <div class="brand-badge"><i class="fas fa-shield-halved text-primary me-1"></i>Control Center</div>
                 </div>
             </a>
-            <button class="btn btn-sm text-white-50 d-lg-none" onclick="toggleSidebar()">
+            <button class="btn btn-sm text-secondary d-lg-none" onclick="toggleSidebar()">
                 <i class="fas fa-times fa-lg"></i>
             </button>
         </div>
@@ -447,7 +480,7 @@
                             <span class="nav-icon-wrap"><i class="fas fa-qrcode"></i></span>
                             <span>Scan Mode</span>
                         </span>
-                        <span class="badge rounded-pill px-2 py-0.5 small" style="background: rgba(0, 242, 254, 0.2); border: 1px solid rgba(0, 242, 254, 0.4); color: #00f2fe; font-size: 0.65rem;">LIVE</span>
+                        <span class="badge rounded-pill px-2 py-0.5 small bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25" style="font-size: 0.65rem; font-weight: 700;">LIVE</span>
                     </a>
                 </li>
                 <li class="nav-item-admin">
@@ -484,7 +517,7 @@
                 <li class="nav-item-admin mt-2">
                     <a href="{% url 'logout' %}" class="nav-link-admin text-danger">
                         <span class="d-flex align-items-center">
-                            <span class="nav-icon-wrap text-danger" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.25);"><i class="fas fa-arrow-right-from-bracket"></i></span>
+                            <span class="nav-icon-wrap text-danger" style="background: rgba(239, 68, 68, 0.08); border-color: rgba(239, 68, 68, 0.2);"><i class="fas fa-arrow-right-from-bracket"></i></span>
                             <span>Sign Out</span>
                         </span>
                     </a>
@@ -499,47 +532,47 @@
                     {{ user.username|slice:":1"|upper }}
                 </div>
                 <div class="overflow-hidden flex-grow-1">
-                    <div class="fw-semibold text-truncate small text-white">{{ user.get_full_name|default:user.username }}</div>
-                    <div class="text-white-50 small d-flex align-items-center gap-1" style="font-size: 0.72rem;">
-                        <span class="badge bg-danger bg-opacity-75 rounded-pill px-2 py-0">ADMIN</span>
-                        <span style="color: #93c5fd;">VJAS-{{ user.id|stringformat:"04d" }}</span>
+                    <div class="fw-semibold text-truncate small text-dark">{{ user.get_full_name|default:user.username }}</div>
+                    <div class="text-muted small d-flex align-items-center gap-1" style="font-size: 0.72rem;">
+                        <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-2 py-0">ADMIN</span>
+                        <span>VJAS-{{ user.id|stringformat:"04d" }}</span>
                     </div>
                 </div>
-                <i class="fas fa-chevron-right text-white-50 small"></i>
+                <i class="fas fa-chevron-right text-muted small"></i>
             </a>
         </div>
     </div>
 
     <!-- Main Content Area -->
     <div class="main-content">
-        <!-- Modern Sapphire Top Header -->
+        <!-- Top Header -->
         <div class="top-bar">
             <!-- Left: Mobile Toggle & Status -->
             <div class="d-flex align-items-center gap-3">
-                <button class="btn btn-sm d-lg-none rounded-3 px-2 py-1 text-white" onclick="toggleSidebar()" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(0,240,255,0.2);">
+                <button class="btn btn-sm d-lg-none rounded-3 px-2 py-1 btn-outline-secondary" onclick="toggleSidebar()">
                     <i class="fas fa-bars"></i>
                 </button>
                 <div class="d-flex align-items-center gap-2">
-                    <span class="badge rounded-pill px-3 py-2 d-flex align-items-center gap-2" style="background: rgba(0, 242, 254, 0.12); border: 1px solid rgba(0, 242, 254, 0.3); color: #00f2fe;">
+                    <span class="badge bg-white border rounded-pill px-3 py-2 d-flex align-items-center gap-2 text-dark shadow-xs">
                         <span class="radar-box">
                             <span class="radar-wave"></span>
                             <span class="radar-center"></span>
                         </span>
-                        <span class="fw-bold small text-uppercase" style="letter-spacing: 0.6px; font-size: 0.72rem;">Live System</span>
+                        <span class="fw-bold small text-uppercase" style="letter-spacing: 0.6px; font-size: 0.72rem; color: #0f172a;">Live System</span>
                     </span>
-                    <span id="adminLiveClock" class="fw-semibold small ms-1 d-none d-md-inline" style="color: #93c5fd; letter-spacing: 0.2px;"></span>
+                    <span id="adminLiveClock" class="fw-semibold small ms-1 d-none d-md-inline text-secondary" style="letter-spacing: 0.2px;"></span>
                 </div>
             </div>
 
-            <!-- Right: Admin Profile Chip with Logo / Avatar -->
+            <!-- Right: Admin Profile Chip with Avatar -->
             <div class="d-flex align-items-center gap-2">
                 <a href="{% url 'profile' %}" class="admin-profile-chip">
                     <div class="sidebar-user-avatar" style="width: 30px; height: 30px; font-size: 0.78rem; border-radius: 50%;">
                         {{ user.username|slice:":1"|upper }}
                     </div>
                     <div class="d-none d-sm-block text-start lh-1">
-                        <div class="fw-bold small text-white">{{ user.get_full_name|default:user.username }}</div>
-                        <span class="badge bg-danger bg-opacity-75 text-white rounded-pill px-2 py-0 mt-1" style="font-size: 0.6rem; font-weight: 700;">ADMIN</span>
+                        <div class="fw-bold small text-dark">{{ user.get_full_name|default:user.username }}</div>
+                        <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-2 py-0 mt-1" style="font-size: 0.6rem; font-weight: 700;">ADMIN</span>
                     </div>
                 </a>
             </div>
@@ -552,18 +585,18 @@
             <div class="container-fluid px-0 mb-4 animate__animated animate__fadeInDown">
                 {% for message in messages %}
                 <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show border-0 rounded-4 shadow-sm p-3 d-flex align-items-center gap-3"
-                    role="alert" style="background: rgba(3, 20, 58, 0.85); border: 1px solid rgba(0, 240, 255, 0.25) !important; color: #ffffff;">
-                    <div class="d-flex align-items-center justify-content-center rounded-3 px-2 py-1" style="background: rgba(0, 242, 254, 0.2); color: #00f2fe;">
+                    role="alert">
+                    <div class="d-flex align-items-center justify-content-center rounded-3 px-2 py-1 bg-white shadow-xs">
                         {% if 'success' in message.tags %}
-                        <i class="fas fa-circle-check fa-lg"></i>
+                        <i class="fas fa-circle-check fa-lg text-success"></i>
                         {% elif 'error' in message.tags or 'danger' in message.tags %}
                         <i class="fas fa-triangle-exclamation fa-lg text-danger"></i>
                         {% else %}
-                        <i class="fas fa-circle-info fa-lg"></i>
+                        <i class="fas fa-circle-info fa-lg text-primary"></i>
                         {% endif %}
                     </div>
-                    <div class="flex-grow-1 fw-medium small text-white">{{ message }}</div>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <div class="flex-grow-1 fw-semibold small">{{ message }}</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 {% endfor %}
             </div>

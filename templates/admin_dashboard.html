@@ -3,16 +3,12 @@
 {% block title %}Dashboard | Venus Pulse Control Center{% endblock %}
 
 {% block content %}
-<div class="container-fluid px-3 px-md-4 py-4">
+<div class="container-fluid px-3 px-md-4 py-3">
 
   <!-- Hero Welcome & Control Overview Banner -->
   <div class="row mb-4">
     <div class="col-12">
-      <div class="hero-command-card position-relative overflow-hidden p-4 p-md-5 rounded-4 shadow-2xl">
-        <!-- Ambient radiant backdrop orbs -->
-        <div class="hero-ambient-glow glow-cyan"></div>
-        <div class="hero-ambient-glow glow-royal"></div>
-
+      <div class="hero-command-card position-relative overflow-hidden p-4 p-md-5 rounded-4 shadow-sm">
         <div class="row align-items-center position-relative z-1">
           <div class="col-lg-8">
             <div class="d-flex align-items-center gap-2 mb-3">
@@ -20,7 +16,7 @@
                 <span class="live-pulse-dot me-1"></span> Live Telemetry Synchronized
               </span>
               <span class="text-white-50 small">•</span>
-              <span class="small" id="live_clock_sub" style="color: #93c5fd;">{{ server_time }}</span>
+              <span class="small text-white-50" id="live_clock_sub">{{ server_time }}</span>
             </div>
 
             <h1 class="hero-title text-white">
@@ -34,7 +30,7 @@
 
             <div class="d-flex flex-wrap gap-2.5 pt-2">
               <a href="{% url 'attendance' %}" class="btn hero-btn-primary d-inline-flex align-items-center gap-2">
-                <i class="fas fa-camera-viewfinder"></i> Launch Scanner Mode
+                <i class="fas fa-camera"></i> Launch Scanner Mode
               </a>
               <a href="{% url 'manage_users' %}" class="btn hero-btn-glass d-inline-flex align-items-center gap-2">
                 <i class="fas fa-users-gear"></i> Manage Employees
@@ -49,7 +45,7 @@
             <div class="hero-graphic-box">
               <div class="pulse-ring ring-1"></div>
               <div class="pulse-ring ring-2"></div>
-              <img src="{% static 'images/venus_logo.png' %}" alt="Venus Emblem" class="hero-logo-center">
+              <img src="{% static 'logo.png' %}" alt="Venus Emblem" class="hero-logo-center" onerror="this.src='/static/images/venus_logo.png'">
             </div>
           </div>
         </div>
@@ -69,13 +65,13 @@
           </div>
         </div>
         <div class="d-flex align-items-center gap-3 my-2">
-          <h2 class="metric-value text-cyan mb-0" id="live_present_count_card">{{ live_present_count }}</h2>
-          <span class="badge rounded-pill px-2.5 py-1 small fw-bold d-inline-flex align-items-center gap-1.5" style="background: rgba(0, 242, 254, 0.15); border: 1px solid rgba(0, 242, 254, 0.35); color: #00f2fe; font-size: 0.75rem;">
+          <h2 class="metric-value text-dark mb-0" id="live_present_count_card">{{ live_present_count }}</h2>
+          <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2.5 py-1 small fw-bold d-inline-flex align-items-center gap-1.5 border border-success border-opacity-25" style="font-size: 0.75rem;">
             <span class="spinner-grow spinner-grow-sm" style="width: 7px; height: 7px;" role="status"></span> Active
           </span>
         </div>
-        <p class="metric-footnote mb-0">
-          <i class="fas fa-clock-rotate-left me-1 text-cyan"></i> Real-time present check-ins
+        <p class="metric-footnote mb-0 text-muted">
+          <i class="fas fa-clock-rotate-left me-1 text-primary"></i> Real-time present check-ins
         </p>
       </div>
     </div>
@@ -90,67 +86,67 @@
           </div>
         </div>
         <div class="d-flex align-items-center gap-3 my-2">
-          <h2 class="metric-value text-blue mb-0" id="live_total_users">{{ total_users }}</h2>
-          <span class="badge rounded-pill px-2.5 py-1 small fw-semibold" style="background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.35); color: #93c5fd; font-size: 0.75rem;">
+          <h2 class="metric-value text-dark mb-0" id="live_total_users">{{ total_users }}</h2>
+          <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-2.5 py-1 small fw-semibold border border-primary border-opacity-25" style="font-size: 0.75rem;">
             Roster Pool
           </span>
         </div>
-        <p class="metric-footnote mb-0">
-          <i class="fas fa-user-check me-1 text-blue"></i> Total employees & admins
+        <p class="metric-footnote mb-0 text-muted">
+          <i class="fas fa-user-check me-1 text-primary"></i> Total employees & admins
         </p>
       </div>
     </div>
 
-    <!-- Active Sessions Today -->
+    <!-- Active Sessions -->
     <div class="col-sm-6 col-xl-3">
       <div class="metric-card metric-teal">
         <div class="d-flex align-items-center justify-content-between mb-2">
           <span class="metric-label">Active Sessions</span>
           <div class="metric-icon-wrap bg-teal-light text-teal">
-            <i class="fas fa-fingerprint"></i>
+            <i class="fas fa-shield-halved"></i>
           </div>
         </div>
         <div class="d-flex align-items-center gap-3 my-2">
-          <h2 class="metric-value text-teal mb-0" id="live_active_sessions">{{ active_sessions }}</h2>
-          <span class="badge rounded-pill px-2.5 py-1 small fw-semibold" style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.35); color: #6ee7b7; font-size: 0.75rem;">
+          <h2 class="metric-value text-dark mb-0" id="live_active_sessions">{{ active_sessions }}</h2>
+          <span class="badge bg-info bg-opacity-10 text-info rounded-pill px-2.5 py-1 small fw-semibold border border-info border-opacity-25" style="font-size: 0.75rem;">
             Authenticated
           </span>
         </div>
-        <p class="metric-footnote mb-0">
-          <i class="fas fa-shield-halved me-1 text-teal"></i> Valid system logins
+        <p class="metric-footnote mb-0 text-muted">
+          <i class="fas fa-lock me-1 text-info"></i> Valid system logins
         </p>
       </div>
     </div>
 
-    <!-- Security & Health Status -->
+    <!-- Security Coverage -->
     <div class="col-sm-6 col-xl-3">
       <div class="metric-card metric-indigo">
         <div class="d-flex align-items-center justify-content-between mb-2">
           <span class="metric-label">System Security</span>
           <div class="metric-icon-wrap bg-indigo-light text-indigo">
-            <i class="fas fa-lock"></i>
+            <i class="fas fa-qrcode"></i>
           </div>
         </div>
         <div class="d-flex align-items-center gap-3 my-2">
-          <h2 class="metric-value text-indigo mb-0">100%</h2>
-          <span class="badge rounded-pill px-2.5 py-1 small fw-semibold" style="background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.35); color: #c7d2fe; font-size: 0.75rem;">
+          <h2 class="metric-value text-dark mb-0">100%</h2>
+          <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2.5 py-1 small fw-semibold border border-success border-opacity-25" style="font-size: 0.75rem;">
             Encrypted
           </span>
         </div>
-        <p class="metric-footnote mb-0">
-          <i class="fas fa-qrcode me-1 text-indigo"></i> Profile-Locked QR tokens
+        <p class="metric-footnote mb-0 text-muted">
+          <i class="fas fa-shield-check me-1 text-success"></i> Profile-Locked QR tokens
         </p>
       </div>
     </div>
   </div>
 
-  <!-- Bento Navigation Grid -->
+  <!-- Operational Bento Grid -->
   <div class="row g-3 g-xl-4 mb-4">
     <!-- Admin Profile Badge -->
     <div class="col-md-6 col-lg-4">
       <a href="{% url 'profile' %}" class="action-bento-card group">
         <div class="d-flex align-items-start gap-3">
-          <div class="bento-icon-box bg-cyan-gradient text-white">
+          <div class="bento-icon-box bg-royal-gradient text-white">
             <i class="fas fa-id-badge"></i>
           </div>
           <div class="flex-grow-1">
@@ -164,12 +160,12 @@
       </a>
     </div>
 
-    <!-- Manage Users -->
+    <!-- User Management -->
     <div class="col-md-6 col-lg-4">
       <a href="{% url 'manage_users' %}" class="action-bento-card group">
         <div class="d-flex align-items-start gap-3">
           <div class="bento-icon-box bg-blue-gradient text-white">
-            <i class="fas fa-users-viewfinder"></i>
+            <i class="fas fa-users-gear"></i>
           </div>
           <div class="flex-grow-1">
             <div class="d-flex align-items-center justify-content-between mb-1">
@@ -182,11 +178,11 @@
       </a>
     </div>
 
-    <!-- Scanner Mode -->
+    <!-- Live Scanner -->
     <div class="col-md-6 col-lg-4">
       <a href="{% url 'attendance' %}" class="action-bento-card group">
         <div class="d-flex align-items-start gap-3">
-          <div class="bento-icon-box bg-royal-gradient text-white">
+          <div class="bento-icon-box bg-cyan-gradient text-white">
             <i class="fas fa-qrcode"></i>
           </div>
           <div class="flex-grow-1">
@@ -258,25 +254,25 @@
   <!-- Live Attendance Activity Stream Table -->
   <div class="row">
     <div class="col-12">
-      <div class="card border-0 rounded-4 overflow-hidden shadow-2xl" style="background: rgba(2, 16, 48, 0.82); backdrop-filter: blur(20px); border: 1px solid rgba(0, 240, 255, 0.14) !important;">
-        <div class="card-header border-0 p-4 pb-3" style="background: transparent; border-bottom: 1px solid rgba(0, 240, 255, 0.08) !important;">
+      <div class="card border-0 rounded-4 overflow-hidden shadow-sm">
+        <div class="card-header bg-white border-0 p-4 pb-3">
           <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
             <div>
               <div class="d-flex align-items-center gap-2">
-                <h5 class="fw-bold mb-0 text-white">
-                  <i class="fas fa-wave-pulse me-2" style="color: #00f2fe;"></i>Live Attendance Stream
+                <h5 class="fw-bold mb-0 text-dark">
+                  <i class="fas fa-wave-pulse me-2 text-primary"></i>Live Attendance Stream
                 </h5>
-                <span class="badge rounded-pill px-2.5 py-1 small fw-bold d-inline-flex align-items-center gap-1.5" style="background: rgba(0, 242, 254, 0.15); border: 1px solid rgba(0, 242, 254, 0.35); color: #00f2fe; font-size: 0.75rem;">
+                <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2.5 py-1 small fw-bold d-inline-flex align-items-center gap-1.5 border border-success border-opacity-25" style="font-size: 0.75rem;">
                   <span class="spinner-grow spinner-grow-sm" style="width: 6px; height: 6px;" role="status"></span> Live Feed
                 </span>
               </div>
-              <p class="small mb-0 mt-1" style="color: #93c5fd;">Real-time attendance check-ins and check-outs across all premises</p>
+              <p class="text-muted small mb-0 mt-1">Real-time attendance check-ins and check-outs across all premises</p>
             </div>
             <div class="d-flex gap-2">
-              <a href="{% url 'attendance_report' %}" class="btn btn-sm rounded-pill px-3 fw-bold" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(0, 240, 255, 0.2); color: #93c5fd; transition: all 0.2s;" onmouseover="this.style.background='rgba(0, 240, 255, 0.15)'; this.style.color='#fff';" onmouseout="this.style.background='rgba(255, 255, 255, 0.05)'; this.style.color='#93c5fd';">
+              <a href="{% url 'attendance_report' %}" class="btn btn-sm btn-outline-secondary rounded-pill px-3 fw-semibold">
                 <i class="fas fa-list-check me-1"></i> Full Log
               </a>
-              <a href="{% url 'export_attendance_csv' %}" class="btn btn-sm rounded-pill px-3 fw-bold text-white shadow-sm" style="background: linear-gradient(135deg, #00f2fe, #0066ff); border: none;">
+              <a href="{% url 'export_attendance_csv' %}" class="btn btn-sm btn-primary rounded-pill px-3 fw-semibold shadow-xs">
                 <i class="fas fa-download me-1"></i> Export CSV
               </a>
             </div>
@@ -285,8 +281,8 @@
 
         <div class="card-body p-0">
           <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0 text-white" style="--bs-table-bg: transparent; --bs-table-hover-bg: rgba(0, 240, 255, 0.04); color: #f8fafc;">
-              <thead class="modern-table-header">
+            <table class="table table-hover align-middle mb-0">
+              <thead>
                 <tr>
                   <th class="ps-4">Employee</th>
                   <th>Date</th>
@@ -296,62 +292,62 @@
                   <th class="pe-4 text-end">Location</th>
                 </tr>
               </thead>
-              <tbody id="recentAttendanceBody" style="border-top: 1px solid rgba(0, 240, 255, 0.08);">
+              <tbody id="recentAttendanceBody">
                 {% for record in recent_attendance %}
-                <tr style="border-bottom: 1px solid rgba(0, 240, 255, 0.05);">
+                <tr>
                   <td class="ps-4 py-3">
                     <div class="d-flex align-items-center">
                       <div class="table-avatar me-3">
                         {{ record.user.username|slice:":1"|upper }}
                       </div>
                       <div>
-                        <div class="fw-bold text-white mb-0">{{ record.user.get_full_name|default:record.user.username }}</div>
-                        <div class="small" style="font-size: 0.75rem; color: #93c5fd;">{{ record.user.email|default:"No email recorded" }}</div>
+                        <div class="fw-bold text-dark mb-0">{{ record.user.get_full_name|default:record.user.username }}</div>
+                        <div class="text-muted small" style="font-size: 0.75rem;">{{ record.user.email|default:"No email recorded" }}</div>
                       </div>
                     </div>
                   </td>
-                  <td class="small" style="color: #93c5fd;">
+                  <td class="text-muted small">
                     <i class="far fa-calendar me-1 opacity-50"></i>{{ record.date|date:"M d, Y" }}
                   </td>
                   <td>
                     {% if record.status == 'Present' %}
-                    <span class="status-pill status-present">
+                    <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-1 fw-bold border border-success border-opacity-25">
                       <i class="fas fa-circle-check me-1 small"></i> Present
                     </span>
                     {% else %}
-                    <span class="status-pill status-other">
+                    <span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-3 py-1">
                       {{ record.status }}
                     </span>
                     {% endif %}
                   </td>
                   <td class="small">
                     {% if record.check_in %}
-                    <span class="fw-semibold text-white"><i class="fas fa-arrow-down-left me-1" style="color: #00f2fe;"></i>{{ record.check_in|time:"g:i A" }}</span>
+                    <span class="fw-semibold text-dark"><i class="fas fa-arrow-down-left me-1 text-success"></i>{{ record.check_in|time:"g:i A" }}</span>
                     {% else %}
-                    <span style="color: #64748b;">--</span>
+                    <span class="text-muted">--</span>
                     {% endif %}
                   </td>
                   <td class="small">
                     {% if record.check_out %}
-                    <span class="fw-semibold text-white"><i class="fas fa-arrow-up-right text-danger me-1"></i>{{ record.check_out|time:"g:i A" }}</span>
+                    <span class="fw-semibold text-dark"><i class="fas fa-arrow-up-right text-danger me-1"></i>{{ record.check_out|time:"g:i A" }}</span>
                     {% else %}
-                    <span class="status-pill status-still-in">
+                    <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-1 fw-bold border border-primary border-opacity-25">
                       <span class="spinner-grow spinner-grow-sm me-1" style="width: 6px; height: 6px;" role="status"></span> Still In
                     </span>
                     {% endif %}
                   </td>
                   <td class="pe-4 text-end small">
-                    <span class="badge rounded-pill px-3 py-1 text-white" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(0, 240, 255, 0.16); font-weight: 500;">
-                      <i class="fas fa-location-dot text-danger me-1"></i>{{ record.location_name|default:"N/A" }}
+                    <span class="badge bg-light text-dark rounded-pill px-3 py-1 border font-medium">
+                      <i class="fas fa-location-dot text-danger me-1"></i>{{ record.location_name|default:"Premises Verified" }}
                     </span>
                   </td>
                 </tr>
                 {% empty %}
                 <tr>
-                  <td colspan="6" class="py-5 text-center" style="color: #93c5fd;">
+                  <td colspan="6" class="py-5 text-center text-muted">
                     <div class="mb-2"><i class="fas fa-calendar-xmark fa-3x opacity-25"></i></div>
-                    <div class="fw-semibold text-white">No recent attendance records found today.</div>
-                    <p class="small mb-0" style="color: #93c5fd;">Records will dynamically appear here when users check in.</p>
+                    <div class="fw-semibold text-dark">No recent attendance records found today.</div>
+                    <p class="small mb-0 text-muted">Records will dynamically appear here when users check in.</p>
                   </td>
                 </tr>
                 {% endfor %}
@@ -365,38 +361,17 @@
 </div>
 
 <style>
-  /* Hero Command Card */
+  /* Hero Command Card (Rich Blue Gradient with White Text) */
   .hero-command-card {
-    background: linear-gradient(135deg, #020f30 0%, #061e56 60%, #010a20 100%);
-    border: 1px solid rgba(0, 240, 255, 0.2);
-  }
-
-  .hero-ambient-glow {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    pointer-events: none;
-    z-index: 0;
-  }
-  .glow-cyan {
-    width: 320px;
-    height: 320px;
-    background: rgba(0, 242, 254, 0.25);
-    top: -100px;
-    right: 15%;
-  }
-  .glow-royal {
-    width: 250px;
-    height: 250px;
-    background: rgba(0, 102, 255, 0.22);
-    bottom: -80px;
-    right: -40px;
+    background: linear-gradient(135deg, #004ecc 0%, #0066ff 60%, #0284c7 100%);
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 102, 255, 0.2);
   }
 
   .hero-badge {
-    background: rgba(0, 242, 254, 0.15);
-    border: 1px solid rgba(0, 242, 254, 0.4);
-    color: #00f2fe;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #ffffff;
     font-size: 0.72rem;
     letter-spacing: 0.8px;
   }
@@ -406,8 +381,8 @@
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background-color: #00f2fe;
-    box-shadow: 0 0 10px #00f2fe;
+    background-color: #34d399;
+    box-shadow: 0 0 8px #34d399;
     animation: pulseSlow 2s infinite ease-in-out;
   }
   @keyframes pulseSlow {
@@ -422,47 +397,43 @@
     margin-bottom: 0.6rem;
   }
   .hero-title span {
-    background: linear-gradient(135deg, #00f2fe, #38bdf8);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #e0f2fe;
   }
 
   .hero-subtitle {
     font-size: 1.02rem;
-    color: #93c5fd;
+    color: #e0e7ff;
     max-width: 650px;
     line-height: 1.55;
     margin-bottom: 1.5rem;
   }
 
   .highlight-counter {
-    color: #00f2fe;
-    background: rgba(0, 242, 254, 0.15);
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.25);
     padding: 0.1rem 0.6rem;
     border-radius: 6px;
-    border: 1px solid rgba(0, 242, 254, 0.3);
   }
 
   .hero-btn-primary {
-    background: linear-gradient(135deg, #00f2fe, #0066ff);
-    color: white;
-    font-weight: 600;
+    background: #ffffff;
+    color: #0052cc;
+    font-weight: 700;
     border-radius: 999px;
     padding: 0.65rem 1.4rem;
-    box-shadow: 0 4px 16px rgba(0, 114, 255, 0.4);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
     border: none;
     transition: all 0.2s ease;
   }
   .hero-btn-primary:hover {
-    color: white;
+    color: #003d99;
+    background: #f8fafc;
     transform: translateY(-2px);
-    box-shadow: 0 6px 22px rgba(0, 242, 254, 0.6);
   }
 
   .hero-btn-glass {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(0, 240, 255, 0.25);
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(10px);
     color: white;
     font-weight: 600;
@@ -471,23 +442,22 @@
     transition: all 0.2s ease;
   }
   .hero-btn-glass:hover {
-    background: rgba(0, 240, 255, 0.18);
-    border-color: #00f2fe;
+    background: rgba(255, 255, 255, 0.25);
     color: white;
     transform: translateY(-2px);
   }
 
   .hero-btn-outline {
     background: transparent;
-    border: 1px solid rgba(0, 240, 255, 0.25);
-    color: #93c5fd;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #ffffff;
     font-weight: 600;
     border-radius: 999px;
     padding: 0.65rem 1.3rem;
     transition: all 0.2s ease;
   }
   .hero-btn-outline:hover {
-    background: rgba(0, 240, 255, 0.1);
+    background: rgba(255, 255, 255, 0.1);
     color: white;
     transform: translateY(-2px);
   }
@@ -504,39 +474,38 @@
   .pulse-ring {
     position: absolute;
     border-radius: 50%;
-    border: 1px dashed rgba(0, 242, 254, 0.3);
+    border: 1.5px dashed rgba(255, 255, 255, 0.4);
   }
   .ring-1 { width: 170px; height: 170px; animation: spinClockwise 25s linear infinite; }
-  .ring-2 { width: 120px; height: 120px; animation: spinCounter 18s linear infinite; }
+  .ring-2 { width: 125px; height: 125px; animation: spinCounter 18s linear infinite; }
   @keyframes spinClockwise { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   @keyframes spinCounter { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
 
   .hero-logo-center {
-    width: 80px;
-    height: 80px;
+    width: 82px;
+    height: 82px;
     border-radius: 20px;
     object-fit: cover;
-    box-shadow: 0 0 25px rgba(0, 242, 254, 0.5);
-    border: 2px solid rgba(0, 240, 255, 0.4);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    border: 2px solid rgba(255, 255, 255, 0.6);
     z-index: 2;
   }
 
-  /* Metric Cards - Sapphire Glassmorphism */
+  /* Metric Cards - Clean Modern White */
   .metric-card {
-    background: rgba(2, 16, 48, 0.82);
-    backdrop-filter: blur(16px);
+    background: #ffffff;
     border-radius: 20px;
     padding: 1.5rem;
-    border: 1px solid rgba(0, 240, 255, 0.14);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
   }
   .metric-card:hover {
     transform: translateY(-4px);
-    border-color: rgba(0, 240, 255, 0.35);
-    box-shadow: 0 12px 30px rgba(0, 114, 255, 0.25);
+    border-color: #cbd5e1;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
   }
   .metric-card::before {
     content: '';
@@ -546,7 +515,7 @@
     right: 0;
     height: 3px;
   }
-  .metric-cyan::before { background: #00f2fe; }
+  .metric-cyan::before { background: #0066ff; }
   .metric-blue::before { background: #3b82f6; }
   .metric-teal::before { background: #10b981; }
   .metric-indigo::before { background: #6366f1; }
@@ -556,7 +525,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: #93c5fd;
+    color: #64748b;
   }
   .metric-value {
     font-size: 2.25rem;
@@ -568,7 +537,6 @@
   .metric-footnote {
     font-size: 0.78rem;
     margin-top: 0.65rem;
-    color: #93c5fd !important;
   }
 
   .metric-icon-wrap {
@@ -580,33 +548,28 @@
     justify-content: center;
     font-size: 1.25rem;
   }
-  .bg-cyan-light { background: rgba(0, 242, 254, 0.16); }
-  .text-cyan { color: #00f2fe !important; }
-  .bg-blue-light { background: rgba(59, 130, 246, 0.16); }
-  .text-blue { color: #60a5fa !important; }
-  .bg-teal-light { background: rgba(16, 185, 129, 0.16); }
-  .text-teal { color: #34d399 !important; }
-  .bg-indigo-light { background: rgba(99, 102, 241, 0.16); }
-  .text-indigo { color: #a5b4fc !important; }
+  .bg-cyan-light { background: #eff6ff; color: #0066ff !important; }
+  .bg-blue-light { background: #eff6ff; color: #3b82f6 !important; }
+  .bg-teal-light { background: #ecfdf5; color: #10b981 !important; }
+  .bg-indigo-light { background: #eef2ff; color: #6366f1 !important; }
 
-  /* Bento Action Cards - Sapphire Luxury */
+  /* Bento Action Cards - Clean White */
   .action-bento-card {
     display: block;
-    background: rgba(2, 16, 48, 0.82);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(0, 240, 255, 0.14);
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
     border-radius: 20px;
     padding: 1.4rem;
     text-decoration: none;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
     height: 100%;
   }
   .action-bento-card:hover {
     transform: translateY(-4px);
-    background: rgba(4, 24, 68, 0.9);
-    border-color: #00f2fe;
-    box-shadow: 0 12px 28px rgba(0, 242, 254, 0.25);
+    background: #ffffff;
+    border-color: #0066ff;
+    box-shadow: 0 10px 25px rgba(0, 102, 255, 0.1);
   }
 
   .bento-icon-box {
@@ -618,9 +581,9 @@
     justify-content: center;
     font-size: 1.25rem;
     flex-shrink: 0;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   }
-  .bg-cyan-gradient { background: linear-gradient(135deg, #00f2fe, #0072ff); }
+  .bg-cyan-gradient { background: linear-gradient(135deg, #00c6ff, #0072ff); }
   .bg-blue-gradient { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
   .bg-royal-gradient { background: linear-gradient(135deg, #0055ff, #0022aa); }
   .bg-teal-gradient { background: linear-gradient(135deg, #10b981, #059669); }
@@ -630,41 +593,29 @@
   .action-title {
     font-size: 0.98rem;
     font-weight: 700;
-    color: #ffffff;
+    color: #0f172a;
   }
   .action-arrow {
     font-size: 0.75rem;
-    color: #60a5fa;
+    color: #94a3b8;
     transition: all 0.2s ease;
   }
   .action-bento-card:hover .action-arrow {
-    color: #00f2fe;
+    color: #0066ff;
     transform: translate(2px, -2px);
   }
   .action-desc {
     font-size: 0.82rem;
-    color: #93c5fd;
+    color: #64748b;
     margin: 0;
     line-height: 1.4;
-  }
-
-  /* Live Attendance Table */
-  .modern-table-header th {
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    color: #93c5fd;
-    background: rgba(0, 240, 255, 0.04);
-    border-bottom: 1px solid rgba(0, 240, 255, 0.1);
-    padding: 1rem 0.85rem;
   }
 
   .table-avatar {
     width: 38px;
     height: 38px;
     border-radius: 10px;
-    background: linear-gradient(135deg, #00f2fe, #0066ff);
+    background: linear-gradient(135deg, #0066ff, #0284c7);
     color: #ffffff;
     font-weight: 700;
     display: flex;
@@ -672,31 +623,7 @@
     justify-content: center;
     font-size: 0.9rem;
     flex-shrink: 0;
-    box-shadow: 0 2px 8px rgba(0, 242, 254, 0.3);
-  }
-
-  .status-pill {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.25rem 0.75rem;
-    border-radius: 999px;
-    font-size: 0.75rem;
-    font-weight: 600;
-  }
-  .status-present {
-    background: rgba(0, 242, 254, 0.15);
-    color: #00f2fe;
-    border: 1px solid rgba(0, 242, 254, 0.35);
-  }
-  .status-still-in {
-    background: rgba(245, 158, 11, 0.15);
-    color: #fbbf24;
-    border: 1px solid rgba(245, 158, 11, 0.3);
-  }
-  .status-other {
-    background: rgba(255, 255, 255, 0.06);
-    color: #93c5fd;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 102, 255, 0.2);
   }
 </style>
 
@@ -725,46 +652,46 @@
             if (data.recent_attendance.length === 0) {
               tbody.innerHTML = `
                 <tr>
-                  <td colspan="6" class="py-5 text-center" style="color: #93c5fd;">
+                  <td colspan="6" class="py-5 text-center text-muted">
                     <div class="mb-2"><i class="fas fa-calendar-xmark fa-3x opacity-25"></i></div>
-                    <div class="fw-semibold text-white">No recent attendance records found today.</div>
-                    <p class="small mb-0" style="color: #93c5fd;">Records will dynamically appear here when users check in.</p>
+                    <div class="fw-semibold text-dark">No recent attendance records found today.</div>
+                    <p class="small mb-0 text-muted">Records will dynamically appear here when users check in.</p>
                   </td>
                 </tr>`;
             } else {
               tbody.innerHTML = data.recent_attendance.map(r => `
-                <tr style="border-bottom: 1px solid rgba(0, 240, 255, 0.05);">
+                <tr>
                   <td class="ps-4 py-3">
                     <div class="d-flex align-items-center">
                       <div class="table-avatar me-3">
                         ${(r.username || '').charAt(0).toUpperCase()}
                       </div>
                       <div>
-                        <div class="fw-bold text-white mb-0">${r.name}</div>
-                        <div class="small" style="font-size: 0.75rem; color: #93c5fd;">${r.email}</div>
+                        <div class="fw-bold text-dark mb-0">${r.name}</div>
+                        <div class="text-muted small" style="font-size: 0.75rem;">${r.email}</div>
                       </div>
                     </div>
                   </td>
-                  <td class="small" style="color: #93c5fd;">
+                  <td class="text-muted small">
                     <i class="far fa-calendar me-1 opacity-50"></i>${r.date}
                   </td>
                   <td>
                     ${r.status === 'Present' 
-                      ? '<span class="status-pill status-present"><i class="fas fa-circle-check me-1 small"></i> Present</span>'
-                      : `<span class="status-pill status-other">${r.status}</span>`}
+                      ? '<span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-1 fw-bold border border-success border-opacity-25"><i class="fas fa-circle-check me-1 small"></i> Present</span>'
+                      : `<span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-3 py-1">${r.status}</span>`}
                   </td>
                   <td class="small">
                     ${r.check_in 
-                      ? `<span class="fw-semibold text-white"><i class="fas fa-arrow-down-left me-1" style="color: #00f2fe;"></i>${r.check_in}</span>`
-                      : '<span style="color: #64748b;">--</span>'}
+                      ? `<span class="fw-semibold text-dark"><i class="fas fa-arrow-down-left me-1 text-success"></i>${r.check_in}</span>`
+                      : '<span class="text-muted">--</span>'}
                   </td>
                   <td class="small">
                     ${r.check_out 
-                      ? `<span class="fw-semibold text-white"><i class="fas fa-arrow-up-right text-danger me-1"></i>${r.check_out}</span>`
-                      : '<span class="status-pill status-still-in"><span class="spinner-grow spinner-grow-sm me-1" style="width: 6px; height: 6px;" role="status"></span> Still In</span>'}
+                      ? `<span class="fw-semibold text-dark"><i class="fas fa-arrow-up-right text-danger me-1"></i>${r.check_out}</span>`
+                      : '<span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-1 fw-bold border border-primary border-opacity-25"><span class="spinner-grow spinner-grow-sm me-1" style="width: 6px; height: 6px;" role="status"></span> Still In</span>'}
                   </td>
                   <td class="pe-4 text-end small">
-                    <span class="badge rounded-pill px-3 py-1 text-white" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(0, 240, 255, 0.16); font-weight: 500;">
+                    <span class="badge bg-light text-dark rounded-pill px-3 py-1 border font-medium">
                       <i class="fas fa-location-dot text-danger me-1"></i>${r.location_name}
                     </span>
                   </td>

@@ -8,77 +8,77 @@
   <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
     <div>
       <div class="d-flex align-items-center gap-2 mb-2">
-        <img src="{% static 'images/venus_logo.png' %}" alt="Venus Logo" class="rounded-circle shadow-sm" style="width: 26px; height: 26px; border: 1px solid rgba(0, 242, 254, 0.4);" />
-        <span class="badge rounded-pill px-3 py-1 fw-bold small" style="background: rgba(0, 242, 254, 0.12); color: #00f2fe; border: 1px solid rgba(0, 242, 254, 0.3);">
+        <img src="{% static 'logo.png' %}" onerror="this.src='{% static 'images/venus_logo.png' %}'" alt="Venus Logo" class="rounded-circle shadow-sm" style="width: 26px; height: 26px; border: 1px solid #e2e8f0;" />
+        <span class="badge rounded-pill px-3 py-1 fw-bold small" style="background: #eff6ff; color: #0066ff; border: 1px solid #bfdbfe;">
           PERSONNEL CREDENTIALS
         </span>
-        <span class="small" style="color: #93c5fd;">Employee ID & Holographic QR Profile</span>
+        <span class="small text-muted">Employee ID & Holographic QR Profile</span>
       </div>
-      <h2 class="fw-bold text-white mb-0">
-        <i class="fas fa-id-card me-2" style="color: #00f2fe;"></i>Employee Profile & Access Card
+      <h2 class="fw-bold mb-0" style="color: #0f172a;">
+        <i class="fas fa-id-card me-2" style="color: #0066ff;"></i>Employee Profile & Access Card
       </h2>
     </div>
-    <a href="{% url 'manage_users' %}" class="btn rounded-pill px-4 py-2 fw-semibold text-white shadow-sm" style="background: rgba(0, 242, 254, 0.12); border: 1px solid rgba(0, 242, 254, 0.35);">
-      <i class="fas fa-arrow-left me-1" style="color: #00f2fe;"></i> Back to User Directory
+    <a href="{% url 'manage_users' %}" class="btn rounded-pill px-4 py-2 fw-semibold shadow-sm" style="background: #ffffff; border: 1px solid #cbd5e1; color: #334155;">
+      <i class="fas fa-arrow-left me-1" style="color: #0066ff;"></i> Back to User Directory
     </a>
   </div>
 
   <div class="row g-4">
     <!-- Left Column: Personal & Account Information -->
     <div class="col-lg-7">
-      <div class="card border-0 rounded-4 overflow-hidden mb-4 shadow-lg" style="background: rgba(2, 16, 48, 0.85); backdrop-filter: blur(14px); border: 1px solid rgba(0, 242, 254, 0.18);">
-        <div class="card-header p-4 d-flex align-items-center gap-3" style="background: rgba(3, 19, 58, 0.7); border-bottom: 1px solid rgba(0, 242, 254, 0.15);">
-          <div class="rounded-3 p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; background: rgba(0, 242, 254, 0.15); color: #00f2fe; border: 1px solid rgba(0, 242, 254, 0.3);">
+      <div class="card border rounded-4 overflow-hidden mb-4 shadow-sm" style="background: #ffffff; border-color: #e2e8f0;">
+        <div class="card-header p-4 d-flex align-items-center gap-3 bg-white" style="border-bottom: 1px solid #f1f5f9;">
+          <div class="rounded-3 p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; background: #eff6ff; color: #0066ff;">
             <i class="fas fa-user-circle fs-5"></i>
           </div>
           <div>
-            <h5 class="fw-bold text-white mb-0">Personal & Account Telemetry</h5>
-            <span class="small" style="color: #93c5fd;">Verified corporate employee record and permissions</span>
+            <h5 class="fw-bold mb-0" style="color: #0f172a;">Personal & Account Telemetry</h5>
+            <span class="small text-muted">Verified corporate employee record and permissions</span>
           </div>
         </div>
         <div class="card-body p-4">
-          <table class="table align-middle mb-0" style="color: #cbd5e1;">
+          <table class="table align-middle mb-0" style="color: #334155;">
             <tbody>
-              <tr style="border-bottom: 1px solid rgba(0, 242, 254, 0.1);">
-                <th class="small text-uppercase" style="width: 35%; font-size: 0.72rem; letter-spacing: 0.6px; color: #93c5fd;">Employee Identifier</th>
+              <tr style="border-bottom: 1px solid #f1f5f9;">
+                <th class="small text-uppercase text-muted" style="width: 35%; font-size: 0.72rem; letter-spacing: 0.6px;">Employee Identifier</th>
                 <td><span class="emp-id-badge">VJAS-{{ user.id|stringformat:"04d" }}</span></td>
               </tr>
-              <tr style="border-bottom: 1px solid rgba(0, 242, 254, 0.1);">
-                <th class="small text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.6px; color: #93c5fd;">Username Handle</th>
-                <td class="fw-bold text-white">@{{ user.username }}</td>
+              <tr style="border-bottom: 1px solid #f1f5f9;">
+                <th class="small text-uppercase text-muted" style="font-size: 0.72rem; letter-spacing: 0.6px;">Username Handle</th>
+                <td class="fw-bold" style="color: #0f172a;">@{{ user.username }}</td>
               </tr>
-              <tr style="border-bottom: 1px solid rgba(0, 242, 254, 0.1);">
-                <th class="small text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.6px; color: #93c5fd;">Full Legal Name</th>
-                <td class="fw-semibold text-white">{{ user.get_full_name|default:"Not specified" }}</td>
+              <tr style="border-bottom: 1px solid #f1f5f9;">
+                <th class="small text-uppercase text-muted" style="font-size: 0.72rem; letter-spacing: 0.6px;">Full Legal Name</th>
+                <td class="fw-semibold" style="color: #0f172a;">{{ user.get_full_name|default:"Not specified" }}</td>
               </tr>
-              <tr style="border-bottom: 1px solid rgba(0, 242, 254, 0.1);">
-                <th class="small text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.6px; color: #93c5fd;">Official Corporate Email</th>
-                <td class="text-white">{{ user.email|default:"Not specified" }}</td>
+              <tr style="border-bottom: 1px solid #f1f5f9;">
+                <th class="small text-uppercase text-muted" style="font-size: 0.72rem; letter-spacing: 0.6px;">Official Corporate Email</th>
+                <td style="color: #0f172a;">{{ user.email|default:"Not specified" }}</td>
               </tr>
-              <tr style="border-bottom: 1px solid rgba(0, 242, 254, 0.1);">
-                <th class="small text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.6px; color: #93c5fd;">Contact Telephone</th>
-                <td class="fw-semibold text-white">{{ profile.phone|default:"Not specified" }}</td>
+              <tr style="border-bottom: 1px solid #f1f5f9;">
+                <th class="small text-uppercase text-muted" style="font-size: 0.72rem; letter-spacing: 0.6px;">Contact Telephone</th>
+                <td class="fw-semibold" style="color: #0f172a;">{{ profile.phone|default:"Not specified" }}</td>
               </tr>
-              <tr style="border-bottom: 1px solid rgba(0, 242, 254, 0.1);">
-                <th class="small text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.6px; color: #93c5fd;">Designation / Title</th>
-                <td><span class="badge rounded-pill px-3 py-1 fw-bold" style="background: rgba(0, 242, 254, 0.15); color: #00f2fe; border: 1px solid rgba(0, 242, 254, 0.3);">{{ profile.position|default:"Personnel" }}</span></td>
+              <tr style="border-bottom: 1px solid #f1f5f9;">
+                <th class="small text-uppercase text-muted" style="font-size: 0.72rem; letter-spacing: 0.6px;">Designation / Title</th>
+                <td><span class="badge rounded-pill px-3 py-1 fw-bold" style="background: #eff6ff; color: #0066ff; border: 1px solid #bfdbfe;">{{ profile.position|default:"Personnel" }}</span></td>
               </tr>
-              <tr style="border-bottom: 1px solid rgba(0, 242, 254, 0.1);">
-                <th class="small text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.6px; color: #93c5fd;">Account Status</th>
+              <tr style="border-bottom: 1px solid #f1f5f9;">
+                <th class="small text-uppercase text-muted" style="font-size: 0.72rem; letter-spacing: 0.6px;">Account Status</th>
                 <td>
                   {% if user.is_active %}
-                    <span class="badge rounded-pill px-3 py-1 fw-bold" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);">
+                    <span class="badge rounded-pill px-3 py-1 fw-bold" style="background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0;">
                       <i class="fas fa-circle-check me-1"></i> Active
                     </span>
                   {% else %}
-                    <span class="badge rounded-pill px-3 py-1 fw-bold" style="background: rgba(244, 63, 94, 0.15); color: #f43f5e; border: 1px solid rgba(244, 63, 94, 0.3);">
+                    <span class="badge rounded-pill px-3 py-1 fw-bold" style="background: #fff1f2; color: #e11d48; border: 1px solid #fecdd3;">
                       <i class="fas fa-circle-xmark me-1"></i> Suspended
                     </span>
                   {% endif %}
                 </td>
               </tr>
-              <tr style="border-bottom: 1px solid rgba(0, 242, 254, 0.1);">
-                <th class="small text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.6px; color: #93c5fd;">Role Type</th>
+              <tr style="border-bottom: 1px solid #f1f5f9;">
+                <th class="small text-uppercase text-muted" style="font-size: 0.72rem; letter-spacing: 0.6px;">Role Type</th>
                 <td>
                   {% if user.is_superuser %}
                     <span class="role-badge role-admin"><i class="fas fa-crown me-1"></i> Executive Admin</span>
@@ -90,21 +90,21 @@
                 </td>
               </tr>
               <tr>
-                <th class="small text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.6px; color: #93c5fd;">Date Enrolled</th>
-                <td class="text-white"><i class="far fa-calendar me-1" style="color: #00f2fe;"></i>{{ user.date_joined|date:"M d, Y • h:i A" }}</td>
+                <th class="small text-uppercase text-muted" style="font-size: 0.72rem; letter-spacing: 0.6px;">Date Enrolled</th>
+                <td style="color: #0f172a;"><i class="far fa-calendar me-1" style="color: #0066ff;"></i>{{ user.date_joined|date:"M d, Y • h:i A" }}</td>
               </tr>
             </tbody>
           </table>
 
-          <div class="mt-4 pt-3 d-flex gap-2 flex-wrap" style="border-top: 1px solid rgba(0, 242, 254, 0.15);">
-            <a href="{% url 'edit_user' user.id %}" class="btn rounded-pill px-4 fw-semibold text-white shadow-sm" style="background: linear-gradient(135deg, #00f2fe 0%, #0066ff 100%); border: none;">
+          <div class="mt-4 pt-3 d-flex gap-2 flex-wrap" style="border-top: 1px solid #f1f5f9;">
+            <a href="{% url 'edit_user' user.id %}" class="btn rounded-pill px-4 fw-semibold text-white shadow-sm" style="background: #0066ff; border: none;">
               <i class="fas fa-pen-to-square me-1"></i> Edit Account
             </a>
-            <a href="{% url 'download_user_csv' user.id %}" class="btn rounded-pill px-4 fw-semibold text-white shadow-sm" style="background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4);">
-              <i class="fas fa-file-csv me-1" style="color: #10b981;"></i> Export CSV
+            <a href="{% url 'download_user_csv' user.id %}" class="btn rounded-pill px-4 fw-semibold shadow-sm" style="background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0;">
+              <i class="fas fa-file-csv me-1"></i> Export CSV
             </a>
-            <a href="{% url 'user_attendance_detail' user.id %}" class="btn rounded-pill px-4 fw-semibold text-white shadow-sm" style="background: rgba(0, 242, 254, 0.12); border: 1px solid rgba(0, 242, 254, 0.3);">
-              <i class="fas fa-calendar-days me-1" style="color: #00f2fe;"></i> Attendance Logs
+            <a href="{% url 'user_attendance_detail' user.id %}" class="btn rounded-pill px-4 fw-semibold shadow-sm" style="background: #eff6ff; color: #0066ff; border: 1px solid #bfdbfe;">
+              <i class="fas fa-calendar-days me-1"></i> Attendance Logs
             </a>
           </div>
         </div>
@@ -113,22 +113,22 @@
 
     <!-- Right Column: QR Code Badge Card -->
     <div class="col-lg-5">
-      <div class="vip-badge-card mb-4 shadow-xl" style="background: rgba(2, 16, 48, 0.9); border: 1px solid rgba(0, 242, 254, 0.3);">
-        <div class="vip-badge-header" style="background: linear-gradient(135deg, #01081b 0%, #082154 60%, #021133 100%); border-bottom: 1px solid rgba(0, 242, 254, 0.25);">
-          <div class="badge-lanyard-slot" style="background: rgba(0, 242, 254, 0.4);"></div>
+      <div class="vip-badge-card mb-4 shadow-sm" style="background: #ffffff; border: 1px solid #e2e8f0;">
+        <div class="vip-badge-header" style="background: linear-gradient(135deg, #0052cc 0%, #0066ff 100%);">
+          <div class="badge-lanyard-slot" style="background: rgba(255, 255, 255, 0.4);"></div>
           <div class="d-flex align-items-center justify-content-between w-100">
             <div class="d-flex align-items-center gap-2">
-              <img src="{% static 'images/venus_logo.png' %}" alt="Venus" style="width: 24px; height: 24px;" class="rounded-circle" />
-              <span class="vip-badge-title" style="color: #00f2fe;">OFFICIAL ATTENDANCE BADGE</span>
+              <img src="{% static 'logo.png' %}" onerror="this.src='{% static 'images/venus_logo.png' %}'" alt="Venus" style="width: 24px; height: 24px;" class="rounded-circle bg-white p-1" />
+              <span class="vip-badge-title text-white">OFFICIAL ATTENDANCE BADGE</span>
             </div>
-            <span class="badge rounded-pill px-2 py-1 text-white fw-bold" style="background: rgba(0, 242, 254, 0.2); border: 1px solid rgba(0, 242, 254, 0.35); font-family: monospace; font-size: 0.72rem;">
+            <span class="badge rounded-pill px-2 py-1 text-white fw-bold" style="background: rgba(255, 255, 255, 0.2); font-family: monospace; font-size: 0.72rem;">
               VJAS-{{ user.id|stringformat:"04d" }}
             </span>
           </div>
         </div>
         <div class="vip-badge-body p-4 text-center">
-          <div class="qr-presentation-box shadow-lg" style="background: #ffffff; border: 2px solid rgba(0, 242, 254, 0.5); border-radius: 20px; padding: 1.25rem; display: inline-block;">
-            <img src="{{ qr_code_base64 }}" alt="User QR Code" class="img-fluid rounded-3" id="profileQrImage" style="width: 200px; height: 200px;">
+          <div class="qr-presentation-box shadow-sm" style="background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 20px; padding: 1.25rem; display: inline-block;">
+            <img src="{{ qr_code_base64 }}" alt="User QR Code" class="img-fluid rounded-3 bg-white p-2" id="profileQrImage" style="width: 200px; height: 200px;">
             <div class="mt-2">
               <span class="badge rounded-pill px-3 py-1 fw-bold" style="background: #10b981; color: white; font-size: 0.75rem;">
                 <i class="fas fa-shield-check me-1"></i> Profile Locked (VJAS-{{ user.id|stringformat:"04d" }})
@@ -136,15 +136,15 @@
             </div>
           </div>
           
-          <h5 class="fw-bold text-white mb-0 mt-3">{{ user.get_full_name|default:user.username }}</h5>
-          <div class="small mb-3" style="color: #93c5fd;">{{ profile.position|default:"Corporate Personnel" }}</div>
+          <h5 class="fw-bold mb-0 mt-3" style="color: #0f172a;">{{ user.get_full_name|default:user.username }}</h5>
+          <div class="small mb-3 text-muted">{{ profile.position|default:"Corporate Personnel" }}</div>
 
-          <div class="small text-start mb-3 p-3 rounded-3" style="background: rgba(0, 242, 254, 0.08); border: 1px solid rgba(0, 242, 254, 0.2); color: #93c5fd;">
-            <i class="fas fa-lock me-1" style="color: #00f2fe;"></i> <strong class="text-white">Profile-Locked Security:</strong> This QR code contains a dynamic cryptographically locked token. Re-use or cross-marking by other accounts is barred.
+          <div class="small text-start mb-3 p-3 rounded-3" style="background: #f8fafc; border: 1px solid #e2e8f0; color: #475569;">
+            <i class="fas fa-lock me-1" style="color: #0066ff;"></i> <strong style="color: #0f172a;">Profile-Locked Security:</strong> This QR code contains a dynamic cryptographically locked token. Re-use or cross-marking by other accounts is barred.
           </div>
 
           <div class="d-grid gap-2">
-            <a href="{% url 'download_user_qr' user.id %}" class="btn rounded-pill fw-bold py-2 text-white shadow-sm" style="background: linear-gradient(135deg, #00f2fe 0%, #0066ff 100%); border: none;">
+            <a href="{% url 'download_user_qr' user.id %}" class="btn rounded-pill fw-bold py-2 text-white shadow-sm" style="background: #0066ff; border: none;">
               <i class="fas fa-download me-2"></i> Download QR Pass (PNG)
             </a>
           </div>
@@ -163,9 +163,9 @@
     font-weight: 700;
     letter-spacing: 0.6px;
     border-radius: 999px;
-    background: rgba(0, 242, 254, 0.15);
-    color: #00f2fe;
-    border: 1px solid rgba(0, 242, 254, 0.35);
+    background: #eff6ff;
+    color: #0066ff;
+    border: 1px solid #bfdbfe;
   }
   .role-badge {
     display: inline-flex;
@@ -175,9 +175,9 @@
     font-size: 0.75rem;
     font-weight: 700;
   }
-  .role-admin { background: rgba(244, 63, 94, 0.15); color: #f43f5e; border: 1px solid rgba(244, 63, 94, 0.3); }
-  .role-staff { background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); }
-  .role-user { background: rgba(0, 242, 254, 0.15); color: #00f2fe; border: 1px solid rgba(0, 242, 254, 0.3); }
+  .role-admin { background: #fff1f2; color: #e11d48; border: 1px solid #fecdd3; }
+  .role-staff { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
+  .role-user { background: #eff6ff; color: #0066ff; border: 1px solid #bfdbfe; }
 
   .vip-badge-card {
     border-radius: 24px;
@@ -202,3 +202,4 @@
   }
 </style>
 {% endblock %}
+
